@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpHeaders, HttpErrorResponse} from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
+import { Observable, of } from 'rxjs';
+import { map, catchError, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +13,6 @@ export class NotificationService {
   constructor(private http:HttpClient) { }
 
 
-  //handlerError type of the sendEmail object missing
     sendEmail(mail){
       let headers = new HttpHeaders();
       headers.append('Content-Type', 'application/json');
@@ -21,7 +22,6 @@ export class NotificationService {
        );
     }
 
-    //handlerError type of the sendSms object missing
       sendSms(sms){
         let headers = new HttpHeaders();
         headers.append('Content-Type', 'application/json');
@@ -42,5 +42,5 @@ export class NotificationService {
      return of(result as T);
    };
   }
-  
+
 }

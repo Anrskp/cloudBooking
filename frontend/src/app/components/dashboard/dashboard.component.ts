@@ -9,17 +9,17 @@ import {BookingService} from '../../services/booking.service';
 export class DashboardComponent implements OnInit {
 
 //private  bookings:  Array<object> = [];
-public bookings = [];
+bookings: any;
+user: any;
 
   constructor(private bookingService:BookingService) { }
 
   ngOnInit() {
 
-    this.bookingService.getBookings().subscribe((data:  Array<object>) => {
-    this.bookings = data;
-
+    this.bookingService.getBookings(user).subscribe(data =>
+      {
+      this.bookings = data;
     });
-
 
   }
 

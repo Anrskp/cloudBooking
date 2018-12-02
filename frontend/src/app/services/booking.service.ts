@@ -14,32 +14,17 @@ export class BookingService {
 
   constructor(private http:HttpClient) { }
 
-    // getBookings(){
-    //     return  this.http.get(this.endpoint + '/getBookings').pipe(
-    //       tap(data => console.log('fetched bookings', data)),
-    //       catchError(this.handleError('getBookings',[]))
-    //     );
-    // }
-
-  getBookings(){
-      let headers = new HttpHeaders();
-      headers.append('Content-Type', 'application/json');
-      return this.http.get(this.endpoint + '/getBookings',{headers: headers}).pipe(
-      tap(data => console.log('fetched bookings', data)),
-         catchError(this.handleError('getBookings',[]))
-       );
- }
 
  getBookings(userID){
-    let headers = new HttpHeaders();
-    headers.append('Content-Type', 'application/json');
-    return this.http.post(this.endpoint + '/booking/getBookings', userID,{headers: headers}).pipe(
-    tap(data => console.log('fetched bookings', data)),
-       catchError(this.handleError('getBookings',[]))
-     );
-  }
+       let headers = new HttpHeaders();
+       headers.append('Content-Type', 'application/json');
+       return this.http.post(this.endpoint + '/booking/getBookings', userID,{headers: headers}).pipe(
+       tap(data => console.log('fetched bookings', data)),
+          catchError(this.handleError('getBookings',[]))
+        );
+     }
 
-  //handlerError type of the getBooking object missing
+
   getBooking(bookingID){
        let headers = new HttpHeaders();
        headers.append('Content-Type', 'application/json');
@@ -50,9 +35,9 @@ export class BookingService {
      }
 
 
-//handlerError type of the createBooking object missing
+
   createBooking(booking){
-    let headers = new Headers();
+      let headers = new HttpHeaders();
     headers.append('Content-Type', 'application/json');
     return this.http.post(this.endpoint + '/booking/addNewBooking', booking, {headers: headers}).pipe(
     tap(data => console.log('new booking successfully created', data)),
@@ -60,9 +45,9 @@ export class BookingService {
      );
   }
 
-  //handlerError type of the deleteBooking object missing
+
   deleteBooking(bookingID){
-    let headers = new Headers();
+    let headers = new HttpHeaders();
     headers.append('Content-Type', 'application/json');
     return this.http.post(this.endpoint + '/booking/deleteBookingByID', bookingID,{headers: headers}).pipe(
     tap(data => console.log('booking successfully deleted', data)),
