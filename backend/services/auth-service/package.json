@@ -5,12 +5,17 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+<<<<<<< HEAD
     "start": "node app",
     "test": "mocha --exit"
+=======
+    "start": "node app"
+>>>>>>> b331f4e6ecbee8cd27bb886c51249b12b0699cf2
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+<<<<<<< HEAD
     "express": "*",
     "mongoose": "*",
     "cors": "*",
@@ -23,5 +28,12 @@
     "chai-http": "*",
     "bcryptjs": "*",
     "crypto-js": "*"
+=======
+    "body-parser": "^1.18.3",
+    "cors": "^2.8.5",
+    "express": "^4.16.4",
+    "mysql2": "^1.6.4",
+    "sequelize": "^4.41.2"
+>>>>>>> b331f4e6ecbee8cd27bb886c51249b12b0699cf2
   }
 }
