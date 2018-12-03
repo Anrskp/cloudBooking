@@ -20,13 +20,3 @@ const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log('Server startet on port ' + port);
 });
-
-
-// Test database connection.
-config.connection.authenticate()
-  .then(() => {
-    console.log('Connection has been established successfully.');
-  })
-  .catch(err => {
-    console.error('Unable to connect to the database:', err);
-  });
