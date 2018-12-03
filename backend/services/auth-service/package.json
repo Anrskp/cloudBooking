@@ -4,8 +4,24 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app",
+    "test": "mocha --exit"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "express": "*",
+    "mongoose": "*",
+    "cors": "*",
+    "jsonwebtoken": "*",
+    "body-parser": "*",
+    "passport": "*",
+    "passport-jwt": "*",
+    "mocha": "*",
+    "chai": "*",
+    "chai-http": "*",
+    "bcryptjs": "*",
+    "crypto-js": "*"
+  }
 }
