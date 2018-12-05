@@ -1,0 +1,26 @@
+{
+  "name": "company-service",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "mocha",
+    "start": "node app"
+  },
+  "dependencies": {
+    "express": "*",
+    "mongoose": "*",
+    "bcryptjs": "*",
+    "cors": "*",
+    "jsonwebtoken": "*",
+    "body-parser": "*",
+    "passport": "*",
+    "passport-jwt": "*",
+    "mocha": "*",
+    "chai": "*",
+    "chai-http": "*",
+    "crypto-js": "*"
+  },
+  "author": "",
+  "license": "ISC"
+}
