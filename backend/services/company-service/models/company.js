@@ -36,7 +36,7 @@ module.exports.getCompanyById = (id, callback) => {
 
 // Get company by route-tag
 module.exports.getCompanyByTag = (tag, callback) => {
-  const query = {routeTag: tag};
+  const query = {tag: tag};
   Company.find(query, callback);
 }
 

@@ -3,18 +3,18 @@ const router = express.Router();
 const Company = require('../models/company');
 
 // Create a new company
-router.post('/newBooking', (req, res, next) => {
+router.post('/newCompany', (req, res, next) => {
 
     let newCompany = new Company({
-      tag: req.body.userID,
+      tag: req.body.tag,
       name: req.body.name,
       address: req.body.address,
       phone: req.body.phone
     });
 
-    Company.addCompany(newCompany, (err, booking) => {
-      if (err) res.json({success: false, msg: 'failed to create booking'});
-      else res.json({success: true, msg: 'booking added successfully'})
+    Company.addCompany(newCompany, (err, company) => {
+      if (err) res.json({success: false, msg: 'failed to create company'});
+      else res.json({success: true, msg: 'company added successfully'})
     })
 
 });
@@ -24,26 +24,27 @@ router.post('/getCompanyById', (req, res, next) => {
   let companyID = req.body.companyID;
 
   Company.getCompanyById(companyID, (err, company) => {
-    if (err) res.json({success: false, msg: 'failed to get bookings'});
+    if (err) res.json({success: false, msg: 'failed to get company'});
     else res.json({success: true, company});
   })
 });
 
 // Get company by tag
 router.post('/getCompanyByTag', (req, res, next) => {
-  let companyTag = req.body.companyID;
+  let companyTag = req.body.tag;
 
-  Company.getCompanyByTag(companyTag, (err, copmany) => {
+  Company.getCompanyByTag(companyTag, (err, company) => {
     if (err) res.json({success: false, msg: 'failed to get company'});
     else res.json({success: true, company})
   })
 })
 
-// Delete a booking by ID
-router.post('/deleteCompanyID', (req, res, next) => {
+// Delete a company by ID
+router.post('/deleteCompanyByID', (req, res, next) => {
   let companyID = req.body.companyID;
-  Company.deleteCompanyByID(companyID, (err, res) => {
-    if (err) res.json({success: false, msg: 'failed to delete company'});
+
+  Company.deleteCompanyByID(companyID, (err, company) => {
+    if (err) res.json({success: false, msg: 'failed to delete company'})
     else res.json({success: true})
   });
 });
