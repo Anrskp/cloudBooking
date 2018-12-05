@@ -36,7 +36,7 @@ describe('Unit testing the booking model', () => {
     })
     done();
   });
-/*
+
   // Delete booking
   it('Should delete a booking from ID', (done) => {
     Booking.deleteBookingsByID(bookingID, (err, res) => {
@@ -44,5 +44,5 @@ describe('Unit testing the booking model', () => {
     })
     done();
   });
-*/
+
 });

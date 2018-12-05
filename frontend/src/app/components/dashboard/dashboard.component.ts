@@ -12,10 +12,10 @@ import{AuthenticationService} from '../../services/authentication.service';
 })
 export class DashboardComponent implements OnInit {
 
-userID: any;
+user = {"userID":""}
 calendarOptions: Options;
 displayEvent: any;
-company:any;
+receivedData:any;
 
   @ViewChild(CalendarComponent) ucCalendar: CalendarComponent;
   constructor(private bookingService:BookingService,private authService: AuthenticationService, private route:ActivatedRoute) { }
@@ -23,14 +23,17 @@ company:any;
   ngOnInit() {
 
     this.route.params.subscribe(params =>{
-      this.company = params.id;
-      console.log(this.company);
+      this.user.userID = params.id;
+      console.log(this.user);
     });
 
-   this.authService.checkIfCompanyExist(this.company).subscribe(data => {
-     if (data){
-       this.bookingService.getBookings(this.userID).subscribe(data =>
-         {
+   this.authService.checkIfCompanyExist(this.userID).subscribe(data => {
+    this.receivedData = data;
+
+
+     // if (this.receivedData){
+       this.bookingService.getBookings(this.user).subscribe(data =>
+     {
            this.calendarOptions = {
              editable: true,
              eventLimit: false,
@@ -39,18 +42,14 @@ company:any;
                center: 'title',
                right: 'month,agendaWeek,agendaDay,listMonth'
              },
-             events: data
+             events: data.bookings
            };
        });
-     }
-     else{
-       console.log("Error");
-     }
+     // }
+     // else{
+     //   console.log("Error");
+     // }
    });
-
-
-
-
 
   }
 

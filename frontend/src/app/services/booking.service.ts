@@ -18,7 +18,6 @@ export class BookingService {
        let headers = new HttpHeaders();
        headers.append('Content-Type', 'application/json');
        return this.http.post(this.endpoint + '/booking/getBookings', userID, {headers: headers}).pipe(
-       tap(data => console.log('fetched bookings', data)),
           catchError(this.handleError('getBookings',[]))
         );
      }

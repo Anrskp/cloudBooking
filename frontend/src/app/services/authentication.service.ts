@@ -9,8 +9,9 @@ import {tokenNotExpired} from 'angular2-jwt';
 })
 export class AuthenticationService {
 
-//endpoint = 'http://localhost:3000/users';
-endpoint = "https://jsonplaceholder.typicode.com"
+endpoint = 'http://localhost:4000/users';
+endpoint_company = 'http://localhost:3000/company';
+//endpoint = "https://jsonplaceholder.typicode.com"
 authToken: any;
 user: any;
 
@@ -22,7 +23,6 @@ user: any;
      headers.append('Content-Type', 'application/json');
      console.log(user);
      return this.http.post(this.endpoint + '/register', user,{headers: headers}).pipe(
-     tap(data => console.log('user successfully registered ', data)),
      catchError(this.handleError('registerUser'))
    );
   }
@@ -32,7 +32,6 @@ user: any;
    let headers = new HttpHeaders();
    headers.append('Content-Type', 'application/json');
    return this.http.post(this.endpoint + '/authenticate', user,{headers: headers}).pipe(
-     tap(data => console.log('user successfully authenticated',data)),
      catchError(this.handleError('authenticateUser'))
    );
   }
@@ -58,7 +57,7 @@ user: any;
   checkIfCompanyExist(companyName){
     let headers = new HttpHeaders();
     headers.append('Content-Type', 'application/json');
-    return this.http.post(this.endpoint + '/posts', companyName, {headers:headers}).pipe(
+    return this.http.post(this.endpoint_company + '/checkCompany', companyName, {headers:headers}).pipe(
       tap(data => console.log('company exist', data)),
       catchError(this.handleError('checkIfCompanyExist'))
     );

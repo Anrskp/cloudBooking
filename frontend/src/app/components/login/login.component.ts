@@ -43,7 +43,7 @@ export class LoginComponent implements OnInit {
             this.authService.storeUserData(this.receivedData.token, this.receivedData.user);
               this.router.navigate([this.company +'/dashboard']);
             } else {
-               this.router.navigate([this.company + '/login']);
+               this.router.navigate([this.company]);
               }
             });
     }
