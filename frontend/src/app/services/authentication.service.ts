@@ -2,13 +2,17 @@ import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders, HttpErrorResponse} from '@angular/common/http';
 import {Observable,of} from 'rxjs';
 import {map, catchError, tap} from 'rxjs/operators';
+import {tokenNotExpired} from 'angular2-jwt';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthenticationService {
 
-endpoint = 'http://localhost:3000/users';
+//endpoint = 'http://localhost:3000/users';
+endpoint = "https://jsonplaceholder.typicode.com"
+authToken: any;
+user: any;
 
   constructor(private http: HttpClient) { }
 
@@ -40,6 +44,48 @@ endpoint = 'http://localhost:3000/users';
   tap(data => console.log('user successfully deleted',data)),
   catchError(this.handleError('deleteUser'))
   );
+}
+
+  getAllUsers(){
+    let headers = new HttpHeaders();
+    headers.append('Content-Type', 'application/json');
+    return this.http.get(this.endpoint + '/posts', {headers: headers}).pipe(
+    tap(data => console.log('user successfully fetched', data)),
+    catchError(this.handleError('getAllUsers'))
+    );
+  }
+
+  checkIfCompanyExist(companyName){
+    let headers = new HttpHeaders();
+    headers.append('Content-Type', 'application/json');
+    return this.http.post(this.endpoint + '/posts', companyName, {headers:headers}).pipe(
+      tap(data => console.log('company exist', data)),
+      catchError(this.handleError('checkIfCompanyExist'))
+    );
+  }
+
+
+  storeUserData(token, user){
+  localStorage.setItem('id_token', token);
+  localStorage.setItem('user', JSON.stringify(user));
+  this.authToken = token;
+  this.user = user;
+  }
+
+loadToken(){
+  const token = localStorage.getItem('id_token');
+  this.authToken = token;
+}
+
+loggedIn(){
+  return tokenNotExpired('id_token');
+
+}
+
+logout(){
+  this.authToken = null;
+  this.user = null;
+  localStorage.clear();
 }
 
   private handleError<T> (operation = 'operation', result?: T) {

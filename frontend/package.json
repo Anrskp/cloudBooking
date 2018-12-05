@@ -21,9 +21,11 @@
     "@angular/platform-browser-dynamic": "~7.0.0",
     "@angular/router": "~7.0.0",
     "@types/jquery": "^3.3.22",
+    "angular2-jwt": "^0.2.3",
     "core-js": "^2.5.4",
     "ng-fullcalendar": "^1.7.1",
     "rxjs": "~6.3.3",
+    "rxjs-compat": "^6.3.3",
     "zone.js": "~0.8.26"
   },
   "devDependencies": {

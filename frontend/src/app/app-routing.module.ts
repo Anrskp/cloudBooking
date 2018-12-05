@@ -1,9 +1,15 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { LoginComponent } from './components/login/login.component';
+import { LoginAdminComponent } from './components/login-admin/login-admin.component';
+import { DashboardAdminComponent } from './components/dashboard-admin/dashboard-admin.component';
 
 const routes: Routes = [
-   { path: 'dashboard', component: DashboardComponent },
+   { path: ':id/dashboard', component: DashboardComponent },
+   { path: ':id', component: LoginComponent },
+   { path: ':id/admin' , component: LoginAdminComponent},
+   { path: ':id/dashboard-admin' , component: DashboardAdminComponent}
 ];
 
 @NgModule({
@@ -11,4 +17,4 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
-export const routingComponents = [DashboardComponent]
+export const routingComponents = [DashboardComponent,LoginComponent,LoginAdminComponent,DashboardAdminComponent]
