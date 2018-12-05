@@ -7,16 +7,28 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 
 import { HttpClientModule } from  '@angular/common/http';
 
+import { FullCalendarModule } from 'ng-fullcalendar';
+import { LoginComponent } from './components/login/login.component';
+import { LoginAdminComponent } from './components/login-admin/login-admin.component';
+import { DashboardAdminComponent } from './components/dashboard-admin/dashboard-admin.component';
+import { FormsModule } from '@angular/forms';
+
+
+
 @NgModule({
   declarations: [
     AppComponent,
       DashboardComponent,
-      routingComponents
+      routingComponents,
+      LoginComponent,
+      LoginAdminComponent,
+      DashboardAdminComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    FullCalendarModule,FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

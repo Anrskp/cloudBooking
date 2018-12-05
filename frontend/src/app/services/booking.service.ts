@@ -4,7 +4,6 @@ import {Observable,of} from 'rxjs';
 import {map, catchError, tap} from 'rxjs/operators';
 
 
-
 @Injectable({
   providedIn: 'root'
 })
@@ -18,7 +17,7 @@ export class BookingService {
  getBookings(userID){
        let headers = new HttpHeaders();
        headers.append('Content-Type', 'application/json');
-       return this.http.post(this.endpoint + '/booking/getBookings', userID,{headers: headers}).pipe(
+       return this.http.post(this.endpoint + '/booking/getBookings', userID, {headers: headers}).pipe(
        tap(data => console.log('fetched bookings', data)),
           catchError(this.handleError('getBookings',[]))
         );
@@ -53,6 +52,15 @@ export class BookingService {
     tap(data => console.log('booking successfully deleted', data)),
        catchError(this.handleError('deleteBooking'))
      );
+  }
+
+  checkAvailability(person){
+    let headers = new HttpHeaders();
+    headers.append('Content-Type', 'application/json');
+    return this.http.post(this.endpoint + '/posts', person, {headers:headers}).pipe(
+      tap(data => console.log('person is available', data)),
+      catchError(this.handleError('checkAvailability'))
+    );
   }
 
     private handleError<T> (operation = 'operation', result?: T) {
