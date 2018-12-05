@@ -45,7 +45,7 @@ mongoose.connection.on('error', (err) => {
 app.use('/booking', bookingRoute.router);
 
 // Set port number
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3001;
 
 // Start server
 app.listen(port, () => {
