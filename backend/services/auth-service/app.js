@@ -21,18 +21,6 @@ app.use(passport.initialize());
 app.use(passport.session());
 require('./config/passport')(passport);
 
-// Routes
-app.use('/users', userRoute.router);
-
-// Set port number
-const port = process.env.PORT || 3000;
-
-// Start server
-app.listen(port, () => {
-  console.log('Server startet on port ' + port);
-});
-
-
 // Promise libary
 mongoose.Promise = require('bluebird');
 
@@ -49,4 +37,15 @@ mongoose.connection.on('connected', () => {
 // On Error
 mongoose.connection.on('error', (err) => {
   console.log('Database error : ' + err);
+});
+
+// Routes
+app.use('/users', userRoute.router);
+
+// Set port number
+const port = process.env.PORT || 3000;
+
+// Start server
+app.listen(port, () => {
+  console.log('Server startet on port ' + port);
 });
