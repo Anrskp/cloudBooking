@@ -12,7 +12,7 @@ import { LoginComponent } from './components/login/login.component';
 import { LoginAdminComponent } from './components/login-admin/login-admin.component';
 import { DashboardAdminComponent } from './components/dashboard-admin/dashboard-admin.component';
 import { FormsModule } from '@angular/forms';
-
+import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 
 
 @NgModule({
@@ -23,6 +23,7 @@ import { FormsModule } from '@angular/forms';
       LoginComponent,
       LoginAdminComponent,
       DashboardAdminComponent,
+      PageNotFoundComponent
   ],
   imports: [
     BrowserModule,
