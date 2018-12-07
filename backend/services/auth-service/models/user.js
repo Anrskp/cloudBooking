@@ -55,11 +55,23 @@ module.exports.getUserByEmail = (email, callback) => {
   User.findOne(query, callback);
 }
 
-
 // Delete user
 module.exports.deleteUserByUsername = (username, callback) =>  {
   const query = {username: username};
   User.deleteOne(query, callback);
+}
+
+// Delete user by id
+module.exports.deleteUserByID = (userID, callback) =>  {
+  const query = {_id: userID};
+  User.deleteOne(query, callback);
+}
+
+
+// Get users from company
+module.exports.getUsersByCompanyID = (companyID, callback) => {
+  const query = {companyID: companyID};
+  User.find(query, callback);
 }
 
 // Compare password

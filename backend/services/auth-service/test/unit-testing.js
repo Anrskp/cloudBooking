@@ -19,6 +19,7 @@ describe('Unit testing the user model', () => {
   });
 
   let hashedPassword = "";
+  let userID = "";
 
   // Create new user
   it('Should add a new user with a hashed password to DB', (done) => {
@@ -26,7 +27,7 @@ describe('Unit testing the user model', () => {
       if (err) done(err);
       else {
         assert.typeOf(user, 'Object');
-        assert.equal(user.username, "mockUser");
+        assert.equal(user.name, "mockUser");
         expect(user.password).to.not.equal("password");
       }
       done();
@@ -35,13 +36,17 @@ describe('Unit testing the user model', () => {
 
   // Find user
   it('Should find a user with username "mockUser" from DB', (done) => {
-    User.getUserByUsername(testUser.username, (err, user) => {
+    User.getUserByEmail(testUser.email, (err, user) => {
       if (err) console.log(err);
       else {
         assert.typeOf(user, 'Object');
-        assert.equal(user.username, testUser.username);
+        assert.equal(user.name, testUser.name);
         assert.equal(user.email, testUser.email);
+
         hashedPassword = user.password;
+        userID = user._id;
+
+        console.log(userID);
       }
       done();
     })
@@ -68,10 +73,10 @@ describe('Unit testing the user model', () => {
     })
   });
 
-  // Delete user
-  it('Should delete a user with username "mockUser"', (done) => {
-    User.deleteUserByUsername('mockUser', (err, response) => {
-      if (err) console.log(err);
+  // Delete user by ID
+  it('Should delete "mockUser" by ID', (done) => {
+    User.deleteUserByID(userID, (err, response) => {
+      if (err) done(err);
       else {
         let amountDeleted = response.n
         expect(amountDeleted).to.be.at.least(1);
@@ -80,4 +85,15 @@ describe('Unit testing the user model', () => {
     });
   });
 
+/*
+  it('Should get all users from companyID', (done) => {
+    User.getUsersByCompanyID("1", err, response) => {
+      if (err) done(err);
+      else {
+        console.log(response);
+      }
+      done();
+    }
+  })
+*/
 });
