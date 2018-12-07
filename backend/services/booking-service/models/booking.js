@@ -40,8 +40,9 @@ module.exports.getBookingByUserID = (userID, callback) => {
   Booking.find(query, callback);
 }
 
+
 // Delete a booking by ID
 module.exports.deleteBookingsByID = (id, callback) =>  {
-  const query = {id: id};
+  const query = {_id: id};
   Booking.deleteOne(query, callback);
 }
