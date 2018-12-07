@@ -43,7 +43,7 @@ mongoose.connection.on('error', (err) => {
 app.use('/users', userRoute.router);
 
 // Set port number
-const port = process.env.PORT || 4000;
+const port = process.env.PORT || 3000;
 
 // Start server
 app.listen(port, () => {

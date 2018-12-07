@@ -9,8 +9,8 @@ import { tokenNotExpired } from 'angular2-jwt';
 })
 export class AuthenticationService {
 
-  endpoint = 'http://localhost:4000/users';
-  companyEndpoint = 'http://localhost:3002/company';
+  endpoint = 'http://192.168.99.100:5001/users';
+  companyEndpoint = 'http://192.168.99.100:5003/company';
   //endpoint = "https://jsonplaceholder.typicode.com"
   authToken: any;
   user: any;

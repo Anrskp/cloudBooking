@@ -1,0 +1,18 @@
+<nav *ngIf="authService.loggedIn()" class="navbar navbar-expand-md navbar-light bg-light">
+   <a class="navbar-brand" href="#">Cloudbooking</a>
+   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+     <span class="navbar-toggler-icon"></span>
+   </button>
+
+   <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+     <ul class="nav navbar-nav navbar-right">
+       <li *ngIf="authService.loggedIn()" [routerLinkActive] = "['active']" [routerLinkActiveOptions]="{exact:true}">
+         <a class="nav-link" [routerLinkActive] = "['active']" [routerLink] = "['/createSurvey']">Employeesy</a>
+       </li>
+       <li *ngIf="authService.loggedIn()" [routerLinkActive]="['active']" [routerLinkActiveOptions] = "{exact:true}">
+         <a class="nav-link" [routerLink]="['/dashboard']">Entities</a></li>
+       <li *ngIf="authService.loggedIn()">
+         <a class="nav-link" (click)="onLogoutClick()" href="#">Logout</a></li>
+     </ul>
+   </div>
+ </nav>

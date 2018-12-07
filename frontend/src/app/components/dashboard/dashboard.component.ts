@@ -58,6 +58,7 @@ export class DashboardComponent implements OnInit {
         title: model.event.title,
         allDay: model.event.allDay
         // other params
+
       },
       duration: {}
     }
