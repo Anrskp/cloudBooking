@@ -83,4 +83,14 @@ router.post('/authenticate', (req, res, next) => {
   });
 });
 
+router.post('/getEmployees', (req, res, next) => {
+
+  const companyID = req.body.companyID;
+
+  User.getUsersByCompanyID(companyID, (err, response) => {
+    if (err) res.json({success: false, msg: "failed to get users"});
+    else res.json({success: true, response});
+  })
+})
+
 module.exports.router = router;
