@@ -45,8 +45,6 @@ describe('Unit testing the user model', () => {
 
         hashedPassword = user.password;
         userID = user._id;
-
-        console.log(userID);
       }
       done();
     })
@@ -73,6 +71,17 @@ describe('Unit testing the user model', () => {
     })
   });
 
+  it('Should get all users from company id 1', (done) => {
+    User.getUsersByCompanyID(testUser.companyID, (err, response) => {
+      if (err) done(err);
+      else {
+        let amountFound = response.length
+        expect(amountFound).to.be.at.least(1);
+      }
+      done();
+    })
+  })
+
   // Delete user by ID
   it('Should delete "mockUser" by ID', (done) => {
     User.deleteUserByID(userID, (err, response) => {
@@ -85,15 +94,4 @@ describe('Unit testing the user model', () => {
     });
   });
 
-/*
-  it('Should get all users from companyID', (done) => {
-    User.getUsersByCompanyID("1", err, response) => {
-      if (err) done(err);
-      else {
-        console.log(response);
-      }
-      done();
-    }
-  })
-*/
 });
