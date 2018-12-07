@@ -25,6 +25,7 @@ describe('Unit testing the booking model', () => {
     Booking.addBooking(mockBooking, (err, booking) => {
       if (err) done(err);
       else bookingID = booking._id;
+      console.log(bookingID);
     })
     done();
   });
@@ -41,6 +42,10 @@ describe('Unit testing the booking model', () => {
   it('Should delete a booking from ID', (done) => {
     Booking.deleteBookingsByID(bookingID, (err, res) => {
       if (err) done(err)
+      else {
+        let amountDeleted = res.n;
+        expect(amountDeleted).to.be(1);
+      }
     })
     done();
   });
