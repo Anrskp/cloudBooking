@@ -7,7 +7,7 @@ router.post('/newBooking', (req, res, next) => {
 
     let newBooking = new Booking({
       userID: req.body.userID,
-      title: req.title.body,
+      title: req.body.title,
       start: req.body.start,
       end: req.body.end
     });

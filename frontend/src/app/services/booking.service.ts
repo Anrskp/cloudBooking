@@ -9,7 +9,7 @@ import {map, catchError, tap} from 'rxjs/operators';
 })
 export class BookingService {
 
-  endpoint = 'http://localhost:3000';
+  endpoint = 'http://localhost:3001';
 
   constructor(private http:HttpClient) { }
 
@@ -18,7 +18,6 @@ export class BookingService {
        let headers = new HttpHeaders();
        headers.append('Content-Type', 'application/json');
        return this.http.post(this.endpoint + '/booking/getBookings', userID, {headers: headers}).pipe(
-       tap(data => console.log('fetched bookings', data)),
           catchError(this.handleError('getBookings',[]))
         );
      }
@@ -28,7 +27,6 @@ export class BookingService {
        let headers = new HttpHeaders();
        headers.append('Content-Type', 'application/json');
        return this.http.post(this.endpoint + '/booking/getBookingByID', bookingID,{headers: headers}).pipe(
-       tap(data => console.log('fetched booking', data)),
           catchError(this.handleError('getBooking'))
         );
      }
@@ -39,7 +37,6 @@ export class BookingService {
       let headers = new HttpHeaders();
     headers.append('Content-Type', 'application/json');
     return this.http.post(this.endpoint + '/booking/addNewBooking', booking, {headers: headers}).pipe(
-    tap(data => console.log('new booking successfully created', data)),
        catchError(this.handleError('createBooking'))
      );
   }
@@ -49,7 +46,6 @@ export class BookingService {
     let headers = new HttpHeaders();
     headers.append('Content-Type', 'application/json');
     return this.http.post(this.endpoint + '/booking/deleteBookingByID', bookingID,{headers: headers}).pipe(
-    tap(data => console.log('booking successfully deleted', data)),
        catchError(this.handleError('deleteBooking'))
      );
   }
@@ -58,7 +54,6 @@ export class BookingService {
     let headers = new HttpHeaders();
     headers.append('Content-Type', 'application/json');
     return this.http.post(this.endpoint + '/posts', person, {headers:headers}).pipe(
-      tap(data => console.log('person is available', data)),
       catchError(this.handleError('checkAvailability'))
     );
   }
