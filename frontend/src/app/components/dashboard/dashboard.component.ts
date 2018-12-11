@@ -17,7 +17,7 @@ export class DashboardComponent implements OnInit {
   calendarOptions: Options;
   displayEvent: any;
   receivedData: any;
-
+  testArray = ["Ogyun","Anders", "Jonas", "John", "Michael"]
   @ViewChild(CalendarComponent) ucCalendar: CalendarComponent;
   constructor(private bookingService: BookingService, private authService: AuthenticationService, private route: ActivatedRoute) { }
 
@@ -32,6 +32,7 @@ export class DashboardComponent implements OnInit {
 
     this.bookingService.getBookings(this.user).subscribe(data => {
       this.receivedData = data;
+      console.log(this.receivedData)
       this.calendarOptions = {
         editable: true,
         eventLimit: false,
@@ -40,7 +41,7 @@ export class DashboardComponent implements OnInit {
           center: 'title',
           right: 'month,agendaWeek,agendaDay,listMonth'
         },
-        events: this.receivedData.bookings
+        events: [{title:'New event', start:'2018-12-10T17:15:00', end:'2018-12-10T18:15:00'}]//this.receivedData.bookings
       };
     });
 

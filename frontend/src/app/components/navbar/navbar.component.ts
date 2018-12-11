@@ -11,15 +11,24 @@ export class NavbarComponent implements OnInit {
 
   constructor(
     private authService:AuthenticationService,
-    private router: Router,) { }
+    private router: Router) { }
 
   ngOnInit() {
+
   }
 
 
   onLogoutClick(){
     //Do something
     console.log("You are logged out");
+    }
+
+    oneEmployeesClick(){
+
+    }
+
+    onRoomsClick(){
+
     }
 
 }

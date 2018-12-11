@@ -1,4 +1,22 @@
-.ng-fullcalendar{
+/* .ng-fullcalendar{
    width:50%;
    margin-left: 300px;
- }
+ } */
+.ng-fullcalendar{
+
+padding-top: 50px;
+
+}
+
+h2{
+  text-align: center;
+  padding-top: 50px;
+}
+
+.viewport {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: $mdBlueGrey;
+}

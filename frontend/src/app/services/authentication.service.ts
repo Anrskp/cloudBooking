@@ -44,11 +44,11 @@ export class AuthenticationService {
     );
   }
 
-  getAllUsers() {
+  getAllEmployees(companyID) {
     let headers = new HttpHeaders();
     headers.append('Content-Type', 'application/json');
-    return this.http.get(this.endpoint + '/posts', { headers: headers }).pipe(
-      catchError(this.handleError('getAllUsers'))
+    return this.http.post(this.endpoint + '/getEmployees', companyID, { headers: headers }).pipe(
+      catchError(this.handleError('getAllEmployees'))
     );
   }
 

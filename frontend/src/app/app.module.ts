@@ -14,6 +14,7 @@ import { DashboardAdminComponent } from './components/dashboard-admin/dashboard-
 import { FormsModule } from '@angular/forms';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
+import { FooterComponent } from './components/footer/footer.component';
 
 
 @NgModule({
@@ -25,7 +26,8 @@ import { NavbarComponent } from './components/navbar/navbar.component';
       LoginAdminComponent,
       DashboardAdminComponent,
       PageNotFoundComponent,
-      NavbarComponent
+      NavbarComponent,
+      FooterComponent
   ],
   imports: [
     BrowserModule,

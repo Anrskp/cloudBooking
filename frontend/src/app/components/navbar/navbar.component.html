@@ -1,18 +1,47 @@
-<nav *ngIf="authService.loggedIn()" class="navbar navbar-expand-md navbar-light bg-light">
-   <a class="navbar-brand" href="#">Cloudbooking</a>
-   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
-     <span class="navbar-toggler-icon"></span>
-   </button>
+<nav *ngIf="authService.loggedIn()" class="navbar navbar-expand-sm navbar-dark bg-dark">
 
-   <div class="collapse navbar-collapse" id="navbarsExampleDefault">
-     <ul class="nav navbar-nav navbar-right">
-       <li *ngIf="authService.loggedIn()" [routerLinkActive] = "['active']" [routerLinkActiveOptions]="{exact:true}">
-         <a class="nav-link" [routerLinkActive] = "['active']" [routerLink] = "['/createSurvey']">Employeesy</a>
-       </li>
-       <li *ngIf="authService.loggedIn()" [routerLinkActive]="['active']" [routerLinkActiveOptions] = "{exact:true}">
-         <a class="nav-link" [routerLink]="['/dashboard']">Entities</a></li>
-       <li *ngIf="authService.loggedIn()">
-         <a class="nav-link" (click)="onLogoutClick()" href="#">Logout</a></li>
-     </ul>
-   </div>
- </nav>
+  <!-- Brand section-->
+  <!-- <a class="navbar-brand" href="#">Cloudbooking</a> -->
+
+  <!-- Toggle Button -->
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarLinksToCollapse">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <!-- Navbar links to collapse where {look at id} -->
+  <div class="collapse navbar-collapse" id="navbarLinksToCollapse">
+
+    <!-- Navbar items left  -->
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item" *ngIf="authService.loggedIn()" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}">
+        <a class="nav-link" [routerLinkActive]="['active']" (click)="oneEmployeesClick()">
+          <i class="fas fa-users"></i>&nbsp; Employees
+        </a>
+      </li>
+      <li class="nav-item" *ngIf="authService.loggedIn()" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}">
+        <a class="nav-link" [routerLink]="['/dashboard']"><i class="fas fa-cube"></i>&nbsp; Rooms</a>
+      </li>
+      <li class="nav-item" *ngIf="authService.loggedIn()" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}">
+        <a class="nav-link" [routerLink]="['/dashboard']"><i class="fas fa-plus-square"></i>&nbsp; Create Booking</a>
+      </li>
+    </ul>
+    <!-- Navbar items center with brand section -->
+    <div class="mx-auto order-0">
+      <a class="navbar-brand mx-auto" href="#">Cloudbooking</a>
+    </div>
+    <!-- Navbar items right -->
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item" *ngIf="authService.loggedIn()">
+        <!-- <a class="nav-link" (click)="onLogoutClick()" href="#">Logout</a></li> -->
+      <li class="nav-link dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown">Ogyun Dzhambazov&nbsp;<span class="fas fa-user"></span></a>
+        <ul class="dropdown-menu">
+          <li><a href="#">Messages <span class="fas fa-envelope"></span></a></li>
+          <li class="divider"></li>
+          <li><a href="#">Sign Out <span class="fas fa-sign-out-alt"></span></a></li>
+        </ul>
+      </li>
+    </ul>
+
+  </div>
+</nav>
