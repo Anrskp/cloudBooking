@@ -14,15 +14,19 @@
     <!-- Navbar items left  -->
     <ul class="navbar-nav mr-auto">
       <li class="nav-item" *ngIf="authService.loggedIn()" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}">
-        <a class="nav-link" [routerLinkActive]="['active']" (click)="oneEmployeesClick()">
+        <a class="nav-link" (click)="callDashboardGetEmployees()">
           <i class="fas fa-users"></i>&nbsp; Employees
         </a>
       </li>
       <li class="nav-item" *ngIf="authService.loggedIn()" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}">
-        <a class="nav-link" [routerLink]="['/dashboard']"><i class="fas fa-cube"></i>&nbsp; Rooms</a>
+        <a class="nav-link" (click)="callDashboardGetRooms()">
+          <i class="fas fa-cube"></i>&nbsp; Rooms
+        </a>
       </li>
       <li class="nav-item" *ngIf="authService.loggedIn()" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}">
-        <a class="nav-link" [routerLink]="['/dashboard']"><i class="fas fa-plus-square"></i>&nbsp; Create Booking</a>
+        <a class="nav-link" (click)="callDashboardCreateBooking()">
+          <i class="fas fa-plus-square"></i>&nbsp; Create Booking
+        </a>
       </li>
     </ul>
     <!-- Navbar items center with brand section -->
@@ -38,7 +42,7 @@
         <ul class="dropdown-menu">
           <li><a href="#">Messages <span class="fas fa-envelope"></span></a></li>
           <li class="divider"></li>
-          <li><a href="#">Sign Out <span class="fas fa-sign-out-alt"></span></a></li>
+          <li><a (click)="onLogoutClick()" href="#">Sign Out <span class="fas fa-sign-out-alt"></span></a></li>
         </ul>
       </li>
     </ul>

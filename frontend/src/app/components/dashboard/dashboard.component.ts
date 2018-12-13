@@ -18,19 +18,34 @@ export class DashboardComponent implements OnInit {
   displayEvent: any;
   receivedData: any;
   testArray = ["Ogyun","Anders", "Jonas", "John", "Michael"]
+  calendarOwner:string;
+  listEntity:string;
+
   @ViewChild(CalendarComponent) ucCalendar: CalendarComponent;
-  constructor(private bookingService: BookingService, private authService: AuthenticationService, private route: ActivatedRoute) { }
+  constructor(
+    private bookingService: BookingService,
+    private authService: AuthenticationService,
+    private route: ActivatedRoute) { }
 
   ngOnInit() {
 
+    //fetch the company tag
     this.route.params.subscribe(params => {
       this.company.tag = params.id;
     });
 
+    //extract the userID from token
     let token = JSON.parse(localStorage.getItem('user'));
     this.user.userID = token.id;
 
-    this.bookingService.getBookings(this.user).subscribe(data => {
+    //set calendarOwner
+    this.calendarOwner = "My calendar"
+
+    //set listEntity to Employees
+    this.listEntity = "Emoloyees";
+
+    //Retrieve my bookings
+      this.bookingService.getBookings(this.user).subscribe(data => {
       this.receivedData = data;
       console.log(this.receivedData)
       this.calendarOptions = {
@@ -65,6 +80,7 @@ export class DashboardComponent implements OnInit {
     }
     this.displayEvent = model;
   }
+
   updateEvent(model: any) {
     model = {
       event: {
@@ -81,6 +97,21 @@ export class DashboardComponent implements OnInit {
     this.displayEvent = model;
   }
 
+  getEmployees(){
+    this.listEntity = "Employees";
+    this.testArray = ["Employee1","Employee2","Employee3","Employee4"];
+  }
 
+  getRooms(){
+    this.listEntity = "Rooms";
+    this.testArray = ["Room1", "Room2", "Room3", "Room4"];
+  }
+  createBooking(){
+    alert("New booking is going to be created");
+  }
+
+  loadCalendar(entity){
+    this.calendarOwner = entity;
+  }
 
 }
