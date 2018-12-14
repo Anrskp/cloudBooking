@@ -17,11 +17,15 @@ const bookingSchema = mongoose.Schema({
   end: {
     type: String,
     required: true
-  }
+  },
+  invites: [{
+    type: String
+  }]
 });
 
 const Booking = module.exports = mongoose.model('Booking', bookingSchema);
 
+/*
 // Methods
 
 // Add new user
@@ -46,3 +50,4 @@ module.exports.deleteBookingsByID = (id, callback) =>  {
   const query = {_id: id};
   Booking.deleteOne(query, callback);
 }
+*/

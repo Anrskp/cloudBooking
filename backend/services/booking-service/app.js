@@ -6,6 +6,7 @@ const config = require('./config/database');
 const mongoose = require('mongoose');
 const bookingRoute = require('./routes/booking-route');
 const passport = require('passport');
+var expressValidator = require('express-validator');
 
 // Declare express variable
 const app = express();
@@ -13,15 +14,11 @@ const app = express();
 // CORS Middleware
 app.use(cors());
 
-//Body Parser Middleware
-app.use(bodyParser.json());
+app.use(expressValidator());
 
-// Passport Middleware
-/*
-app.use(passport.initialize());
-app.use(passport.session());
-require('./config/passport')(passport);
-*/
+//Body Parser Middleware
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 // Promise libary
 mongoose.Promise = require('bluebird');
@@ -42,7 +39,8 @@ mongoose.connection.on('error', (err) => {
 });
 
 // Routes
-app.use('/booking', bookingRoute.router);
+//app.use('/booking', bookingRoute.router);
+bookingRoute(app);
 
 // Set port number
 const port = process.env.PORT || 3001;
