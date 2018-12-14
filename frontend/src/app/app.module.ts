@@ -13,6 +13,10 @@ import { LoginAdminComponent } from './components/login-admin/login-admin.compon
 import { DashboardAdminComponent } from './components/dashboard-admin/dashboard-admin.component';
 import { FormsModule } from '@angular/forms';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
+import { FooterComponent } from './components/footer/footer.component';
+import{AuthGuard} from  './guards/auth.guard';
+
 
 
 @NgModule({
@@ -23,15 +27,18 @@ import { PageNotFoundComponent } from './components/page-not-found/page-not-foun
       LoginComponent,
       LoginAdminComponent,
       DashboardAdminComponent,
-      PageNotFoundComponent
+      PageNotFoundComponent,
+      NavbarComponent,
+      FooterComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FullCalendarModule,FormsModule
+    FullCalendarModule,
+    FormsModule
   ],
-  providers: [],
+  providers: [AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

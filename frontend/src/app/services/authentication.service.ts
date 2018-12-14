@@ -9,8 +9,8 @@ import { tokenNotExpired } from 'angular2-jwt';
 })
 export class AuthenticationService {
 
-  endpoint = 'http://localhost:4000/users';
-  companyEndpoint = 'http://localhost:3002/company';
+  endpoint = 'http://192.168.99.100:5001/users';
+  companyEndpoint = 'http://192.168.99.100:5003/company';
   //endpoint = "https://jsonplaceholder.typicode.com"
   authToken: any;
   user: any;
@@ -44,11 +44,11 @@ export class AuthenticationService {
     );
   }
 
-  getAllUsers() {
+  getAllEmployees(companyID) {
     let headers = new HttpHeaders();
     headers.append('Content-Type', 'application/json');
-    return this.http.get(this.endpoint + '/posts', { headers: headers }).pipe(
-      catchError(this.handleError('getAllUsers'))
+    return this.http.post(this.endpoint + '/getEmployees', companyID, { headers: headers }).pipe(
+      catchError(this.handleError('getAllEmployees'))
     );
   }
 

@@ -9,7 +9,7 @@ import {map, catchError, tap} from 'rxjs/operators';
 })
 export class BookingService {
 
-  endpoint = 'http://localhost:3001';
+  endpoint = 'http://192.168.99.100:5002';
 
   constructor(private http:HttpClient) { }
 
