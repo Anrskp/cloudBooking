@@ -36,15 +36,12 @@ export class NavbarComponent implements OnInit {
 
 
   ngOnInit() {
-    console.log(this.company);
+
   }
 
 
   onLogoutClick(){
-
     this.authService.logout();
-    console.log(this.company);
-
   }
 
     callDashboardGetEmployees(){
