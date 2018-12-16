@@ -6,7 +6,7 @@ const config = require('./config/database');
 const mongoose = require('mongoose');
 const bookingRoute = require('./routes/booking-route');
 const passport = require('passport');
-var expressValidator = require('express-validator');
+const expressValidator = require('express-validator');
 
 // Declare express variable
 const app = express();
@@ -14,6 +14,7 @@ const app = express();
 // CORS Middleware
 app.use(cors());
 
+// Express validator Middleware
 app.use(expressValidator());
 
 //Body Parser Middleware
