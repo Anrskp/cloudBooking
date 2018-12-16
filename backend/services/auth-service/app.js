@@ -6,6 +6,7 @@ const config = require('./config/database');
 const mongoose = require('mongoose');
 const userRoute = require('./routes/user-route');
 const passport = require('passport');
+const expressValidator = require('express-validator');
 
 // Declare express variable
 const app = express();
@@ -13,8 +14,11 @@ const app = express();
 // CORS Middleware
 app.use(cors());
 
-//Body Parser Middleware
+// Body Parser Middleware
 app.use(bodyParser.json());
+
+// Express validator Middleware
+app.use(expressValidator());
 
 // Passport Middleware
 app.use(passport.initialize());
@@ -40,7 +44,7 @@ mongoose.connection.on('error', (err) => {
 });
 
 // Routes
-app.use('/users', userRoute.router);
+userRoute(app);
 
 // Set port number
 const port = process.env.PORT || 3000;
