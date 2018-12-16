@@ -1,3 +1,21 @@
+module.exports = function(app) {
+  let bookingCtrl = require('../controller/company-controller');
+
+  /*
+
+  app.route('/company')
+    .post(bookingCtrl.createBooking);
+
+  app.route('/company/:id')
+    .get(bookingCtrl.getBookings)
+    .put(bookingCtrl.editBooking)
+    .delete(bookingCtrl.deleteBooking);
+
+  */
+};
+
+
+/*
 const express = require('express');
 const router = express.Router();
 const Company = require('../models/company');
@@ -50,3 +68,4 @@ router.post('/deleteCompanyByID', (req, res, next) => {
 });
 
 module.exports.router = router;
+*/

@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const bcrypt = require('bcryptjs');
+//const bcrypt = require('bcryptjs');
 
 // User Schema
 const userSchema = mongoose.Schema({
@@ -23,6 +23,7 @@ const userSchema = mongoose.Schema({
 
 const User = module.exports = mongoose.model('User', userSchema);
 
+/*
 // Methods
 
 // Add new user
@@ -67,7 +68,6 @@ module.exports.deleteUserByID = (userID, callback) =>  {
   User.deleteOne(query, callback);
 }
 
-
 // Get users from company
 module.exports.getUsersByCompanyID = (companyID, callback) => {
   const query = {companyID: companyID};
@@ -81,3 +81,4 @@ module.exports.comparePassword = function(candidatePassword, hash, callback) {
     callback(null, isMatch);
   });
 };
+*/
