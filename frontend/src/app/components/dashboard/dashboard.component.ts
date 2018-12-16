@@ -12,10 +12,10 @@ import { AuthenticationService } from '../../services/authentication.service';
 })
 export class DashboardComponent implements OnInit {
 
-  user = { "id": { "userID": "" }, "name": "" }
+  user = { "id":"", "name": "" }
   companyTag = { "tag": "" }
   companyID = { "companyID": "" }
-  receivedData: any;
+  receivedData: {"success":"", "allBookings":""}
   testArray = [];
   testEvent = [{ title: 'New event', start: '2018-12-10T17:15:00', end: '2018-12-10T18:15:00' }, { title: 'Second event', start: '2018-12-14T17:15:00', end: '2018-12-14T23:15:00' }];
   calendarOwner: string;
@@ -96,7 +96,7 @@ export class DashboardComponent implements OnInit {
 
   fetchUserInfo() {
     let token = JSON.parse(localStorage.getItem('user'));
-    this.user.id.userID = token.id;
+    this.user.id = token.id;
     this.user.name = token.email; //BACKEND MUST SEND USERNAME
   }
 
@@ -104,25 +104,29 @@ export class DashboardComponent implements OnInit {
     //set calendarOwner
     this.calendarOwner = userName;
     //Get my bookings
-    if(userID == "1"){
-    this.events = [{ title: 'Ogyuns event', start: '2018-12-10T17:15:00', end: '2018-12-10T18:15:00' }]
-    }
-    if(userID == "2"){
-    this.events = [{ title: 'Anders event', start: '2018-12-10T17:15:00', end: '2018-12-10T18:15:00' }]
-    }
-    if(userID == "3"){
-    this.events = [{ title: 'Johns event', start: '2018-12-10T17:15:00', end: '2018-12-10T18:15:00' }]
-    }
+    // if(userID == "1"){
+    // this.events = [{ title: 'Ogyuns event', start: '2018-12-10T17:15:00', end: '2018-12-10T18:15:00' }]
+    // }
+    // if(userID == "2"){
+    // this.events = [{ title: 'Anders event', start: '2018-12-10T17:15:00', end: '2018-12-10T18:15:00' }]
+    // }
+    // if(userID == "3"){
+    // this.events = [{ title: 'Johns event', start: '2018-12-10T17:15:00', end: '2018-12-10T18:15:00' }]
+    // }
     //Uncomment when merged with backend
-    // this.bookingService.getUserBookings(userID).subscribe(data => {
-    //   if(data.success){
-    //     this.calendarOwner = userName;
-    //     this.events = data;
-    //   }
-    //   else{
-    //     alert("Couldn't get user bookings");
-    //   }
-    // });
+    this.bookingService.getUserBookings(userID).subscribe(data => {
+      console.log(data)
+      this.receivedData.success = data['success'];
+      this.receivedData.allBookings = data['allBookings'];
+      
+      if(this.receivedData.success){
+        this.calendarOwner = userName;
+        this.events = this.receivedData.allBookings;
+      }
+      else{
+        alert("Couldn't get user bookings");
+      }
+    });
   }
 
   fetchEntityBookings(entityID, entityName) {

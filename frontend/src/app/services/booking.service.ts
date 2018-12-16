@@ -16,7 +16,7 @@ export class BookingService {
   constructor(private http: HttpClient) { }
 
   getUserBookings(userID) {
-    return this.http.get(this.endpoint + '/booking/userBookings/' + userID).pipe(
+    return this.http.get(this.endpoint + '/booking/' + userID).pipe(
       catchError(this.handleError('getUserBookings', []))
     );
   }
