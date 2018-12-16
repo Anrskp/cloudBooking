@@ -13,7 +13,7 @@ function createBooking(req, res) {
   let errors = req.validationErrors();
 
   if (errors) {
-    res.status('505');
+    res.status('200');
     return res.json({
       success: false,
       errors
@@ -30,7 +30,7 @@ function createBooking(req, res) {
 
   newBooking.save((err, booking) => {
     if (err) {
-      res.status('505');
+      res.status('200');
       return res.json({
         success: false,
         msg: 'failed to add new booking'
@@ -71,7 +71,7 @@ function getBookings(req, res) {
 
   Booking.find(query, (err, bookings) => {
     if (err) {
-      res.status('505');
+      res.status('200');
       return res.json({
         success: false,
         msg: 'failed to retrieve bookings'
@@ -79,7 +79,7 @@ function getBookings(req, res) {
     }
 
     if (!bookings.length) {
-      res.status('505');
+      res.status('200');
       return res.json({
         success: false,
         msg: "Could not find any bookings for userID " + userID
@@ -88,7 +88,7 @@ function getBookings(req, res) {
 
     allBookings.push(bookings);
 
-    res.status('505');
+    res.status('200');
     return res.json({
       success: true,
       allBookings
@@ -108,7 +108,7 @@ function editBooking(req, res) {
   let errors = req.validationErrors();
 
   if (errors) {
-    res.status('505');
+    res.status('200');
     return res.json({
       success: false,
       errors
@@ -125,14 +125,14 @@ function editBooking(req, res) {
     new: true
   }, (err, booking) => {
     if (err) {
-      res.status('505')
+      res.status('200')
       return res.json({
         success: false,
         msg: 'failed to update booking with id \'' + bookingID + '\''
       });
     }
 
-    res.status('505');
+    res.status('200');
     return res.json({
       success: true,
       msg: 'updated record with id  \'' + bookingID + '\' successfully'
@@ -149,14 +149,14 @@ function deleteBooking(req, res) {
 
   Booking.remove(query, (err, result) => {
     if (err) {
-      res.status('505');
+      res.status('200');
       return res.json({
         success: false,
         msg: 'failed to delete booking with id \'' + bookingID + '\''
       });
     }
 
-    res.status('505');
+    res.status('200');
     return res.json({
       success: true,
       msg: 'deleted record with id \'' + bookingID + '\''
