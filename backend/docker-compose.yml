@@ -1,5 +1,6 @@
 version: '3'
 
+
 services:
   auth-service:
     build: ./services/auth-service
@@ -11,7 +12,12 @@ services:
     ports:
       - 5002:3001
 
-  company-service:
-    build: ./services/company-service
+#  company-service:
+#    build: ./services/company-service
+#    ports:
+#      - 5003:3002
+
+  api-gateway:
+    build: ./api-gateway
     ports:
-      - 5003:3002
+     - 5000:4000

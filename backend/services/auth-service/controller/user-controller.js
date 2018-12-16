@@ -42,7 +42,7 @@ function registerUser(req, res) {
         // add user
         newUser.save((err, user) => {
           if (err) {
-            res.status('505');
+            res.status('200');
             return res.json({
               success: false,
               msg: 'failed to add new user'
