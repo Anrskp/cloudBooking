@@ -49,7 +49,7 @@ function registerUser(req, res) {
             });
           }
 
-          res.status('505');
+          res.status('200');
           return res.json({
             success: true,
             msg: 'user added successfully'
