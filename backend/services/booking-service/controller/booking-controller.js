@@ -88,7 +88,7 @@ function getBookings(req, res) {
 
     allBookings.push(bookings);
 
-    res.status('505');
+    res.status('200');
     return res.json({
       success: true,
       allBookings
