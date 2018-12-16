@@ -46,6 +46,10 @@ export class DashboardComponent implements OnInit {
 
   }
 
+  saveBooking(bookingDetails){
+    console.log(bookingDetails);
+  }
+
   clickButton(model: any) {
     this.displayEvent = model;
   }
@@ -175,7 +179,6 @@ export class DashboardComponent implements OnInit {
   }
 
   createBooking() {
-    alert("New booking is going to be created");
   }
 
   loadCalendar() {

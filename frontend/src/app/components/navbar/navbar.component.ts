@@ -14,13 +14,15 @@ export class NavbarComponent implements OnInit {
   constructor(
     private authService:AuthenticationService,
     private router: Router,
-    private route: ActivatedRoute )
-    { }
+    private route: ActivatedRoute){ }
 
   @Output() getEmployeesEvent = new EventEmitter();
   @Output() getRoomsEvent = new EventEmitter();
   @Output() createBookingEvent = new EventEmitter();
+  @Output() saveBookingEvent = new EventEmitter();
   @Input() company:Object;
+
+  peopleInvited:string;
 
   // private testArray:Array;
   array = ["Hello from navbar", "welcome to navbar component"]
@@ -36,6 +38,7 @@ export class NavbarComponent implements OnInit {
 
 
   ngOnInit() {
+
 
   }
 
@@ -56,4 +59,7 @@ export class NavbarComponent implements OnInit {
       this.createBookingEvent.emit();
     }
 
+    onSendClick(){
+      this.saveBookingEvent.emit(this.peopleInvited);
+    }
 }

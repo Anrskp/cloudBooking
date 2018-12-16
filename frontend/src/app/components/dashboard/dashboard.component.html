@@ -1,7 +1,8 @@
 <app-navbar #navbarRef [company] = "companyTag"
 (getEmployeesEvent)="getEmployees()"
 (getRoomsEvent)="getRooms()"
-(createBookingEvent)="createBooking()">
+(createBookingEvent)="createBooking()"
+(saveBookingEvent)="saveBooking($event)">
 </app-navbar>
 <div class="row">
 
