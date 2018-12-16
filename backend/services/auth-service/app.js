@@ -44,7 +44,6 @@ mongoose.connection.on('error', (err) => {
 });
 
 // Routes
-//app.use('/users', userRoute.router);
 userRoute(app);
 
 // Set port number

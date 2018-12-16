@@ -18,6 +18,7 @@
     "jsonwebtoken": "*",
     "mocha": "*",
     "mongoose": "*",
+    "node-fetch": "^2.3.0",
     "passport": "*",
     "passport-jwt": "*"
   },

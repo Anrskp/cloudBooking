@@ -2,9 +2,10 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const router = express.Router();
-const config = require('./config/database');
+//const config = require('./config/database');
 const passport = require('passport');
 const expressValidator = require('express-validator');
+const userRoute = require('./routes/user-route');
 
 // Declare express variable
 const app = express();
@@ -19,12 +20,14 @@ app.use(bodyParser.json());
 app.use(expressValidator());
 
 // Passport Middleware
+/*
 app.use(passport.initialize());
 app.use(passport.session());
 require('./config/passport')(passport);
+*/
 
 // Routes
-//gatewayRoute(app);
+userRoute(app);
 
 // Set port number
 const port = process.env.PORT || 4000;

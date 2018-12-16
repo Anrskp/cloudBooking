@@ -14,7 +14,7 @@ function registerUser(req, res) {
     password: req.body.password
   });
 
-  // check if email is taken
+  // check if email already exist
   const query = {
     email: email
   };
@@ -32,28 +32,29 @@ function registerUser(req, res) {
         success: false,
         msg: 'Email already in use'
       });
+    }
+    // hash password
+    bcrypt.genSalt(10, (err, salt) => {
+      bcrypt.hash(newUser.password, salt, (err, hash) => {
+        if (err) throw err
+        newUser.password = hash;
 
-  // hash password
-  bcrypt.genSalt(10, (err, salt) => {
-    bcrypt.hash(newUser.password, salt, (err, hash) => {
-      if (err) throw err
-      newUser.password = hash;
+        // add user
+        newUser.save((err, user) => {
+          if (err) {
+            res.status('505');
+            return res.json({
+              success: false,
+              msg: 'failed to add new user'
+            });
+          }
 
-      // add user
-      newUser.save((err, user) => {
-        if (err) {
           res.status('505');
           return res.json({
-            success: false,
-            msg: 'failed to add new user'
+            success: true,
+            msg: 'user added successfully'
           });
-        }
-
-        res.status('505');
-        return res.json({
-          success: true,
-          msg: 'user added successfully'
-        });
+        })
       })
     })
   })

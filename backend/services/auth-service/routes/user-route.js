@@ -11,5 +11,4 @@ module.exports = function(app) {
     .get(userCtrl.getUsersByCompanyID)
     .put(userCtrl.editUser)
     .delete(userCtrl.deleteUser);
-
 };

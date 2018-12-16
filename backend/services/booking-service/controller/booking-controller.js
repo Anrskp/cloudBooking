@@ -37,7 +37,7 @@ function createBooking(req, res) {
       });
     }
 
-    res.status('505');
+    res.status('200');
     return res.json({
       success: true,
       msg: 'booking added successfully'
