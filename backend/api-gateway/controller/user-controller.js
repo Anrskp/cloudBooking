@@ -6,14 +6,14 @@ function getUsersByCompanyID() {
 }
 
 // Register a new user
-function registerUser() {
+async function registerUser(req, res) {
 
   const response = await fetch('http://localhost:3000/register', {
     method: 'POST',
     headers: {
       "Content-Type": "application/json; charset=utf-8",
     },
-    body: JSON.stringify(req.body);
+    body: JSON.stringify(req.body)
   });
 
   const json = await response.json();
