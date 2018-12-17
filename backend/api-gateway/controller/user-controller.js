@@ -2,7 +2,7 @@ const fetch = require('node-fetch');
 const endpoint = 'http://auth-service:3000';
 
 // Get colleagues
-function getUsersByCompanyID() {
+async function getUsersByCompanyID() {
 
 }
 

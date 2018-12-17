@@ -23,9 +23,11 @@ function createBooking(req, res) {
   let newBooking = new Booking({
     userID: req.body.userID,
     title: req.body.title,
+    message: req.body.message,
     start: req.body.start,
     end: req.body.end,
-    invites: req.body.invites
+    invites: req.body.invites,
+    entityID: req.body.entityID
   });
 
   newBooking.save((err, booking) => {
@@ -162,6 +164,14 @@ function deleteBooking(req, res) {
       msg: 'deleted record with id \'' + bookingID + '\''
     });
   })
+}
+
+function checkUserAvailability() {
+
+}
+
+function checkEntityAvailability() {
+
 }
 
 // exports api functions

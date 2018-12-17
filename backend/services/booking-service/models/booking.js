@@ -10,6 +10,9 @@ const bookingSchema = mongoose.Schema({
     type: String,
     required: true
   },
+  message: {
+    type: String
+  },
   start: {
     type: String,
     required: true
@@ -20,7 +23,10 @@ const bookingSchema = mongoose.Schema({
   },
   invites: [{
     type: String
-  }]
+  }],
+  entityID: {
+    type: Strings
+  }
 });
 
 const Booking = module.exports = mongoose.model('Booking', bookingSchema);

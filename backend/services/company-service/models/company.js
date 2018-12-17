@@ -1,6 +1,14 @@
 const mongoose = require('mongoose');
 
+
 // add entities
+const entitySchema = mongoose.Schema({
+  name: {
+    type: String,
+    required: true
+  }
+})
+
 
 // Booking Schema
 const companySchema = mongoose.Schema({
@@ -19,7 +27,8 @@ const companySchema = mongoose.Schema({
   phone: {
     type: String,
     required: true
-  }
+  },
+  entities: [entitySchema]
 });
 
 const Company = module.exports = mongoose.model('Company', companySchema);
