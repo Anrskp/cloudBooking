@@ -58,7 +58,7 @@ function getBookings(req, res) {
   };
 
   Booking.find(inviteQuery, (err, bookings) => {
-    if (err) return console.log(err);
+    if (err) throw(err);
     if (bookings.length) {
       allBookings = allBookings.concat(bookings);
     }
@@ -87,8 +87,6 @@ function getBookings(req, res) {
     }
 
     allBookings = allBookings.concat(bookings);
-
-    console.log(allBookings);
 
     res.status('200');
     return res.json({

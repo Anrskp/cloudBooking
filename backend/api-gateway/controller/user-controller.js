@@ -1,4 +1,5 @@
 const fetch = require('node-fetch');
+const endpoint = 'http://auth-service:3000';
 
 // Get colleagues
 function getUsersByCompanyID() {
@@ -8,7 +9,7 @@ function getUsersByCompanyID() {
 // Register a new user
 async function registerUser(req, res) {
 
-  const response = await fetch('http://localhost:3000/register', {
+  const response = await fetch('http://auth-service:3000/register', {
     method: 'POST',
     headers: {
       "Content-Type": "application/json; charset=utf-8",
@@ -24,7 +25,7 @@ async function registerUser(req, res) {
 // Authenticate a user
 async function authenticateUser(req, res) {
 
-  const response = await fetch('http://localhost:3000/authenticate', {
+  const response = await fetch('http://auth-service:3000/authenticate', {
     method: 'POST',
     headers: {
       "Content-Type": "application/json; charset=utf-8",

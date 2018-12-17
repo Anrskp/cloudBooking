@@ -21,3 +21,9 @@ services:
     build: ./api-gateway
     ports:
      - 5000:4000
+    depends_on:
+      - booking-service
+      - auth-service
+    links:
+      - booking-service
+      - auth-service
