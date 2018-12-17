@@ -30,7 +30,7 @@ function registerUser(req, res) {
     if (user) {
       return res.json({
         success: false,
-        msg: 'Email already in use'
+        msg: 'The email is already in use'
       });
     }
     // hash password
@@ -119,15 +119,21 @@ function authenticateUser(req, res) {
 // Get users by companyID
 function getUsersByCompanyID(req, res) {
 
+  /* TODO */
+
 }
 
 // Update user
 function editUser(req, res) {
 
+  /* TODO */
+
 }
 
 // Delete user
 function deleteUser(req, res) {
+
+  /* TODO */
 
 }
 

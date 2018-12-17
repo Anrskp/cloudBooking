@@ -1,14 +1,13 @@
 const mongoose = require('mongoose');
 
 
-// add entities
+// Entities Schema
 const entitySchema = mongoose.Schema({
   name: {
     type: String,
     required: true
   }
-})
-
+});
 
 // Booking Schema
 const companySchema = mongoose.Schema({
@@ -32,29 +31,3 @@ const companySchema = mongoose.Schema({
 });
 
 const Company = module.exports = mongoose.model('Company', companySchema);
-
-/*
-// Methods
-
-// Add new company
-module.exports.addCompany = function(newCompany, callback) {
-  newCompany.save(callback);
-}
-
-// Get company by ID
-module.exports.getCompanyById = (id, callback) => {
-  Company.findById(id, callback);
-}
-
-// Get company by route-tag
-module.exports.getCompanyByTag = (tag, callback) => {
-  const query = {tag: tag};
-  Company.find(query, callback);
-}
-
-// Delete a company by ID
-module.exports.deleteCompanyByID = (id, callback) =>  {
-  const query = {id: id};
-  Company.deleteOne(query, callback);
-}
-*/
