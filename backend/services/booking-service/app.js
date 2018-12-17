@@ -40,7 +40,6 @@ mongoose.connection.on('error', (err) => {
 });
 
 // Routes
-//app.use('/booking', bookingRoute.router);
 bookingRoute(app);
 
 // Set port number

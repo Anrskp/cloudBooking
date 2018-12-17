@@ -3,4 +3,5 @@ module.exports = function(app) {
 
   app.route('/user/authenticate')
     .post(userCtrl.authenticateUser);
+
 };

@@ -1,8 +1,9 @@
 const fetch = require('node-fetch');
+const endpoint = "http://booking-service:3001";
 
 //  Add new booking
 async function createBooking(req, res) {
-  const response = await fetch('http://localhost:3001/booking', {
+  const response = await fetch('http://booking-service:3001/booking', {
     method: 'POST',
     headers: {
       "Content-Type": "application/json; charset=utf-8",
@@ -17,8 +18,7 @@ async function createBooking(req, res) {
 // Get bookings by user ID
 async function getBookings(req, res) {
   let userID = req.params.id;
-
-  const response = await fetch('http://localhost:3001/booking/' + userID);
+  const response = await fetch('http://booking-service:3001/booking/' + userID);
   const json = await response.json();
   return res.json(json);
 }
@@ -40,8 +40,9 @@ function checkAvailability() {
 
 // exports api functions
 module.exports = {
-  getUsersByCompanyID,
-  registerUser,
-  authenticateUser,
-  editUser
+  createBooking,
+  getBookings,
+  updateBooking,
+  deleteBooking,
+  checkAvailability
 };
