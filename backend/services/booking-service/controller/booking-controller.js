@@ -23,9 +23,11 @@ function createBooking(req, res) {
   let newBooking = new Booking({
     userID: req.body.userID,
     title: req.body.title,
+    message: req.body.message,
     start: req.body.start,
     end: req.body.end,
-    invites: req.body.invites
+    invites: req.body.invites,
+    entityID: req.body.entityID
   });
 
   newBooking.save((err, booking) => {
@@ -58,7 +60,7 @@ function getBookings(req, res) {
   };
 
   Booking.find(inviteQuery, (err, bookings) => {
-    if (err) throw(err);
+    if (err) throw (err);
     if (bookings.length) {
       allBookings = allBookings.concat(bookings);
     }
@@ -164,10 +166,91 @@ function deleteBooking(req, res) {
   })
 }
 
+async function checkUserAvailability(req, res) {
+
+  let start = req.params.start;
+  let end = req.params.end;
+  let userID = req.params.id;
+  let isAvaiable = true;
+  let allBookings = [];
+
+  console.log("params : id: " + userID + " start: " + start + " end: " + end)
+
+  let promise = new Promise((resolve, reject) => {
+
+
+  // get bookings invited to.
+  const inviteQuery = {
+    invites: userID
+  };
+
+  Booking.find(inviteQuery, (err, bookings) => {
+    if (err) throw (err);
+    if (bookings.length) {
+      allBookings = allBookings.concat(bookings);
+    }
+  });
+
+  // get bookings created.
+  const query = {
+    userID: userID
+  };
+
+  Booking.find(query, (err, bookings) => {
+    if (err) {
+      res.status('200');
+      return res.json({
+        success: false,
+        msg: ''
+      });
+    }
+
+    if (!bookings.length) {
+      res.status('200');
+      return res.json({
+        success: false,
+        msg: 'empty'
+      })
+    }
+     allBookings = allBookings.concat(bookings);
+     resolve(allBookings);
+  })
+}).then( (allBookings) => {
+  console.log(allBookings.length);
+//  console.log('test2' + allBookings);
+  for(let i = 0; i < allBookings.length; i++) {
+  //allBookings.forEach((e) => {
+    console.log(i);
+    //console.log(end + " + " + start)
+    //console.log(e.start + " - " + e.end)
+    let currentBooking = allBookings[i];
+    
+    if (!(end < currentBooking.end && start < currentBooking.start) || !(end > currentBooking.end && start > currentBooking.start)) {
+      isAvaiable = false;
+      break;
+    }
+    }
+  //});
+
+    return res.json({
+      success: true,
+      available: isAvaiable
+    })
+
+  })
+}
+
+function checkEntityAvailability(req, res) {
+
+  /* todo */
+
+}
+
 // exports api functions
 module.exports = {
   getBookings,
   createBooking,
   editBooking,
-  deleteBooking
+  deleteBooking,
+  checkUserAvailability
 };

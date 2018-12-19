@@ -16,7 +16,7 @@ function registerUser(req, res) {
 
   // check if email already exist
   const query = {
-    email: email
+    email: newUser.email
   };
 
   User.findOne(query, (err, user) => {
@@ -30,9 +30,10 @@ function registerUser(req, res) {
     if (user) {
       return res.json({
         success: false,
-        msg: 'Email already in use'
+        msg: 'The email is already in use'
       });
     }
+
     // hash password
     bcrypt.genSalt(10, (err, salt) => {
       bcrypt.hash(newUser.password, salt, (err, hash) => {
@@ -119,15 +120,21 @@ function authenticateUser(req, res) {
 // Get users by companyID
 function getUsersByCompanyID(req, res) {
 
+  /* TODO */
+
 }
 
 // Update user
 function editUser(req, res) {
 
+  /* TODO */
+
 }
 
 // Delete user
 function deleteUser(req, res) {
+
+  /* TODO */
 
 }
 
