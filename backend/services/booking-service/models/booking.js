@@ -25,7 +25,7 @@ const bookingSchema = mongoose.Schema({
     type: String
   }],
   entityID: {
-    type: Strings
+    type: String
   }
 });
 

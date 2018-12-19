@@ -4,6 +4,9 @@ module.exports = function(app) {
   app.route('/booking')
     .post(bookingCtrl.createBooking);
 
+  app.route('/userAvailabilty/:id/:start/:end')
+    .get(bookingCtrl.checkUserAvailability);
+
   app.route('/booking/:id')
     .get(bookingCtrl.getBookings)
     .put(bookingCtrl.editBooking)
