@@ -7,6 +7,8 @@ const config = require('../config/database');
 // Create new user
 function registerUser(req, res) {
 
+  // check req values
+
   let newUser = new User({
     companyID: req.body.companyID,
     name: req.body.name,
@@ -120,6 +122,11 @@ function authenticateUser(req, res) {
 // Get users by companyID
 function getUsersByCompanyID(req, res) {
 
+  let companyID = req.params.companyID;
+
+  query = {
+    companyID: companyID
+  }
   /* TODO */
 
 }

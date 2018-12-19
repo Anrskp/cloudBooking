@@ -34,8 +34,14 @@ function deleteBooking() {
 }
 
 // Check availability
-function checkAvailability() {
+async function checkAvailability(req, res) {
+  let start = req.params.start;
+  let end = req.params.end;
+  let userID = req.params.id;
 
+  const response = await fetch('http://booking-service:3001/booking/userAvailabilty/' + userID + '/' + start + '/' + end);
+  const json = await response.json();
+  return res.json(json);
 }
 
 // exports api functions

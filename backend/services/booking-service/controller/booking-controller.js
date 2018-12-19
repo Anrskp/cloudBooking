@@ -179,58 +179,53 @@ async function checkUserAvailability(req, res) {
   let promise = new Promise((resolve, reject) => {
 
 
-  // get bookings invited to.
-  const inviteQuery = {
-    invites: userID
-  };
+    // get bookings invited to.
+    const inviteQuery = {
+      invites: userID
+    };
 
-  Booking.find(inviteQuery, (err, bookings) => {
-    if (err) throw (err);
-    if (bookings.length) {
+    Booking.find(inviteQuery, (err, bookings) => {
+      if (err) throw (err);
+      if (bookings.length) {
+        allBookings = allBookings.concat(bookings);
+      }
+    });
+
+    // get bookings created.
+    const query = {
+      userID: userID
+    };
+
+    Booking.find(query, (err, bookings) => {
+      if (err) {
+        res.status('200');
+        return res.json({
+          success: false,
+          msg: ''
+        });
+      }
+
+      if (!bookings.length) {
+        res.status('200');
+        return res.json({
+          success: false,
+          msg: 'empty'
+        })
+      }
       allBookings = allBookings.concat(bookings);
-    }
-  });
+      resolve(allBookings);
+    })
+  }).then((allBookings) => {
 
-  // get bookings created.
-  const query = {
-    userID: userID
-  };
+    for (let i = 0; i < allBookings.length; i++) {
 
-  Booking.find(query, (err, bookings) => {
-    if (err) {
-      res.status('200');
-      return res.json({
-        success: false,
-        msg: ''
-      });
-    }
+      let currentBooking = allBookings[i];
 
-    if (!bookings.length) {
-      res.status('200');
-      return res.json({
-        success: false,
-        msg: 'empty'
-      })
+      if (!(end < currentBooking.end && start < currentBooking.start || end > currentBooking.end && start > currentBooking.start)) {
+        isAvaiable = false;
+        break;
+      }
     }
-     allBookings = allBookings.concat(bookings);
-     resolve(allBookings);
-  })
-}).then( (allBookings) => {
-  console.log(allBookings.length);
-//  console.log('test2' + allBookings);
-  for(let i = 0; i < allBookings.length; i++) {
-  //allBookings.forEach((e) => {
-    console.log(i);
-    //console.log(end + " + " + start)
-    //console.log(e.start + " - " + e.end)
-    let currentBooking = allBookings[i];
-    
-    if (!(end < currentBooking.end && start < currentBooking.start) || !(end > currentBooking.end && start > currentBooking.start)) {
-      isAvaiable = false;
-      break;
-    }
-    }
-  //});
 
     return res.json({
       success: true,
