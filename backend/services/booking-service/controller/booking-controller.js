@@ -295,10 +295,10 @@ function checkEntityAvailability(req, res) {
       let currentBooking = bookings[i];
 
       console.log(currentBooking.start + " - " + currentBooking.end)
-      console.log('event is before');
-      console.log(start < currentBooking.start && end < currentBooking.end);
-      console.log('event is after');
-      console.log(start > currentBooking.start && end > currentBooking.end);
+      //console.log('event is before');
+      console.log(start < currentBooking.start && end < currentBooking.end || start > currentBooking.start && end > currentBooking.end);
+      //console.log('event is after');
+      //console.log(start > currentBooking.start && end > currentBooking.end);
 
     //  start < currentStart, end < currentEnd eller start > currentEnd, end > currentEnd
 

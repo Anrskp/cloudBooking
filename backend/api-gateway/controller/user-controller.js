@@ -4,7 +4,7 @@ const endpoint = 'http://auth-service:3000';
 // Get colleagues
 async function getUsersByCompanyID(req, res) {
   let companyID = req.params.id;
-  const response = await fetch('http://booking-service:3000/user/' + companyID);
+  const response = await fetch('http://auth-service:3000/user/' + companyID);
   const json = await response.json();
   return res.json(json);
 }
