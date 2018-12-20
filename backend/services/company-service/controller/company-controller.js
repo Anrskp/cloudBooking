@@ -21,14 +21,23 @@ function getCompanyEntitiesById(req, res) {
     _id: companyID
   }
 
-  Company.find(query).select('entities').exec(function (err, entities) {
-    if (err) return res.json({success: false, msg: 'invalid id'})
+  Company.find(query).select('entities -_id').exec(function(err, result) {
+    if (err) return res.json({
+      success: false,
+      msg: 'invalid id'
+    })
 
-    if(!entities.length) {
-      return res.json({success: false, msg: 'empty'});
+    if (!result.length) {
+      return res.json({
+        success: false,
+        msg: 'empty'
+      });
     }
 
-    return res.json({entities: entities});
+    return res.json({
+      success: true,
+      result
+    });
   })
 
 }

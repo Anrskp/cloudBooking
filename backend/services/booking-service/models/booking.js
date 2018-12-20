@@ -14,11 +14,11 @@ const bookingSchema = mongoose.Schema({
     type: String
   },
   start: {
-    type: Date,
+    type: String,
     required: true
   },
   end: {
-    type: Date,
+    type: String,
     required: true
   },
   invites: [{

@@ -235,17 +235,88 @@ async function checkUserAvailability(req, res) {
   })
 }
 
+function getEntityBookings(req, res) {
+
+  let entityID = req.params.id
+
+  const query = {
+    entityID: entityID
+  }
+
+  Booking.find(query, (err, bookings) => {
+    if (err) {
+      return res.json({
+        success: false,
+        msg: 'Could not get bookings for entityID ' + entityID
+      });
+    }
+    if (!bookings.length) {
+      return res.json({
+        success: false,
+        msg: 'No bookings for entityID ' + entityID
+      });
+    }
+
+    return res.json({
+      success: true,
+      bookings
+    })
+  })
+}
+
 function checkEntityAvailability(req, res) {
 
-  /* todo */
+  let entityID = req.params.id;
+  let start = req.params.start;
+  let end = req.params.end;
+  let isAvaiable = true;
+
+  const query = {
+    entityID: entityID
+  }
+
+  Booking.find(query, (err, bookings) => {
+    if (err) {
+      return res.json({
+        success: false,
+        msg: 'Could not get bookings for entityID ' + entityID
+      })
+    }
+
+    if (!bookings.length) {
+      return res.json({
+        success: false,
+        msg: 'Could not find any bookings for entityID ' + entityID
+      })
+    }
+
+    for (let i = 0; i < bookings.length; i++) {
+
+      let currentBooking = bookings[i];
+
+      console.log(currentBooking.start + " - " + currentBooking.end);
+
+      if (!(end < currentBooking.end && start < currentBooking.start || end > currentBooking.end && start > currentBooking.start)) {
+        isAvaiable = false;
+        break;
+      }
+    }
+
+    return res.json({
+      success: true,
+      isAvaiable
+    });
+  })
 
 }
 
 // exports api functions
 module.exports = {
   getBookings,
+  getEntityBookings,
   createBooking,
   editBooking,
   deleteBooking,
-  checkUserAvailability
+  checkUserAvailability,
+  checkEntityAvailability
 };
