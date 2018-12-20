@@ -17,12 +17,12 @@ function getCompanyEntitiesById(req, res) {
 
   let companyID = req.params.id;
 
-  query = {
+  const query = {
     _id: companyID
   }
 
   Company.find(query).select('entities').exec(function (err, entities) {
-    if (err) throw err
+    if (err) return res.json({success: false, msg: 'invalid id'})
 
     if(!entities.length) {
       return res.json({success: false, msg: 'empty'});
@@ -30,6 +30,7 @@ function getCompanyEntitiesById(req, res) {
 
     return res.json({entities: entities});
   })
+
 }
 
 function createCompany(req, res) {
