@@ -1,9 +1,6 @@
 <app-navbar #navbarRef [company] = "companyTag"
-(getEmployeesEvent)="getEmployees()"
-(getRoomsEvent)="getRooms()"
 (createBookingEvent)="createBooking()"
-(saveBookingEvent)="saveBooking($event)">
-</app-navbar>
+(saveBookingEvent)="saveBooking($event)"></app-navbar>
 <div class="row">
 
   <div class="col-md-6">
@@ -11,7 +8,7 @@
     <ul class="list-group">
       <div *ngFor="let entity of testArray">
         <li class="list-group-item list-group-item-action text-center " data-toggle="tooltip" [title]="entity">
-          <button type="button" class="btn btn-light " style="cursor: pointer;" (click)="onListItemClick(entity.id, entity.name)">{{entity.name}}</button>
+          <button type="button" class="btn btn-light " style="cursor: pointer;" (click)="onListItemClick(entity)">{{entity.name}}</button>
         </li>
       </div>
     </ul>

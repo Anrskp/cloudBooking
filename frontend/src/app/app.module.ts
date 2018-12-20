@@ -16,6 +16,13 @@ import { PageNotFoundComponent } from './components/page-not-found/page-not-foun
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { FooterComponent } from './components/footer/footer.component';
 import{AuthGuard} from  './guards/auth.guard';
+import { AngularDateTimePickerModule } from 'angular2-datetimepicker';
+import { Ng2CompleterModule } from "ng2-completer";
+
+
+
+
+
 
 
 
@@ -36,7 +43,9 @@ import{AuthGuard} from  './guards/auth.guard';
     AppRoutingModule,
     HttpClientModule,
     FullCalendarModule,
-    FormsModule
+    FormsModule,
+    AngularDateTimePickerModule,
+    Ng2CompleterModule
   ],
   providers: [AuthGuard],
   bootstrap: [AppComponent]

@@ -9,42 +9,45 @@ const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/js
   providedIn: 'root'
 })
 export class BookingService {
+  // private bookingSource = new Subject<any>();
+  // bookings$ = this.bookingSource.asObservable();
 
-  endpoint = 'http://192.168.99.100:5002';
+  endpoint = 'http://192.168.99.100:5000/booking';
   testEndpoint = 'https://jsonplaceholder.typicode.com';
 
   constructor(private http: HttpClient) { }
 
   getUserBookings(userID) {
-    return this.http.get(this.endpoint + '/booking/' + userID).pipe(
+    return this.http.get(this.endpoint + '/' + userID).pipe(
+    //  tap(response => this.bookingSource.next(response);),
       catchError(this.handleError('getUserBookings', []))
     );
   }
 
   getEntityBookings(entityID) {
-    return this.http.get(this.testEndpoint + '/booking/entityBookings/' + entityID).pipe(
+    return this.http.get(this.testEndpoint + '/entityBookings/' + entityID).pipe(
       catchError(this.handleError('getEntityBookings'))
     );
   }
 
 
   getBooking(bookingID) {
-    return this.http.get(this.endpoint + '/booking/getBookingByID/' + bookingID).pipe(
+    return this.http.get(this.endpoint + '/getBookingByID/' + bookingID).pipe(
       catchError(this.handleError('getBooking'))
     );
   }
 
   createBooking(booking) {
-    return this.http.post(this.endpoint + '/booking/addNewBooking', booking, httpOptions).pipe(
+    return this.http.post(this.endpoint + '/addNewBooking', booking, httpOptions).pipe(
       catchError(this.handleError('createBooking'))
     );
   }
 
-  getRooms() {
-    return this.http.get(this.testEndpoint + '/entity').pipe(
-      catchError(this.handleError('getRooms'))
-    );
-  }
+  // getRooms() {
+  //   return this.http.get(this.testEndpoint + '/entity').pipe(
+  //     catchError(this.handleError('getRooms'))
+  //   );
+  // }
 
   // deleteBooking(bookingID){
   //   let headers = new HttpHeaders();
@@ -54,10 +57,14 @@ export class BookingService {
   //    );
   // }
 
-  checkAvailability(person) {
-    let headers = new HttpHeaders();
-    headers.append('Content-Type', 'application/json');
-    return this.http.post(this.endpoint + '/posts', person, httpOptions).pipe(
+  checkUserAvailability(userinfo) {
+    return this.http.get(this.endpoint + '/userAvailabilty/'+ userinfo.id + '/' + userinfo.startDate + '/' + userinfo.endDate, httpOptions).pipe(
+      catchError(this.handleError('checkAvailability'))
+    );
+  }
+
+  checkEntityAvailability(entityInfo) {
+    return this.http.get(this.endpoint + '/entityAvailabilty/'+ entityInfo.id + '/' + entityInfo.startDate + '/' + entityInfo.endDate, httpOptions).pipe(
       catchError(this.handleError('checkAvailability'))
     );
   }

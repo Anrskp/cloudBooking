@@ -12,10 +12,8 @@ import { AuthenticationService } from '../../services/authentication.service';
 })
 export class DashboardComponent implements OnInit {
 
-  user = { "id":"", "name": "" }
-  companyTag = { "tag": "" }
-  companyID = { "companyID": "" }
-  receivedData: {"success":"", "allBookings":""}
+  user = { "id":"", "name": "","email":"","companyID":""}
+  receivedData: any;
   testArray = [];
   testEvent = [{ title: 'New event', start: '2018-12-10T17:15:00', end: '2018-12-10T18:15:00' }, { title: 'Second event', start: '2018-12-14T17:15:00', end: '2018-12-14T23:15:00' }];
   calendarOwner: string;
@@ -32,16 +30,15 @@ export class DashboardComponent implements OnInit {
     private route: ActivatedRoute) { }
 
   ngOnInit() {
+    this.authService.listOfEntities$.subscribe(
+    array => this.testArray = array.users);
 
-    this.fetchCompanyTag()
-
-    this.getEmployees();
+    this.authService.entityListName$.subscribe(
+    listName => this.entityListName = listName);
 
     this.fetchUserInfo();
-
-    this.loadCalendar();
-
-    this.fetchUserBookings(this.user.id, this.user.name);
+    this.authService.getListOfEntities("employee",this.user.companyID);
+    this.fetchUserBookings(this.user);
 
 
   }
@@ -88,56 +85,43 @@ export class DashboardComponent implements OnInit {
   }
 
 
-  fetchCompanyTag() {
-    this.route.params.subscribe(params => {
-      this.companyTag.tag = params.id;
-    });
-  }
+  // fetchCompanyTag() {
+  //   this.route.params.subscribe(params => {
+  //     this.companyTag.tag = params.id;
+  //   });
+  // }
 
   fetchUserInfo() {
-    let token = JSON.parse(localStorage.getItem('user'));
-    this.user.id = token.id;
-    this.user.name = token.email; //BACKEND MUST SEND USERNAME
+    this.authService.loadToken();
+    this.user.id = this.authService.user.id;
+    this.user.name = this.authService.user.name;
+    this.user.email = this.authService.user.email;
+    this.user.companyID = this.authService.user.companyID;
   }
 
-  fetchUserBookings(userID, userName) {
-    //set calendarOwner
-    this.calendarOwner = userName;
-    //Get my bookings
-    // if(userID == "1"){
-    // this.events = [{ title: 'Ogyuns event', start: '2018-12-10T17:15:00', end: '2018-12-10T18:15:00' }]
-    // }
-    // if(userID == "2"){
-    // this.events = [{ title: 'Anders event', start: '2018-12-10T17:15:00', end: '2018-12-10T18:15:00' }]
-    // }
-    // if(userID == "3"){
-    // this.events = [{ title: 'Johns event', start: '2018-12-10T17:15:00', end: '2018-12-10T18:15:00' }]
-    // }
-    //Uncomment when merged with backend
-    this.bookingService.getUserBookings(userID).subscribe(data => {
-      console.log(data)
-      this.receivedData.success = data['success'];
-      this.receivedData.allBookings = data['allBookings'];
-      
+  fetchUserBookings(user) {
+    this.calendarOwner = user.name;
+
+    this.bookingService.getUserBookings(user.id).subscribe(data => {
+      this.receivedData = data;
       if(this.receivedData.success){
-        this.calendarOwner = userName;
-        this.events = this.receivedData.allBookings;
+      this.loadCalendar(this.receivedData.allBookings);
       }
-      else{
-        alert("Couldn't get user bookings");
+      else {
+        console.log(this.receivedData.msg);
       }
     });
   }
 
-  fetchEntityBookings(entityID, entityName) {
-    this.calendarOwner = entityName;
-    if(entityID == "1"){
+  fetchEntityBookings(entity) {
+    this.calendarOwner = entity.name;
+    if(entity.id == "1"){
     this.events = [{ title: 'Conference room', start: '2018-12-10T17:15:00', end: '2018-12-10T18:15:00' }]
     }
-    if(entityID == "2"){
+    if(entity.id == "2"){
     this.events = [{ title: 'Dining roomt', start: '2018-12-10T17:15:00', end: '2018-12-10T18:15:00' }]
     }
-    if(entityID == "3"){
+    if(entity.id == "3"){
     this.events = [{ title: 'Tv room', start: '2018-12-10T17:15:00', end: '2018-12-10T18:15:00' }]
     }
     //Uncomment when merged with backend
@@ -151,41 +135,11 @@ export class DashboardComponent implements OnInit {
     // });
   }
 
-  getEmployees() {
-    this.entityListName = "Employees";
-    this.testArray = [{ "id": "1", "name": "Ogyun" }, { "id": "2", "name": "Anders" }, { "id": "3", "name": "John" }];
-
-    //Uncomment when merged with backend
-    // this.authService.getAllCompanyEmployees(this.companyTag).subscribe(data => {
-    //   if (data.success){
-    //     this.entityListName = "Employees";
-    //     this.testArray = data;
-    //   } else {
-    //     alert("Error")
-    //   }
-    // });
-  }
-
-  getRooms() {
-    this.entityListName = "Rooms";
-    this.testArray = [{ "id": "1", "name": "Conference room" }, { "id": "2", "name": "Dining room" }, { "id": "3", "name": "TV room" }];
-    //Uncomment when merged with backend
-    // this.bookingService.getRooms().subscribe(data => {
-    //   if (data.success) {
-    //     this.entityListName = "Rooms";
-    //     this.testArray = data;
-    //   }
-    //   else {
-    //   alert("Error on getting Rooms");
-    //
-    //   }
-    // });
-  }
-
   createBooking() {
   }
 
-  loadCalendar() {
+  loadCalendar(events) {
+  this.events = events;
     this.calendarOptions = {
       editable: true,
       eventLimit: false,
@@ -194,18 +148,18 @@ export class DashboardComponent implements OnInit {
         center: 'title',
         right: 'month,agendaWeek,agendaDay,listMonth'
       },
-      events: []
+      events: events
     };
   }
 
-  onListItemClick(ID, name) {
-    if (this.entityListName == "Rooms") {
-      this.fetchEntityBookings(ID, name);
+  onListItemClick(entity) {
+    if (this.entityListName == "Entities") {
+      this.fetchEntityBookings(entity);
     } else if (this.entityListName == "Employees") {
-      this.fetchUserBookings(ID, name);
+      this.fetchUserBookings(entity);
     }
     else {
-      alert("Error")
+      console.log("Error")
     }
 
   }
