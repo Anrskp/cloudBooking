@@ -6,6 +6,7 @@ const passport = require('passport');
 const expressValidator = require('express-validator');
 const userRoute = require('./routes/user-route');
 const bookingRoute = require('./routes/booking-route');
+const companyRoute = require('./routes/company-route');
 
 // Declare express variable
 const app = express();
@@ -29,6 +30,7 @@ require('./config/passport')(passport);
 // Routes
 userRoute(app);
 bookingRoute(app);
+companyRoute(app);
 
 // Set port number
 const port = process.env.PORT || 4000;

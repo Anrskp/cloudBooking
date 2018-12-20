@@ -5,6 +5,10 @@ module.exports = function(app) {
   app.route('/company')
     .post(companyCtrl.createCompany);
 
+
+  app.route('/company/entities/:id')
+    .get(companyCtrl.getCompanyEntitiesById);
+
   /*
 
   app.route('/company/:id')
@@ -13,5 +17,5 @@ module.exports = function(app) {
     .delete(bookingCtrl.deleteBooking);
 
   */
-  
+
 };

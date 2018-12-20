@@ -4,4 +4,6 @@ module.exports = function(app) {
   app.route('/user/authenticate')
     .post(userCtrl.authenticateUser);
 
+  app.route('/user/:id')
+    .get(userCtrl.getUsersByCompanyID);
 };

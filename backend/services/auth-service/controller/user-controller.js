@@ -122,12 +122,21 @@ function authenticateUser(req, res) {
 // Get users by companyID
 function getUsersByCompanyID(req, res) {
 
-  let companyID = req.params.companyID;
+  let companyID = req.params.id;
 
   query = {
     companyID: companyID
   }
-  /* TODO */
+
+  User.find(query, (err, users) => {
+    if (err) throw err
+
+    if(!users.length) {
+      return res.json({success: false, msg: 'empty'})
+    }
+
+    return res.json({success: true, users})
+  })
 
 }
 

@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Company = require('../models/company');
 
-function getCompanyByID() {
+function getCompanyById() {
 
   /* TODO */
 
@@ -13,10 +13,23 @@ function getCompanyByTag() {
 
 }
 
-function getCompanyEntitiesByID() {
+function getCompanyEntitiesById(req, res) {
 
-  /* TODO */
+  let companyID = req.params.id;
 
+  query = {
+    _id: companyID
+  }
+
+  Company.find(query).select('entities').exec(function (err, entities) {
+    if (err) throw err
+
+    if(!entities.length) {
+      return res.json({success: false, msg: 'empty'});
+    }
+
+    return res.json({entities: entities});
+  })
 }
 
 function createCompany(req, res) {
@@ -64,13 +77,13 @@ function createCompany(req, res) {
   });
 }
 
-function editCompanyByID() {
+function editCompanyById() {
 
   /* TODO */
 
 }
 
-function deleteCompanyByID() {
+function deleteCompanyById() {
 
   /* TODO */
 
@@ -80,8 +93,8 @@ function deleteCompanyByID() {
 module.exports = {
   getCompanyById,
   getCompanyByTag,
-  getCompanyEntities,
+  getCompanyEntitiesById,
   createCompany,
   editCompanyById,
-  deleteCompanyByID
+  deleteCompanyById
 };
