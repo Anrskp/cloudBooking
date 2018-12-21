@@ -327,7 +327,7 @@ function checkEntityAvailability(req, res) {
 
   Booking.find({
     $and: [
-        { {entityID: entityID} },
+        { entityID: entityID },
         { $and: [{start: {$lt: end}}, {end: {$gt: start}}] }
     ]
   }, function(err, data) {
