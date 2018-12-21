@@ -173,28 +173,29 @@ async function checkUserAvailability(req, res) {
   let userID = req.params.id;
 
   Booking.find({
-    userID: userID,
-    $or: [{
-      $and: [{
-        start: {
-          $gte: start
-        }
-      }, {
-        start: {
-          $lte: end
-        }
-      }],
-      $and: [{
-        start: {
-          $lte: start
-        }
-      }, {
-        end: {
-          $gte: start
-        }
-      }]
-    }]
-  }, function(err, data) {
+      $and: [
+          { $or: [{userID: userID}, {invites: userID}] },
+          { $and: [{start: {$lt: end}}, {end: {$gt: start}}] }
+      ]
+  }, function (err, results) {
+      if(err) {
+        return res.json({success: false, msg: 'Failed to check bookings for id ' + userID})
+      }
+
+      if(results.length) {
+        return res.json({success: true, available: false})
+      }
+
+      return res.json({success: true, available: true});
+  });
+
+};
+
+/*
+  Booking.find({
+    $and: [{ $or: [{userID: userID}, {invites: userID}]},
+    {$or: [{ start: { $lte: end }}, {end: { $gte: start }},
+    ]]}}, function(err, data) {
     if (err) {
       return res.json({
         success: false,
@@ -202,19 +203,20 @@ async function checkUserAvailability(req, res) {
       })
     }
 
-    if (!data.length) {
+    if (data.length) {
+      console.log(data);
       return res.json({
         success: true,
-        isAvailable: false
+        available: false
       })
     }
 
     return res.json({
       success: true,
-      isAvailable: true
+      available: true
     })
-
-  });
+  })
+*/
 
 
   /*
@@ -281,7 +283,7 @@ async function checkUserAvailability(req, res) {
 
   })
   */
-}
+
 
 function getEntityBookings(req, res) {
 
@@ -361,7 +363,6 @@ function checkEntityAvailability(req, res) {
     })
 
   });
-
 }
 
 // exports api functions

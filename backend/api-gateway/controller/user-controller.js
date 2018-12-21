@@ -44,6 +44,11 @@ function editUser() {
 
 }
 
+// Delete a user
+function deleteUser() {
+
+}
+
 // exports api functions
 module.exports = {
   getUsersByCompanyID,

@@ -15,12 +15,17 @@ async function createBooking(req, res) {
   return res.json(json);
 }
 
-// Get bookings by user ID
+// Get user bookings by user ID
 async function getBookings(req, res) {
   let userID = req.params.id;
   const response = await fetch('http://booking-service:3001/booking/' + userID);
   const json = await response.json();
   return res.json(json);
+}
+
+// Get entity bookings by entity ID
+function getEntityBookings() {
+
 }
 
 // Update a booking by booking ID
@@ -33,7 +38,7 @@ function deleteBooking() {
 
 }
 
-// Check availability
+// Check user availability
 async function checkAvailability(req, res) {
   let start = req.params.start;
   let end = req.params.end;
@@ -43,6 +48,9 @@ async function checkAvailability(req, res) {
   const json = await response.json();
   return res.json(json);
 }
+
+// Check entity availability
+
 
 // exports api functions
 module.exports = {

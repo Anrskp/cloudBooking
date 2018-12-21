@@ -1,10 +1,34 @@
 const mongoose = require('mongoose');
 const Company = require('../models/company');
 
-function getCompanyById() {
+function getCompanyById(req, res) {
 
-  /* TODO */
+  let companyID = req.params.id;
 
+  const query = {
+    _id: companyID
+  }
+
+  Company.find(query, (err, company) => {
+    if (err) {
+      return res.json({
+        success: false,
+        msg: 'Failed to get company info for id ' + companyID
+      })
+    }
+
+    if (!company) {
+      return res.json({
+        success: false,
+        msg: 'No company with id ' + companyID
+      })
+    }
+
+    return res.json({
+      success: true,
+      company
+    })
+  })
 }
 
 function getCompanyByTag() {
