@@ -171,6 +171,53 @@ async function checkUserAvailability(req, res) {
   let start = req.params.start;
   let end = req.params.end;
   let userID = req.params.id;
+
+  Booking.find({
+    userID: userID,
+    $or: [{
+      $and: [{
+        start: {
+          $gte: start
+        }
+      }, {
+        start: {
+          $lte: end
+        }
+      }],
+      $and: [{
+        start: {
+          $lte: start
+        }
+      }, {
+        end: {
+          $gte: start
+        }
+      }]
+    }]
+  }, function(err, data) {
+    if (err) {
+      return res.json({
+        success: false,
+        msg: 'failed to get bookings'
+      })
+    }
+
+    if (!data.length) {
+      return res.json({
+        success: true,
+        isAvailable: false
+      })
+    }
+
+    return res.json({
+      success: true,
+      isAvailable: true
+    })
+
+  });
+
+
+  /*
   let isAvaiable = true;
   let allBookings = [];
 
@@ -233,6 +280,7 @@ async function checkUserAvailability(req, res) {
     })
 
   })
+  */
 }
 
 function getEntityBookings(req, res) {
@@ -275,57 +323,44 @@ function checkEntityAvailability(req, res) {
     entityID: entityID
   }
 
-  Booking.find(query, (err, bookings) => {
-    if (err) {
+  Booking.find({
+    entityID: entityID,
+    $or: [{
+      $and: [{
+        start: {
+          $gte: start
+        }
+      }, {
+        start: {
+          $lte: end
+        }
+      }],
+      $and: [{
+        start: {
+          $lte: start
+        }
+      }, {
+        end: {
+          $gte: start
+        }
+      }]
+    }]
+  }, function(err, data) {
+    if (err) throw err
+
+    if (!data.length) {
       return res.json({
-        success: false,
-        msg: 'Could not get bookings for entityID ' + entityID
+        success: true,
+        isAvailable: false
       })
-    }
-
-    if (!bookings.length) {
-      return res.json({
-        success: false,
-        msg: 'Could not find any bookings for entityID ' + entityID
-      })
-    }
-
-    for (let i = 0; i < bookings.length; i++) {
-
-      let currentBooking = bookings[i];
-
-      console.log(currentBooking.start + " - " + currentBooking.end)
-      //console.log('event is before');
-      console.log(start < currentBooking.start && end < currentBooking.end || start > currentBooking.start && end > currentBooking.end);
-      //console.log('event is after');
-      //console.log(start > currentBooking.start && end > currentBooking.end);
-
-    //  start < currentStart, end < currentEnd eller start > currentEnd, end > currentEnd
-
-      if((start < currentBooking.start && end < currentBooking.end) || (start > currentBooking.end && end > currentBooking.end)) {
-        console.log('dates works')
-      } else {
-        console.log('dates does not work')
-      }
-
-
-      if(!(start < currentBooking.start && end < currentBooking.end) || (start > currentBooking.start && end > currentBooking.end)) {
-        isAvaiable = false;
-        break;
-      }
-      /*
-      if (!(end < currentBooking.end && start < currentBooking.start || end > currentBooking.end && start > currentBooking.start)) {
-        isAvaiable = false;
-        break;
-      }
-      */
     }
 
     return res.json({
       success: true,
-      isAvaiable
-    });
-  })
+      isAvailable: true
+    })
+
+  });
 
 }
 

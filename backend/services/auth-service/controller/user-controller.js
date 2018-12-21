@@ -120,6 +120,9 @@ function authenticateUser(req, res) {
 }
 
 // Get users by companyID
+
+// find with out password /* TODO */
+
 function getUsersByCompanyID(req, res) {
 
   let companyID = req.params.id;
