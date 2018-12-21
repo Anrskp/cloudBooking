@@ -60,7 +60,7 @@ function getBookings(req, res) {
       return res.json({success: false, msg: 'Failed to get bookings for user with id ' + userID })
     }
 
-    if(!booking.length) {
+    if(!results.length) {
       return res.json({success: true, msg: 'No bookings for user with id ' + userID})
     }
 
