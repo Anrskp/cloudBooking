@@ -33,7 +33,7 @@ function updateBooking() {
 
 }
 
-// delete a booking by booking ID
+// Delete a booking by booking ID
 function deleteBooking() {
 
 }
@@ -50,7 +50,15 @@ async function checkAvailability(req, res) {
 }
 
 // Check entity availability
+async function checkEntityAvailability(req, res) {
+  let start = req.params.start;
+  let end = req.params.start;
+  let entityID = req.params.id
 
+  const response = await fetch('http://booking-service:3001/booking/entityAvalability/' + entityID + '/' + start + '/' + end);
+  const json = await response.json();
+  return res.json(json);
+}
 
 // exports api functions
 module.exports = {
@@ -58,5 +66,6 @@ module.exports = {
   getBookings,
   updateBooking,
   deleteBooking,
-  checkAvailability
+  checkAvailability,
+  checkEntityAvailability
 };

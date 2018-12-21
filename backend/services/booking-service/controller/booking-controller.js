@@ -326,31 +326,14 @@ function checkEntityAvailability(req, res) {
   }
 
   Booking.find({
-    entityID: entityID,
-    $or: [{
-      $and: [{
-        start: {
-          $gte: start
-        }
-      }, {
-        start: {
-          $lte: end
-        }
-      }],
-      $and: [{
-        start: {
-          $lte: start
-        }
-      }, {
-        end: {
-          $gte: start
-        }
-      }]
-    }]
+    $and: [
+        { {entityID: entityID} },
+        { $and: [{start: {$lt: end}}, {end: {$gt: start}}] }
+    ]
   }, function(err, data) {
     if (err) throw err
 
-    if (!data.length) {
+    if (data.length) {
       return res.json({
         success: true,
         isAvailable: false
