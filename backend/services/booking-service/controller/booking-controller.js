@@ -53,6 +53,23 @@ function getBookings(req, res) {
   // get bookings invited to
   let userID = req.params.id;
 
+  Booking.find({
+    $or: [{userID: userID}, {invites: userID}]
+  }, function(err, results) {
+    if (err) {
+      return res.json({success: false, msg: 'Failed to get bookings for user with id ' + userID })
+    }
+
+    if(!booking.length) {
+      return res.json({success: true, msg: 'No bookings for user with id ' + userID})
+    }
+
+    return res.json({success: true, bookings})
+  })
+
+  /* TODO REFACTOR *
+
+  /*
   let allBookings = [];
 
   const inviteQuery = {
@@ -96,6 +113,7 @@ function getBookings(req, res) {
       allBookings
     });
   });
+  */
 }
 
 // update booking by bookingID
