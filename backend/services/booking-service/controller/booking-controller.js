@@ -55,16 +55,16 @@ function getBookings(req, res) {
 
   Booking.find({
     $or: [{userID: userID}, {invites: userID}]
-  }, function(err, results) {
+  }, function(err, allBookings) {
     if (err) {
       return res.json({success: false, msg: 'Failed to get bookings for user with id ' + userID })
     }
 
-    if(!results.length) {
+    if(!allBookings.length) {
       return res.json({success: true, msg: 'No bookings for user with id ' + userID})
     }
 
-    return res.json({success: true, results})
+    return res.json({success: true, allBookings})
   })
 
   /* TODO REFACTOR *
