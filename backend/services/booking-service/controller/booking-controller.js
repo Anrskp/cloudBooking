@@ -64,7 +64,7 @@ function getBookings(req, res) {
       return res.json({success: true, msg: 'No bookings for user with id ' + userID})
     }
 
-    return res.json({success: true, bookings})
+    return res.json({success: true, results})
   })
 
   /* TODO REFACTOR *
