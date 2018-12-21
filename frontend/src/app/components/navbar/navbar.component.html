@@ -1,4 +1,4 @@
-<nav *ngIf="authService.loggedIn()" class="navbar navbar-expand-sm navbar-dark bg-dark">
+<nav class="navbar navbar-expand-sm navbar-dark bg-dark">
 
   <!-- Brand section-->
   <!-- <a class="navbar-brand" href="#">Cloudbooking</a> -->
@@ -13,18 +13,18 @@
 
     <!-- Navbar items left  -->
     <ul class="navbar-nav mr-auto">
-      <li class="nav-item" *ngIf="authService.loggedIn()" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}">
-        <a class="nav-link" (click)="callDashboardGetEmployees()">
+      <li class="nav-item" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}">
+        <a class="nav-link" (click)="sendArrayToAuthService('employee')">
           <i class="fas fa-users"></i>&nbsp; Employees
         </a>
       </li>
-      <li class="nav-item" *ngIf="authService.loggedIn()" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}">
-        <a class="nav-link" (click)="callDashboardGetRooms()">
+      <li class="nav-item" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}">
+        <a class="nav-link" (click)="sendArrayToAuthService('entity')">
           <i class="fas fa-cube"></i>&nbsp; Rooms
         </a>
       </li>
-      <li class="nav-item" *ngIf="authService.loggedIn()" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}">
-        <a class="nav-link" (click)="callDashboardCreateBooking()">
+      <li class="nav-item" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}">
+        <a class="nav-link" (click)="callDashboardCreateBooking()" data-toggle="modal" data-target="#exampleModal">
           <i class="fas fa-plus-square"></i>&nbsp; Create Booking
         </a>
       </li>
@@ -35,10 +35,10 @@
     </div>
     <!-- Navbar items right -->
     <ul class="navbar-nav ml-auto">
-      <li class="nav-item" *ngIf="authService.loggedIn()">
+      <li class="nav-item">
         <!-- <a class="nav-link" (click)="onLogoutClick()" href="#">Logout</a></li> -->
       <li class="nav-link dropdown">
-        <a class="dropdown-toggle" data-toggle="dropdown">Ogyun Dzhambazov&nbsp;<span class="fas fa-user"></span></a>
+        <a class="dropdown-toggle" data-toggle="dropdown">{{username}}&nbsp;<span class="fas fa-user"></span></a>
         <ul class="dropdown-menu">
           <li><a href="#">Messages <span class="fas fa-envelope"></span></a></li>
           <li class="divider"></li>
@@ -49,3 +49,65 @@
 
   </div>
 </nav>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">New booking</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <label for="event-starts" class="col-form-label">Event starts:</label>
+        <angular2-date-picker [(ngModel)]="startDate" [settings]="startDateSettings"></angular2-date-picker>
+
+        <label for="event-ends" class="col-form-label">Event ends:</label>
+        <angular2-date-picker [(ngModel)]="endDate" [settings]="endDateSettings"></angular2-date-picker>
+
+        <form>
+          <div class="form-group">
+            <label for="recipient-name" class="col-form-label col-md-6">Invite people:</label>
+            <ng2-completer placeholder="search for people" [(ngModel)]="searchStrEmployees" name="searchStrEmployees" [datasource]="dataServiceEmployees" (selected)="onItemSelectEmployee($event)" [minSearchLength]="0"></ng2-completer>
+            </div>
+              <ul class="list-group">
+                <div *ngFor="let person of peopleInvited">
+                  <li class="list-group-item list-group-item-action text-center" data-toggle="tooltip">{{person.name}}
+                  <i *ngIf="person.available === 'true'" class="fas fa-check"></i>
+                  <i *ngIf="person.available === 'false'" class="fas fa-times"></i>
+                  </li>
+            </div>
+            </ul>
+
+
+            <div class="form-group">
+            <label for="recipient-name" class="col-form-label col-md-6">Select room:</label>
+            <ng2-completer placeholder="search for rooms" [(ngModel)]="searchStrEntities" name="searchStrEntities" [datasource]="dataServiceEntities" (selected)="onItemSelectEntity($event)" [minSearchLength]="0"></ng2-completer>
+            </div>
+            <ul class="list-group">
+              <div *ngFor="let entity of entitiesInvolved">
+                <li class="list-group-item list-group-item-action text-center" data-toggle="tooltip">{{entity.name}}
+                <i *ngIf="entity.available === 'true'" class="fas fa-check"></i>
+                <i *ngIf="entity.available === 'false'" class="fas fa-times"></i>
+                </li>
+          </div>
+          </ul>
+
+          <div class="form-group">
+            <label for="message-text" class="col-form-label">Message:</label>
+            <textarea class="form-control" id="message-text"></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" (click) ="onSendClick()">Create</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  $('#exampleModal').on('show.bs.modal');
+</script>
