@@ -27,7 +27,8 @@ function createBooking(req, res) {
     start: req.body.start,
     end: req.body.end,
     invites: req.body.invites,
-    entityID: req.body.entityID
+    entityID: req.body.entityID,
+    notification: req.body.notification
   });
 
   newBooking.save((err, booking) => {
@@ -54,66 +55,31 @@ function getBookings(req, res) {
   let userID = req.params.id;
 
   Booking.find({
-    $or: [{userID: userID}, {invites: userID}]
+    $or: [{
+      userID: userID
+    }, {
+      invites: userID
+    }]
   }, function(err, allBookings) {
     if (err) {
-      return res.json({success: false, msg: 'Failed to get bookings for user with id ' + userID })
-    }
-
-    if(!allBookings.length) {
-      return res.json({success: true, msg: 'No bookings for user with id ' + userID})
-    }
-
-    return res.json({success: true, allBookings})
-  })
-
-  /* TODO REFACTOR *
-
-  /*
-  let allBookings = [];
-
-  const inviteQuery = {
-    invites: userID
-  };
-
-  Booking.find(inviteQuery, (err, bookings) => {
-    if (err) throw (err);
-    if (bookings.length) {
-      allBookings = allBookings.concat(bookings);
-    }
-  })
-
-  // get bookings created
-  const query = {
-    userID: userID
-  };
-
-  Booking.find(query, (err, bookings) => {
-    if (err) {
-      res.status('200');
       return res.json({
         success: false,
-        msg: 'failed to retrieve bookings'
-      });
-    }
-
-    if (!bookings.length) {
-      res.status('200');
-      return res.json({
-        success: false,
-        msg: "Could not find any bookings for userID " + userID
+        msg: 'Failed to get bookings for user with id ' + userID
       })
     }
 
-    allBookings = allBookings.concat(bookings);
+    if (!allBookings.length) {
+      return res.json({
+        success: true,
+        msg: 'No bookings for user with id ' + userID
+      })
+    }
 
-    res.status('200');
     return res.json({
       success: true,
       allBookings
-    });
-  });
-  */
+    })
+  })
 }
 
 // update booking by bookingID
@@ -191,38 +157,34 @@ async function checkUserAvailability(req, res) {
   let userID = req.params.id;
 
   Booking.find({
-      $and: [
-          { $or: [{userID: userID}, {invites: userID}] },
-          { $and: [{start: {$lt: end}}, {end: {$gt: start}}] }
-      ]
-  }, function (err, results) {
-      if(err) {
-        return res.json({success: false, msg: 'Failed to check bookings for id ' + userID})
+    $and: [{
+        $or: [{
+          userID: userID
+        }, {
+          invites: userID
+        }]
+      },
+      {
+        $and: [{
+          start: {
+            $lt: end
+          }
+        }, {
+          end: {
+            $gt: start
+          }
+        }]
       }
-
-      if(results.length) {
-        return res.json({success: true, available: false})
-      }
-
-      return res.json({success: true, available: true});
-  });
-
-};
-
-/*
-  Booking.find({
-    $and: [{ $or: [{userID: userID}, {invites: userID}]},
-    {$or: [{ start: { $lte: end }}, {end: { $gte: start }},
-    ]]}}, function(err, data) {
+    ]
+  }, function(err, results) {
     if (err) {
       return res.json({
         success: false,
-        msg: 'failed to get bookings'
+        msg: 'Failed to check bookings for id ' + userID
       })
     }
 
-    if (data.length) {
-      console.log(data);
+    if (results.length) {
       return res.json({
         success: true,
         available: false
@@ -232,76 +194,10 @@ async function checkUserAvailability(req, res) {
     return res.json({
       success: true,
       available: true
-    })
-  })
-*/
-
-
-  /*
-  let isAvaiable = true;
-  let allBookings = [];
-
-  console.log("params : id: " + userID + " start: " + start + " end: " + end)
-
-  let promise = new Promise((resolve, reject) => {
-
-
-    // get bookings invited to.
-    const inviteQuery = {
-      invites: userID
-    };
-
-    Booking.find(inviteQuery, (err, bookings) => {
-      if (err) throw (err);
-      if (bookings.length) {
-        allBookings = allBookings.concat(bookings);
-      }
     });
+  });
 
-    // get bookings created.
-    const query = {
-      userID: userID
-    };
-
-    Booking.find(query, (err, bookings) => {
-      if (err) {
-        res.status('200');
-        return res.json({
-          success: false,
-          msg: ''
-        });
-      }
-
-      if (!bookings.length) {
-        res.status('200');
-        return res.json({
-          success: false,
-          msg: 'empty'
-        })
-      }
-      allBookings = allBookings.concat(bookings);
-      resolve(allBookings);
-    })
-  }).then((allBookings) => {
-
-    for (let i = 0; i < allBookings.length; i++) {
-
-      let currentBooking = allBookings[i];
-
-      if (!(end < currentBooking.end && start < currentBooking.start || end > currentBooking.end && start > currentBooking.start)) {
-        isAvaiable = false;
-        break;
-      }
-    }
-
-    return res.json({
-      success: true,
-      available: isAvaiable
-    })
-
-  })
-  */
-
+};
 
 function getEntityBookings(req, res) {
 
@@ -344,9 +240,20 @@ function checkEntityAvailability(req, res) {
   }
 
   Booking.find({
-    $and: [
-        { entityID: entityID },
-        { $and: [{start: {$lt: end}}, {end: {$gt: start}}] }
+    $and: [{
+        entityID: entityID
+      },
+      {
+        $and: [{
+          start: {
+            $lt: end
+          }
+        }, {
+          end: {
+            $gt: start
+          }
+        }]
+      }
     ]
   }, function(err, data) {
     if (err) throw err

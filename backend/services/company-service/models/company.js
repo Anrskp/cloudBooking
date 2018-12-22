@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 
-
 // Entities Schema
 const entitySchema = mongoose.Schema({
   name: {

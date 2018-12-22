@@ -47,3 +47,5 @@ const port = process.env.PORT || 3002;
 app.listen(port, () => {
   console.log('Server startet on port ' + port);
 });
+
+module.exports = app; // export for testing

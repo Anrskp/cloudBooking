@@ -31,9 +31,34 @@ function getCompanyById(req, res) {
   })
 }
 
-function getCompanyByTag() {
+function getCompanyByTag(req, res) {
 
-  /* TODO */
+  let tag = req.params.id;
+
+  const query = {
+    tag: tag
+  }
+
+  Company.findOne(query, (err, company) => {
+    if (err) {
+      return res.json({
+        success: false,
+        msg: 'Failed to get company info for tag: ' + tag
+      })
+    }
+
+    if (!company) {
+      return res.json({
+        success: false,
+        msg: 'No company with tag: ' + tag
+      })
+    }
+
+    return res.json({
+      success: true,
+      company
+    })
+  })
 
 }
 
@@ -48,13 +73,13 @@ function getCompanyEntitiesById(req, res) {
   Company.find(query).select('entities -_id').exec(function(err, result) {
     if (err) return res.json({
       success: false,
-      msg: 'invalid id'
+      msg: 'Invalid id'
     })
 
     if (!result.length) {
       return res.json({
         success: false,
-        msg: 'empty'
+        msg: 'No entities for company with id ' + companyID
       });
     }
 
@@ -99,27 +124,69 @@ function createCompany(req, res) {
       res.status('200');
       return res.json({
         success: false,
-        msg: 'failed to add new company'
+        msg: 'Failed to add new company'
       });
     }
 
     res.status('200');
     return res.json({
       success: true,
-      msg: 'company added successfully'
+      msg: 'Company added successfully'
     });
   });
 }
 
-function editCompanyById() {
+// Edit company info by ID
+function editCompanyById(req, res) {
 
-  /* TODO */
+  let companyID = req.params.id;
+
+  const query = {
+    _id: companyID
+  }
+
+  Company.updateOne(query, req.body, {
+    new: true
+  }, (err, company) => {
+    if (err) {
+      res.status('200')
+      return res.json({
+        success: false,
+        msg: 'Failed to update company with id \'' + companyID + '\''
+      });
+    }
+
+    res.status('200');
+    return res.json({
+      success: true,
+      msg: 'Updated company with id  \'' + companyID + '\' successfully'
+    });
+  });
 
 }
 
-function deleteCompanyById() {
+// Delete a company by ID
+function deleteCompanyById(req, res) {
 
-  /* TODO */
+  let companyID = req.params.id;
+
+  const query = {
+    _id: companyID
+  }
+
+  Company.deleteOne(query, (err, result) => {
+    if (err) {
+      return res.json({
+        success: false,
+        msg: 'Failed to remove company with id ' + companyID
+      });
+    }
+
+    return res.json({
+      success: true,
+      msg: 'Company deleted successfully'
+    })
+  })
 
 }
 
