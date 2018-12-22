@@ -12,10 +12,10 @@ module.exports = function(app) {
   app.route('/booking/entity/:id')
     .get(bookingCtrl.getEntityBookings);
 
-  app.route('/booking/entityAvalability/:id/:start/:end')
+  app.route('/booking/entityAvailability/:id/:start/:end')
     .get(bookingCtrl.checkEntityAvailability);
 
-  app.route('/booking/userAvalability/:id/:start/:end')
+  app.route('/booking/userAvailability/:id/:start/:end')
     .get(bookingCtrl.checkAvailability);
 
 };
