@@ -25,7 +25,11 @@ async function getBookings(req, res) {
 
 // Get entity bookings by entity ID
 function getEntityBookings() {
+  let entityID = req.params.id;
 
+  const response = await fetch('http://booking-service:3001/booking/entity/' + entityID);
+  const json = await response.json();
+  return res.json(json);
 }
 
 // Update a booking by booking ID

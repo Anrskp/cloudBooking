@@ -7,6 +7,9 @@ module.exports = function(app) {
   app.route('/booking/:id')
     .get(bookingCtrl.getBookings);
 
+  app.route('booking/entity/:id')
+    .get(bookingCtrl.getEntityBookings);
+
   app.route('/booking/entityAvalability/:id/:start/:end')
     .get(bookingCtrl.checkEntityAvailability);
 
