@@ -80,5 +80,6 @@ module.exports = {
   updateBooking,
   deleteBooking,
   checkAvailability,
-  checkEntityAvailability
+  checkEntityAvailability,
+  getEntityBookings
 };
