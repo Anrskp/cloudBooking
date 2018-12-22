@@ -24,7 +24,7 @@ async function getBookings(req, res) {
 }
 
 // Get entity bookings by entity ID
-async function getEntityBookings() {
+async function getEntityBookings(req, res) {
   let entityID = req.params.id;
 
   const response = await fetch('http://booking-service:3001/booking/entity/' + entityID);
@@ -33,8 +33,17 @@ async function getEntityBookings() {
 }
 
 // Update a booking by booking ID
-function updateBooking() {
-
+async function updateBooking(req, res) {
+  let bookingID = req.params.id;
+  /*
+  const response = await fetch('http://booking-service:3001/booking' + bookingID, {
+    method: 'PUT',
+    headers: {
+      "Content-Type": "application/json; charset=utf-8",
+    },
+    body: JSON.stringify
+  })
+  */
 }
 
 // Delete a booking by booking ID
