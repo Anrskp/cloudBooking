@@ -15,7 +15,7 @@ module.exports = function(app) {
   app.route('/booking/entityAvalability/:id/:start/:end')
     .get(bookingCtrl.checkEntityAvailability);
 
-  app.route('/booking/userAvailabilty/:id/:start/:end')
+  app.route('/booking/userAvalability/:id/:start/:end')
     .get(bookingCtrl.checkAvailability);
 
 };

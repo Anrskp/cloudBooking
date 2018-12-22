@@ -150,7 +150,7 @@ function deleteBooking(req, res) {
   })
 }
 
-async function checkUserAvailability(req, res) {
+function checkUserAvailability(req, res) {
 
   let start = req.params.start;
   let end = req.params.end;
@@ -273,6 +273,114 @@ function checkEntityAvailability(req, res) {
   });
 }
 
+
+function checkOverallAvailability(req, res) {
+
+
+  let start = req.body.start
+  let end = req.body.end
+  let users = req.body.users
+  let entity = req.body.entity
+
+  //console.log(users);
+  //console.log(entity);
+
+  let notuser = [];
+  let notent = [];
+
+
+  let promise = new Promise((resolve, reject) => {
+
+  users.forEach((x) => {
+
+
+    Booking.find({
+      $and: [{
+          $or: [{
+            userID: x
+          }, {
+            invites: x
+          }]
+        },
+        {
+          $and: [{
+            start: {
+              $lt: end
+            }
+          }, {
+            end: {
+              $gt: start
+            }
+          }]
+        }
+      ]
+    }, function(err, results) {
+        if(err) throw err
+        //console.log(results);
+        if(results.length) {
+        //  console.log('got here');
+          console.log(x)
+          notuser.push(x);
+          console.log("array: " + notuser)
+        }
+    })
+  });
+
+  resolve(notuser);
+
+  console.log(notuser);
+}).then((notuser) => {
+  //console.log(notuser)
+  return res.json(notuser)
+
+})
+
+
+}
+
+/*
+Booking.find({
+  $and: [{
+      $or: [{
+        userID: userID
+      }, {
+        invites: userID
+      }]
+    },
+    {
+      $and: [{
+        start: {
+          $lt: end
+        }
+      }, {
+        end: {
+          $gt: start
+        }
+      }]
+    }
+  ]
+}, function(err, results) {
+  if (err) {
+    return res.json({
+      success: false,
+      msg: 'Failed to check bookings for id ' + userID
+    })
+  }
+
+  if (results.length) {
+    return res.json({
+      success: true,
+      available: false
+    })
+  }
+
+  return res.json({
+    success: true,
+    available: true
+  });
+});
+
+*/
 // exports api functions
 module.exports = {
   getBookings,
@@ -281,5 +389,6 @@ module.exports = {
   editBooking,
   deleteBooking,
   checkUserAvailability,
-  checkEntityAvailability
+  checkEntityAvailability,
+  checkOverallAvailability
 };

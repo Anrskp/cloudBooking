@@ -17,4 +17,8 @@ module.exports = function(app) {
     .get(bookingCtrl.getBookings)
     .put(bookingCtrl.editBooking)
     .delete(bookingCtrl.deleteBooking);
+
+  app.route('/booking/checkall')
+    .post(bookingCtrl.checkOverallAvailability);
+
 };
