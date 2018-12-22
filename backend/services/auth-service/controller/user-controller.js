@@ -7,7 +7,21 @@ const config = require('../config/database');
 // Create new user
 function registerUser(req, res) {
 
-  // check req values
+  // check parameters
+  req.checkBody('companyID').notEmpty();
+  req.checkBody('name').notEmpty();
+  req.checkBody('email').notEmpty();
+  req.checkBody('password').notEmpty();
+
+  let errors = req.validationErrors();
+
+  if (errors) {
+    res.status('200');
+    return res.json({
+      success: false,
+      errors
+    });
+  }
 
   let newUser = new User({
     companyID: req.body.companyID,
@@ -66,8 +80,22 @@ function registerUser(req, res) {
 // Authenticate user
 function authenticateUser(req, res) {
 
-  const password = req.body.password;
   const email = req.body.email;
+  const password = req.body.password;
+
+  // check parameters
+  req.checkBody('email').notEmpty();
+  req.checkBody('password').notEmpty();
+
+  let errors = req.validationErrors();
+
+  if (errors) {
+    res.status('200');
+    return res.json({
+      success: false,
+      errors
+    });
+  }
 
   const query = {
     email: email
@@ -131,7 +159,7 @@ function getUsersByCompanyID(req, res) {
     companyID: companyID
   }
 
-  User.find(query, (err, users) => {
+  User.find(query, '-password', (err, users) => {
     if (err) throw err
 
     if(!users.length) {
