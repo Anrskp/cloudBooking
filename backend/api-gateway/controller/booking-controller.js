@@ -78,7 +78,7 @@ async function checkEntityAvailability(req, res) {
   let end = req.params.end;
   let entityID = req.params.id
 
-  const response = await fetch('http://booking-service:3001/booking/entityAvalability/' + entityID + '/' + start + '/' + end);
+  const response = await fetch('http://booking-service:3001/booking/entityAvailabilty/' + entityID + '/' + start + '/' + end);
   const json = await response.json();
   return res.json(json);
 }
