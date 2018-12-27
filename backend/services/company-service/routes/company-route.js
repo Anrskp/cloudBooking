@@ -8,6 +8,9 @@ module.exports = function(app) {
     .get(companyCtrl.getCompanyEntitiesById)
     .put(companyCtrl.createNewEntity);
 
+  app.route('/company/:companyID/:entityID')
+    .delete(companyCtrl.deleteEntity);
+
   app.route('/companytag/:id')
     .get(companyCtrl.getCompanyByTag);
 
