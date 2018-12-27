@@ -11,6 +11,21 @@ async function getCompanyEntities(req, res) {
   return res.json(json);
 }
 
+// create new entities
+async function createNewEntity(req, res) {
+  let comapnyID = req.params.id;
+
+  const response = await fetch('http://company-service:3002/company/entities/' + comapnyID, {
+    method: 'PUT',
+    headers: {
+      "Content-Type": "application/json; charset=utf-8",
+    },
+    body: JSON.stringify(req.body)
+  });
+
+  const json = await response.json();
+  return res.json(json);
+}
 // edit
 
 // delete
@@ -18,4 +33,5 @@ async function getCompanyEntities(req, res) {
 // exports api functions
 module.exports = {
   getCompanyEntities,
+  createNewEntity
 };

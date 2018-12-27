@@ -192,16 +192,28 @@ function deleteCompanyById(req, res) {
 
 function createNewEntity(req, res) {
 
-  let companyID = req.body.id;
+  let companyID = req.params.id;
   let entity = req.body.entity
 
   const query = {
     _id: companyID
   }
 
-  Company.updateOne(query, {$push: {"entities": {"name": "hello"} }}, (err, result) => {
-    if (err) throw err
-    console.log(result)
+  Company.updateOne(query, {$push: {entities: {name: entity} }}, (err, result) => {
+    if (err) {
+      return res.json({
+        success: false,
+        msg: "Couldent update entities for company id " + companyID
+      })
+    }
+
+
+    if(result.n == 0) {
+      return res.json({
+        success: false,
+        msg: "Couldent find company with id: " + companyID
+      })
+    }
 
     return res.json({
       success: true,
