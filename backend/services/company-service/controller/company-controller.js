@@ -189,22 +189,28 @@ function deleteCompanyById(req, res) {
   })
 
 }
-/*
+
 function createNewEntity(req, res) {
 
-  let companyID = req.body.companyID;
+  let companyID = req.body.id;
   let entity = req.body.entity
+
   const query = {
     _id: companyID
   }
 
-  Company.updateOne(query, {$push: {entities: entity}}, (err, result) => {
-    if err throw err
-    return result;
+  Company.updateOne(query, {$push: {entities: {name: entity} }}, (err, result) => {
+    if (err) throw err
+    console.log(result)
+
+    return res.json({
+      success: true,
+      msg: "added new entity"
+    })
   })
 
 }
-*/
+
 // exports api functions
 module.exports = {
   getCompanyById,
@@ -212,6 +218,6 @@ module.exports = {
   getCompanyEntitiesById,
   createCompany,
   editCompanyById,
-  deleteCompanyById
-  //createNewEntity
+  deleteCompanyById,
+  createNewEntity
 };
