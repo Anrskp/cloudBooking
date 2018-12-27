@@ -223,6 +223,38 @@ function createNewEntity(req, res) {
 
 }
 
+function deleteEntity(req, res) {
+
+  let companyID = req.params.companyID;
+  let entityID = req.params.entityID;
+
+  console.log("companyID: " + companyID)
+  console.log("entityID: " + entityID);
+
+  Company.updateOne({ _id: companyID}, {$pull: {entities: {_id: entityID} }}, (err, result) => {
+    if (err) {
+      return res.json({
+        success: false,
+        msg: "Couldent delete entity for company id " + companyID
+      })
+    }
+
+    if(result.nModified == 0) {
+      return res.json({
+        success: false,
+        msg: "Couldent find entity with id: " + entityID
+      })
+    }
+
+    return res.json({
+      success: true,
+      msg: "removed entity with id " + entityID
+    })
+
+  })
+
+}
+
 // exports api functions
 module.exports = {
   getCompanyById,
@@ -231,5 +263,6 @@ module.exports = {
   createCompany,
   editCompanyById,
   deleteCompanyById,
-  createNewEntity
+  createNewEntity,
+  deleteEntity
 };

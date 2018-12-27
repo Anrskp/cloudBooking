@@ -34,30 +34,3 @@ const bookingSchema = mongoose.Schema({
 });
 
 const Booking = module.exports = mongoose.model('Booking', bookingSchema);
-
-/*
-// Methods
-
-// Add new user
-module.exports.addBooking = function(newBooking, callback) {
-  newBooking.save(callback);
-}
-
-// Get booking by ID
-module.exports.getBookingById = (id, callback) => {
-  Booking.findById(id, callback);
-}
-
-// Get bookings by userID
-module.exports.getBookingByUserID = (userID, callback) => {
-  const query = {userID: userID};
-  Booking.find(query, callback);
-}
-
-
-// Delete a booking by ID
-module.exports.deleteBookingsByID = (id, callback) =>  {
-  const query = {_id: id};
-  Booking.deleteOne(query, callback);
-}
-*/

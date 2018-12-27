@@ -26,6 +26,23 @@ async function createNewEntity(req, res) {
   const json = await response.json();
   return res.json(json);
 }
+
+// delete entity
+async function deleteEntity(req, res) {
+  let companyID = req.params.companyID;
+  let entityID = req.params.entityID;
+
+  const response = await fetch('http://company-service:3002/company/'+ companyID + '/' + entityID, {
+    method: 'DELETE',
+    headers: {
+      "Content-Type": "application/json; charset=utf-8",
+    }
+  });
+
+  const json = await response.json();
+  return res.json(json);
+}
+
 // edit
 
 // delete
@@ -33,5 +50,6 @@ async function createNewEntity(req, res) {
 // exports api functions
 module.exports = {
   getCompanyEntities,
-  createNewEntity
+  createNewEntity,
+  deleteEntity
 };
