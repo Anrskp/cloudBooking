@@ -25,7 +25,7 @@ export class BookingService {
   }
 
   getEntityBookings(entityID) {
-    return this.http.get(this.testEndpoint + '/entityBookings/' + entityID).pipe(
+    return this.http.get(this.endpoint + '/entity/' + entityID).pipe(
       catchError(this.handleError('getEntityBookings'))
     );
   }
@@ -38,7 +38,7 @@ export class BookingService {
   }
 
   createBooking(booking) {
-    return this.http.post(this.endpoint + '/addNewBooking', booking, httpOptions).pipe(
+    return this.http.post(this.endpoint, booking, httpOptions).pipe(
       catchError(this.handleError('createBooking'))
     );
   }
@@ -58,13 +58,13 @@ export class BookingService {
   // }
 
   checkUserAvailability(userinfo) {
-    return this.http.get(this.endpoint + '/userAvailabilty/'+ userinfo.id + '/' + userinfo.startDate + '/' + userinfo.endDate, httpOptions).pipe(
+    return this.http.get(this.endpoint + '/userAvailability/'+ userinfo.id + '/' + userinfo.startDate + '/' + userinfo.endDate, httpOptions).pipe(
       catchError(this.handleError('checkAvailability'))
     );
   }
 
   checkEntityAvailability(entityInfo) {
-    return this.http.get(this.endpoint + '/entityAvailabilty/'+ entityInfo.id + '/' + entityInfo.startDate + '/' + entityInfo.endDate, httpOptions).pipe(
+    return this.http.get(this.endpoint + '/entityAvailability/'+ entityInfo.id + '/' + entityInfo.startDate + '/' + entityInfo.endDate, httpOptions).pipe(
       catchError(this.handleError('checkAvailability'))
     );
   }

@@ -24,7 +24,7 @@
         </a>
       </li>
       <li class="nav-item" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}">
-        <a class="nav-link" (click)="callDashboardCreateBooking()" data-toggle="modal" data-target="#exampleModal">
+        <a class="nav-link" data-toggle="modal" data-target="#exampleModal">
           <i class="fas fa-plus-square"></i>&nbsp; Create Booking
         </a>
       </li>
@@ -40,7 +40,7 @@
       <li class="nav-link dropdown">
         <a class="dropdown-toggle" data-toggle="dropdown">{{username}}&nbsp;<span class="fas fa-user"></span></a>
         <ul class="dropdown-menu">
-          <li><a href="#">Messages <span class="fas fa-envelope"></span></a></li>
+          <li style="cursor:pointer" (click)="onMyBookingsClick()">My bookings <span class="fas fa-calendar-alt"></span> </li>
           <li class="divider"></li>
           <li><a (click)="onLogoutClick()" href="#">Sign Out <span class="fas fa-sign-out-alt"></span></a></li>
         </ul>
@@ -59,18 +59,32 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
+      <flash-messages></flash-messages>
       <div class="modal-body">
+        <div  class="form-group">
+        <label for="event-starts" class="col-form-label">Title:</label>
+        <input type="text" class="form-control" id="Title" required [(ngModel)] = "Title" name="Title" placeholder="enter event title">
+        </div>
+
+        <div class="form-group">
         <label for="event-starts" class="col-form-label">Event starts:</label>
-        <angular2-date-picker [(ngModel)]="startDate" [settings]="startDateSettings"></angular2-date-picker>
+        <angular2-date-picker [(ngModel)]="startDate" [settings]="startDateSettings" (onDateSelect)="onStartDateSelect($event)"></angular2-date-picker>
+        </div>
 
+        <div class="form-group">
         <label for="event-ends" class="col-form-label">Event ends:</label>
-        <angular2-date-picker [(ngModel)]="endDate" [settings]="endDateSettings"></angular2-date-picker>
+        <angular2-date-picker [(ngModel)]="endDate" [settings]="endDateSettings" (onDateSelect)="onEndDateSelect($event)"></angular2-date-picker>
+         </div>
 
-        <form>
+         <form>
           <div class="form-group">
+            <div id="invite_people">
             <label for="recipient-name" class="col-form-label col-md-6">Invite people:</label>
-            <ng2-completer placeholder="search for people" [(ngModel)]="searchStrEmployees" name="searchStrEmployees" [datasource]="dataServiceEmployees" (selected)="onItemSelectEmployee($event)" [minSearchLength]="0"></ng2-completer>
+            <ng2-completer placeholder="search for people" [(ngModel)]="searchStrEmployees" name="searchStrEmployees" [clearSelected]="true" [datasource]="dataServiceEmployees" (selected)="onItemSelectEmployee($event)" [minSearchLength]="0"> </ng2-completer>
             </div>
+
+            </div>
+
               <ul class="list-group">
                 <div *ngFor="let person of peopleInvited">
                   <li class="list-group-item list-group-item-action text-center" data-toggle="tooltip">{{person.name}}
@@ -83,26 +97,33 @@
 
             <div class="form-group">
             <label for="recipient-name" class="col-form-label col-md-6">Select room:</label>
-            <ng2-completer placeholder="search for rooms" [(ngModel)]="searchStrEntities" name="searchStrEntities" [datasource]="dataServiceEntities" (selected)="onItemSelectEntity($event)" [minSearchLength]="0"></ng2-completer>
+            <ng2-completer placeholder="search for rooms" [(ngModel)]="searchStrEntities" name="searchStrEntities" [clearSelected]="true" [datasource]="dataServiceEntities" (selected)="onItemSelectEntity($event)" [minSearchLength]="0"></ng2-completer>
             </div>
+
+            <!-- <div  class="float-right">
+            <button id="checkEntityButton" type="button" class="btn btn-light float-right" style="cursor: pointer;" (click)="sendSurvey(survey.ID)"> Check room availability</button>
+            </div> -->
             <ul class="list-group">
-              <div *ngFor="let entity of entitiesInvolved">
-                <li class="list-group-item list-group-item-action text-center" data-toggle="tooltip">{{entity.name}}
+
+                <li *ngIf="entity.selected" class="list-group-item list-group-item-action text-center" data-toggle="tooltip">{{entity.name}}
                 <i *ngIf="entity.available === 'true'" class="fas fa-check"></i>
                 <i *ngIf="entity.available === 'false'" class="fas fa-times"></i>
                 </li>
-          </div>
+
           </ul>
 
           <div class="form-group">
             <label for="message-text" class="col-form-label">Message:</label>
-            <textarea class="form-control" id="message-text"></textarea>
+            <textarea [(ngModel)]="text" name="text" class="form-control" id="message"></textarea>
+          </div>
+            <div class="form-group">
+              <input type="checkbox" id="checkbox" [(ngModel)]="checkbox" name="checkbox"> Send notification
           </div>
         </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" (click) ="onSendClick()">Create</button>
+        <button type="button" class="btn btn-primary" (click) ="onCreateBookingClick()">Create</button>
       </div>
     </div>
   </div>

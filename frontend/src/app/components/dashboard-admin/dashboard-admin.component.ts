@@ -12,15 +12,33 @@ export class DashboardAdminComponent implements OnInit {
   constructor(private authService: AuthenticationService, private route:ActivatedRoute) { }
 
   company:string;
+  employeesArray = [];
+  entitiesArray = [];
 
   ngOnInit() {
     this.route.params.subscribe(params =>{
       this.company = params.id;
       console.log(this.company);
     });
+    this.authService.loadToken();
 
-   this.authService.checkIfCompanyExist(this.company).subscribe(data => console.log(data));
+    this.authService.getListOfEntities("entity",  this.authService.user.companyID);
+    this.authService.getListOfEntities("employee", this.authService.user.companyID);
+
+    this.authService.navbarEmployees$.subscribe(
+    array => this.employeesArray = array.users);
+
+    this.authService.navbarEntities$.subscribe(
+    array => this.entitiesArray = array.entities);
+
   }
 
+  deleteUser(userID){
+    console.log(userID);
+  }
+
+  deleteEntity(entityID){
+    console.log(entityID);
+  }
 
 }
