@@ -199,7 +199,7 @@ function createNewEntity(req, res) {
     _id: companyID
   }
 
-  Company.updateOne(query, {$push: {entities: {name: entity} }}, (err, result) => {
+  Company.updateOne(query, {$push: {"entities": {"name": "hello"} }}, (err, result) => {
     if (err) throw err
     console.log(result)
 

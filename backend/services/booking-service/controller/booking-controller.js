@@ -24,12 +24,17 @@ function createBooking(req, res) {
   let start = req.body.start;
   let end = req.body.end;
 
+  console.log(new Date().toISOString())
+  console.log(end > start)
+
+/*
   if(start < new Date().toISOString() || end > start) {
     return res.json({
       success: false,
       msg: "Invalid dates"
     })
   }
+*/
 
   // check availability
   checkAll(users, start, end).then(result => {
