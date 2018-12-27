@@ -20,32 +20,49 @@ function createBooking(req, res) {
     });
   }
 
-  let newBooking = new Booking({
-    userID: req.body.userID,
-    title: req.body.title,
-    message: req.body.message,
-    start: req.body.start,
-    end: req.body.end,
-    invites: req.body.invites,
-    entityID: req.body.entityID,
-    notification: req.body.notification
-  });
+  let users = req.body.invites;
+  let start = req.body.start;
+  let end = req.body.end;
 
-  newBooking.save((err, booking) => {
-    if (err) {
-      res.status('200');
+  // check availability
+  checkAll(users, start, end).then(result => {
+    if (result.length) {
       return res.json({
         success: false,
-        msg: 'failed to add new booking'
-      });
-    }
+        conflicts: result
+      })
+    } else {
 
-    res.status('200');
-    return res.json({
-      success: true,
-      msg: 'booking added successfully'
-    });
-  });
+      let newBooking = new Booking({
+        userID: req.body.userID,
+        title: req.body.title,
+        message: req.body.message,
+        start: req.body.start,
+        end: req.body.end,
+        invites: req.body.invites,
+        entityID: req.body.entityID,
+        notification: req.body.notification
+      });
+
+      newBooking.save((err, booking) => {
+        if (err) {
+          res.status('200');
+          return res.json({
+            success: false,
+            msg: 'failed to add new booking'
+          });
+        }
+
+        res.status('200');
+        return res.json({
+          success: true,
+          msg: 'booking added successfully'
+        });
+      });
+
+    }
+  })
+
 }
 
 // get bookings by user ID
@@ -276,25 +293,35 @@ function checkEntityAvailability(req, res) {
 
 function checkOverallAvailability(req, res) {
 
-
   let start = req.body.start
   let end = req.body.end
   let users = req.body.users
   let entity = req.body.entity
 
-  //console.log(users);
-  //console.log(entity);
+  checkAll(users, start, end).then(result => {
+    if (result.length) {
+      return res.json({
+        success: false,
+        conflicts: result
+      })
+    } else {
+      return res.json({
+        success: true,
+        msg: "booking is created!"
+      })
+    }
+  })
 
-  let notuser = [];
-  let notent = [];
 
+}
 
-  let promise = new Promise((resolve, reject) => {
+async function checkAll(users, start, end) {
 
-  users.forEach((x) => {
+  let conflicts = [];
 
-
-    Booking.find({
+  // try catch here
+  for (const x of users) {
+    await Booking.find({
       $and: [{
           $or: [{
             userID: x
@@ -315,72 +342,15 @@ function checkOverallAvailability(req, res) {
         }
       ]
     }, function(err, results) {
-        if(err) throw err
-        //console.log(results);
-        if(results.length) {
-        //  console.log('got here');
-          console.log(x)
-          notuser.push(x);
-          console.log("array: " + notuser)
-        }
+      if (results.length) {
+        conflicts.push(x);
+      }
     })
-  });
+  }
 
-  resolve(notuser);
-
-  console.log(notuser);
-}).then((notuser) => {
-  //console.log(notuser)
-  return res.json(notuser)
-
-})
-
-
+  return conflicts;
 }
 
-/*
-Booking.find({
-  $and: [{
-      $or: [{
-        userID: userID
-      }, {
-        invites: userID
-      }]
-    },
-    {
-      $and: [{
-        start: {
-          $lt: end
-        }
-      }, {
-        end: {
-          $gt: start
-        }
-      }]
-    }
-  ]
-}, function(err, results) {
-  if (err) {
-    return res.json({
-      success: false,
-      msg: 'Failed to check bookings for id ' + userID
-    })
-  }
-
-  if (results.length) {
-    return res.json({
-      success: true,
-      available: false
-    })
-  }
-
-  return res.json({
-    success: true,
-    available: true
-  });
-});
-
-*/
 // exports api functions
 module.exports = {
   getBookings,
