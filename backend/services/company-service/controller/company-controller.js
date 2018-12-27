@@ -189,7 +189,7 @@ function deleteCompanyById(req, res) {
   })
 
 }
-
+/*
 function createNewEntity(req, res) {
 
   let companyID = req.body.companyID;
@@ -204,7 +204,7 @@ function createNewEntity(req, res) {
   })
 
 }
-
+*/
 // exports api functions
 module.exports = {
   getCompanyById,
@@ -212,6 +212,6 @@ module.exports = {
   getCompanyEntitiesById,
   createCompany,
   editCompanyById,
-  deleteCompanyById,
-  createNewEntity
+  deleteCompanyById
+  //createNewEntity
 };
