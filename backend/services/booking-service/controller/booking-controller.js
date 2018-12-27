@@ -24,6 +24,13 @@ function createBooking(req, res) {
   let start = req.body.start;
   let end = req.body.end;
 
+  if(start < Date.now() || end < start) {
+    return res.json({
+      success: false,
+      msg: "Invalid dates"
+    })
+  }
+
   // check availability
   checkAll(users, start, end).then(result => {
     if (result.length) {
@@ -245,6 +252,7 @@ function getEntityBookings(req, res) {
   })
 }
 
+
 function checkEntityAvailability(req, res) {
 
   let entityID = req.params.id;
@@ -291,6 +299,7 @@ function checkEntityAvailability(req, res) {
 }
 
 
+
 function checkOverallAvailability(req, res) {
 
   let start = req.body.start
@@ -312,8 +321,8 @@ function checkOverallAvailability(req, res) {
     }
   })
 
-
 }
+
 
 async function checkAll(users, start, end) {
 
