@@ -24,7 +24,7 @@ function createBooking(req, res) {
   let start = req.body.start;
   let end = req.body.end;
 
-  if(start < Date.now() || end < start) {
+  if(start < new Date().toISOString() || end > start) {
     return res.json({
       success: false,
       msg: "Invalid dates"

@@ -4,9 +4,9 @@ module.exports = function(app) {
   app.route('/company')
     .post(companyCtrl.createCompany);
 
-
   app.route('/company/entities/:id')
     .get(companyCtrl.getCompanyEntitiesById);
+    .put(companyCtrl.createNewEntity);
 
   app.route('/companytag/:id')
     .get(companyCtrl.getCompanyByTag);

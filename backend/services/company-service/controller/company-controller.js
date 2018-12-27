@@ -190,6 +190,21 @@ function deleteCompanyById(req, res) {
 
 }
 
+function createNewEntity(req, res) {
+
+  let companyID = req.body.companyID;
+  let entity = req.body.entity
+  const query = {
+    _id: companyID
+  }
+
+  Company.updateOne(query, {$push: {entities: entity}}, (err, result) => {
+    if err throw err
+    return result;
+  })
+
+}
+
 // exports api functions
 module.exports = {
   getCompanyById,
@@ -197,5 +212,6 @@ module.exports = {
   getCompanyEntitiesById,
   createCompany,
   editCompanyById,
-  deleteCompanyById
+  deleteCompanyById,
+  createNewEntity
 };
