@@ -5,6 +5,7 @@ import {Router} from '@angular/router';
 import { ActivatedRoute } from "@angular/router"
 import { CompleterService, CompleterData,CompleterItem } from 'ng2-completer';
 import { FormControl } from '@angular/forms';
+import { FlashMessagesService } from 'angular2-flash-messages';
 
 
 @Component({
@@ -19,12 +20,13 @@ export class NavbarComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private bookingService:BookingService,
-    private completerService: CompleterService){}
+    private completerService: CompleterService,
+    private _flashMessagesService: FlashMessagesService){}
 
-  @Output() createBookingEvent = new EventEmitter();
+  @Output() loadCalendarEvent = new EventEmitter();
   @Output() saveBookingEvent = new EventEmitter();
+  @Output() viewMyBookingsEvent = new EventEmitter();
   @Input() company:Object;
-
 
   protected searchStrEmployees: string;
   protected dataServiceEmployees:CompleterData;
@@ -46,13 +48,13 @@ export class NavbarComponent implements OnInit {
    endDateSettings = {
       bigBanner: true,
       timePicker: true,
-      format: 'dd-MM-yyyy HH:mm',
+      format: 'dd-MM-yyyy HH:mm:ss',
       defaultOpen: false
     }
 
 
   peopleInvited = [];
-  entitiesInvolved = [];
+  entity = {"id":"", "name":"", "startDate":"", "endDate":"","available":"","selected":false};
 
   // private testArray:Array;
 
@@ -65,6 +67,13 @@ export class NavbarComponent implements OnInit {
   //   this.testArray = value;
   // }
   username:string;
+  Title: string;
+  text:string;
+  checkbox = false;
+  sendNotification:boolean;
+  dataUserAvailability:any;
+  dataEntityAvailability:any;
+  createBookingResponse:any;
 
   ngOnInit() {
 
@@ -78,24 +87,39 @@ export class NavbarComponent implements OnInit {
       this.dataServiceEmployees = this.completerService.local(array.users, 'name','name');
     });
 
-    this.authService.getListOfEntities("employee", this.authService.user.companyID);
     this.authService.getListOfEntities("entity",  this.authService.user.companyID);
+    this.authService.getListOfEntities("employee", this.authService.user.companyID);
+
 
     this.username = this.authService.user.name;
 
+    //add the author of the booking
+    this.peopleInvited.push(this.authService.user);
+
+  }
+
+  onStartDateSelect(event){
+    this.startDate = event;
+  }
+
+  onEndDateSelect(event){
+    this.endDate = event;
   }
 
   onItemSelectEmployee(selected:CompleterItem){
     if(selected){
-    console.log(this.startDate.toISOString())
-    let user = {"id":selected.originalObject.id, "name":selected.originalObject.name, "startDate":this.startDate,"endDate":this.endDate, "available":""}
-    console.log(user);
-      if(this.checkUserAvailability(user)){
-        user.available = "true";
+    let startDate = this.startDate.toISOString();
+    startDate = startDate.slice(0, -5);
+    let endDate = this.endDate.toISOString();
+    endDate = endDate.slice(0, -5);
+    let user = {"id":selected.originalObject._id, "name":selected.originalObject.name, "startDate":startDate,"endDate":endDate, "available":""}
 
-      }else{
-        user.available = "false";
-      }
+      // if(this.checkUserAvailability(user)){
+      //   user.available = "true";
+      //
+      // }else{
+      //   user.available = "false";
+      // }
       this.peopleInvited.push(user)
       this.searchStrEmployees = "";
     }
@@ -104,29 +128,29 @@ export class NavbarComponent implements OnInit {
 
   onItemSelectEntity(selected:CompleterItem){
     if(selected){
-    let entity = {"id":selected.originalObject.id, "name":selected.originalObject.name, "startDate":this.startDate,"endDate":this.endDate, "available":""}
-    console.log(entity);
-      if(this.checkEntityAvailability(entity)){
-        entity.available = "true";
+      let startDate = this.startDate.toISOString();
+      startDate = startDate.slice(0, -5);
+      let endDate = this.endDate.toISOString();
+      endDate = endDate.slice(0, -5);
+      let entity = {"id":selected.originalObject._id, "name":selected.originalObject.name, "startDate":startDate,"endDate":endDate, "available":""}
+      // if(this.checkEntityAvailability(entity)){
+      //   entity.available = "true";
+      //
+      // }else{
+      //   entity.available = "false";
+      // }
+      this.entity.id = entity.id;
+      this.entity.startDate = entity.startDate;
+      this.entity.endDate = entity.endDate;
+      this.entity.name = entity.name;
+      this.entity.available = entity.available;
+      this.entity.selected = true;
 
-      }else{
-        entity.available = "false";
-      }
-      this.entitiesInvolved.push(entity)
       this.searchStrEntitites = "";
     }
 
   }
 
-  checkUserAvailability(user){
-    this.bookingService.checkUserAvailability(user).subscribe(response => console.log(response));
-    return true;
-  }
-
-  checkEntityAvailability(entity){
-    this.bookingService.checkEntityAvailability(entity).subscribe(response => console.log(response));
-    return true
-  }
 
   onLogoutClick(){
     this.authService.logout();
@@ -136,11 +160,83 @@ export class NavbarComponent implements OnInit {
       this.authService.getListOfEntities(type, this.authService.user.companyID);
     }
 
-    callDashboardCreateBooking(){
-      this.createBookingEvent.emit();
+    onMyBookingsClick(){
+      this.viewMyBookingsEvent.emit();
     }
 
-    onSendClick(){
-      this.saveBookingEvent.emit(this.peopleInvited);
+    onCreateBookingClick(){
+
+      let checkboxValue = $('#checkbox').is(':checked');
+      let message = $('#message').val();
+      let people = [];
+      for(let i=0; i < this.peopleInvited.length; i++){
+        people.push(this.peopleInvited[i].id);
+      }
+
+      let a = new Date(this.startDate.setHours(this.startDate.getHours()+1));
+      let startDate = a.toISOString();
+      startDate = startDate.slice(0, -5);
+
+      let b = new Date(this.endDate.setHours(this.endDate.getHours()+1));
+      let endDate = this.endDate.toISOString();
+      endDate = endDate.slice(0, -5);
+
+      let booking = {
+      "userID":this.authService.user.id,
+      "title":this.Title,
+      "start": startDate,
+      "end": endDate,
+      "message": message,
+       "invites":people,
+       "entityID":this.entity.id,
+       "notification":checkboxValue
     }
+
+    this.bookingService.createBooking(booking).subscribe(response =>{
+      this.createBookingResponse = response;
+
+      if(this.createBookingResponse.success){
+      this._flashMessagesService.show(this.createBookingResponse.msg, { cssClass: 'alert-success', timeout: 1000 });
+      this.loadCalendarEvent.emit();
+
+        //clear the fields
+        this.peopleInvited = [];
+        this.Title = "";
+        this.entity.id = "";
+        this.entity.startDate = "";
+        this.entity.endDate ="";
+        this.entity.name = "";
+        this.entity.available = "";
+        this.entity.selected = false;
+        this.text = "";
+        this.checkbox = false;
+        checkboxValue = false;
+        message = "";
+
+      }
+      else{
+        this._flashMessagesService.show("Some people are not available", { cssClass: 'alert-danger', timeout: 1000 });
+        let conflicts = this.createBookingResponse.conflicts;
+        for(let i=0; i < this.peopleInvited.length; i++){
+        let match = conflicts.indexOf(this.peopleInvited[i].id);
+
+          if(match > -1){
+            this.peopleInvited[i].available = "false";
+          }
+          else{
+            this.peopleInvited[i].available = "true";
+          }
+        }
+        if(conflicts.indexOf(this.entity.id) > -1){
+          this.entity.available ="false";
+        }
+        else{
+          this.entity.available = "true";
+        }
+      }
+    });
+
+
+    }
+
 }

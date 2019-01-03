@@ -14,10 +14,12 @@ import { DashboardAdminComponent } from './components/dashboard-admin/dashboard-
 import { FormsModule } from '@angular/forms';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
-import { FooterComponent } from './components/footer/footer.component';
 import{AuthGuard} from  './guards/auth.guard';
 import { AngularDateTimePickerModule } from 'angular2-datetimepicker';
 import { Ng2CompleterModule } from "ng2-completer";
+import { NavbarAdminComponent } from './components/navbar-admin/navbar-admin.component';
+import { FlashMessagesModule } from 'angular2-flash-messages';
+
 
 
 
@@ -36,7 +38,7 @@ import { Ng2CompleterModule } from "ng2-completer";
       DashboardAdminComponent,
       PageNotFoundComponent,
       NavbarComponent,
-      FooterComponent
+      NavbarAdminComponent
   ],
   imports: [
     BrowserModule,
@@ -45,7 +47,8 @@ import { Ng2CompleterModule } from "ng2-completer";
     FullCalendarModule,
     FormsModule,
     AngularDateTimePickerModule,
-    Ng2CompleterModule
+    Ng2CompleterModule,
+    FlashMessagesModule.forRoot()
   ],
   providers: [AuthGuard],
   bootstrap: [AppComponent]
