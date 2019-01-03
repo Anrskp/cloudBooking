@@ -53,17 +53,16 @@ describe('testing company service', function() {
   };
 
 
-  // Add a new company
+  // Create a new company request with required value 'tag' missing.
   it('Should return with error message - "invalid value" ', () => {
     return chai.request(app)
       .post('/company')
       .send(testCompanyError)
       .then(function(res) {
-        //expect(res).to.have.status(200); expect error code for invalid request
 
+        expect(res).to.have.status(400); // 400 - bad request
         expect(res).to.be.json;
         assert.equal(res.body.success, false);
-
         assert.equal(res.body.errors[0].location, "body")
         assert.equal(res.body.errors[0].param, "tag")
         assert.equal(res.body.errors[0].msg, "Invalid value")

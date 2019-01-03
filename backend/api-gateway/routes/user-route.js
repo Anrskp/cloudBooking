@@ -9,4 +9,7 @@ module.exports = function(app) {
 
   app.route('/user/:id')
     .get(userCtrl.getUsersByCompanyID);
+
+  // todo - update and delete
+  
 };

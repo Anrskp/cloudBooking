@@ -35,7 +35,7 @@ mongoose.connect(config.database, {
 
 // On Connection
 mongoose.connection.on('connected', () => {
-  console.log('Connected to database ' + config.database)
+  //console.log('Connected to database ' + config.database)
 });
 
 // On Error
@@ -51,5 +51,7 @@ const port = process.env.PORT || 3000;
 
 // Start server
 app.listen(port, () => {
-  console.log('Server startet on port ' + port);
+  //console.log('Server startet on port ' + port);
 });
+
+module.exports = app; // export for testing

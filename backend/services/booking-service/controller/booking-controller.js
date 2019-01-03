@@ -24,17 +24,16 @@ function createBooking(req, res) {
   let start = req.body.start;
   let end = req.body.end;
 
-  console.log(new Date().toISOString())
-  console.log(end > start)
 
-/*
-  if(start < new Date().toISOString() || end > start) {
+  users.push(req.body.userID);
+
+
+  if (start < new Date().toISOString() || end < start) {
     return res.json({
       success: false,
       msg: "Invalid dates"
     })
   }
-*/
 
   // check availability
   checkAll(users, start, end).then(result => {
@@ -123,7 +122,7 @@ function editBooking(req, res) {
   let errors = req.validationErrors();
 
   if (errors) {
-    res.status('200');
+    res.status('400');
     return res.json({
       success: false,
       errors
@@ -147,7 +146,7 @@ function editBooking(req, res) {
       });
     }
 
-    res.status('200');
+    res.status('201');
     return res.json({
       success: true,
       msg: 'updated record with id  \'' + bookingID + '\' successfully'
@@ -162,7 +161,7 @@ function deleteBooking(req, res) {
     _id: bookingID
   }
 
-  Booking.remove(query, (err, result) => {
+  Booking.deleteOne(query, (err, result) => {
     if (err) {
       res.status('200');
       return res.json({
@@ -237,26 +236,34 @@ function getEntityBookings(req, res) {
   }
 
   Booking.find(query, (err, bookings) => {
+
+    // Error
     if (err) {
+      res.status('500')
       return res.json({
         success: false,
         msg: 'Could not get bookings for entityID ' + entityID
       });
     }
+
+    // No content
     if (!bookings.length) {
+      res.status('404')
       return res.json({
         success: false,
         msg: 'No bookings for entityID ' + entityID
       });
     }
 
+    // Success
+    res.status('200')
     return res.json({
       success: true,
       bookings
     })
+
   })
 }
-
 
 function checkEntityAvailability(req, res) {
 
