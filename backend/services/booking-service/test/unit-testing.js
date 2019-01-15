@@ -6,7 +6,7 @@ const expect = require('chai').expect;
 const app = require('../app');
 chai.use(require('chai-http'));
 
-describe('testing company service', function() {
+describe('testing booking service', function() {
 
   let start = new Date()
   let end = new Date()
@@ -171,7 +171,7 @@ describe('testing company service', function() {
     notification: false
   }
 
-  it('Should return false with "invalid values" errors', () => {
+  it('Should fail to register booking with invalid values', () => {
     return chai.request(app)
       .post('/booking')
       .send(mockBooking6)

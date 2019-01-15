@@ -13,7 +13,7 @@ function createBooking(req, res) {
   let errors = req.validationErrors();
 
   if (errors) {
-    res.status('200');
+    res.status('400');
     return res.json({
       success: false,
       errors
@@ -57,14 +57,14 @@ function createBooking(req, res) {
 
       newBooking.save((err, booking) => {
         if (err) {
-          res.status('200');
+          res.status('500');
           return res.json({
             success: false,
             msg: 'failed to add new booking'
           });
         }
 
-        res.status('200');
+        res.status('201');
         return res.json({
           success: true,
           msg: 'booking added successfully'
@@ -340,14 +340,16 @@ async function checkAll(users, start, end) {
 
   let conflicts = [];
 
-  // try catch here
-  for (const x of users) {
+  for (const user of users) {
     await Booking.find({
       $and: [{
           $or: [{
-            userID: x
+            userID: user
           }, {
-            invites: x
+            invites: user
+          },
+          {
+            entity: user
           }]
         },
         {
@@ -363,14 +365,16 @@ async function checkAll(users, start, end) {
         }
       ]
     }, function(err, results) {
+
       if (results.length) {
-        conflicts.push(x);
+        conflicts.push(user);
       }
     })
   }
 
   return conflicts;
 }
+
 
 // exports api functions
 module.exports = {

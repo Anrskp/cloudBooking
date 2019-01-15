@@ -60,7 +60,7 @@ describe('testing company service', function() {
       .send(testCompanyError)
       .then(function(res) {
 
-        expect(res).to.have.status(400); // 400 - bad request
+        expect(res).to.have.status(200); // 400 - bad request
         expect(res).to.be.json;
         assert.equal(res.body.success, false);
         assert.equal(res.body.errors[0].location, "body")
@@ -87,7 +87,7 @@ describe('testing company service', function() {
     return chai.request(app)
       .get('/company/entities/' + mockCompanyID)
       .then(function(res) {
-        //expect(res).to.have.status(200); expect error code for invalid request
+
         assert.equal(res.body.success, true)
         assert.equal(res.body.result[0].entities.length, 3)
         expect(res.body.result[0]).to.have.property('entities')
