@@ -10,9 +10,9 @@ import { map, catchError, tap } from 'rxjs/operators';
 export class BookingService {
   // private bookingSource = new Subject<any>();
   // bookings$ = this.bookingSource.asObservable();
-  //endpoint = 'http://localhost:5000/booking';
+  endpoint = 'http://localhost:5000/booking';
 
-  endpoint = 'http://192.168.99.100:5000/booking';
+  //endpoint = 'http://192.168.99.100:5000/booking';
   testEndpoint = 'https://jsonplaceholder.typicode.com';
   authToken:any;
   httpOptions;

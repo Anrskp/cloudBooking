@@ -13,11 +13,11 @@ import { tokenNotExpired } from 'angular2-jwt';
 })
 export class AuthenticationService {
 
-  //usersEndpoint = 'http://localhost:5000/user';
-  usersEndpoint = 'http://192.168.99.100:5000/user';
+  usersEndpoint = 'http://localhost:5000/user';
+  //usersEndpoint = 'http://192.168.99.100:5000/user';
 
-  companyEndpoint = 'http://192.168.99.100:5000/company';
-  //companyEndpoint = 'http://localhost:5000/company';
+  //companyEndpoint = 'http://192.168.99.100:5000/company';
+  companyEndpoint = 'http://localhost:5000/company';
 
   httpOptions;
   authToken: any;

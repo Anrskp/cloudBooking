@@ -128,7 +128,7 @@
 
           return res.json({
             success: true,
-            token: 'JWT ' + token,
+            token: token,
             user: {
               id: user._id,
               companyID: user.companyID,
