@@ -83,8 +83,8 @@ export class AuthenticationService {
     );
   }
 
-  deleteUser(user) {
-    return this.http.post(this.usersEndpoint + '/deleteUser', user, httpOptions).pipe(
+  deleteUser(userID) {
+    return this.http.delete(this.usersEndpoint + '/' + userID, httpOptions).pipe(
       catchError(this.handleError('deleteUser'))
     );
   }

@@ -19,6 +19,7 @@ export class DashboardAdminComponent implements OnInit {
   employeesArray = [];
   entitiesArray = [];
   deleteEntityReceivedData:any;
+  deleteUserReceivedData:any;
 
   ngOnInit() {
     this.route.params.subscribe(params =>{
@@ -39,8 +40,16 @@ export class DashboardAdminComponent implements OnInit {
   }
 
   deleteUser(userID){
-
-    this._flashMessagesService.show("Not implemented", { cssClass: 'alert-danger', timeout: 3000 });
+    this.authService.deleteUser(userID).subscribe(data => {
+    this.deleteUserReceivedData = data;
+    if(this.deleteUserReceivedData.success){
+      this._flashMessagesService.show("Employee is successfully deleted", { cssClass: 'alert-success', timeout: 3000 });
+      this.authService.getListOfEntities("employee", this.authService.user.companyID);
+    }
+      else {
+        this._flashMessagesService.show(this.deleteUserReceivedData.msg, { cssClass: 'alert-danger', timeout: 3000 });
+      }
+    });
   }
 
   deleteEntity(entityID){

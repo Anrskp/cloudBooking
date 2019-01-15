@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from "@angular/router"
 import { AuthenticationService } from '../../services/authentication.service';
 import { Router } from '@angular/router';
+import { FlashMessagesService } from 'angular2-flash-messages';
 
 
 @Component({
@@ -11,7 +12,7 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
 
-  constructor(private authService: AuthenticationService, private route: ActivatedRoute, private router: Router) { }
+  constructor(private authService: AuthenticationService, private route: ActivatedRoute, private router: Router,private _flashMessagesService: FlashMessagesService) { }
 
   company = { "tag": "" };
   email: String;
@@ -55,8 +56,7 @@ export class LoginComponent implements OnInit {
       } else {
         this.router.navigate([this.company.tag]);
 
-        //Inform the user with flash message or something else
-        console.log("Wrong email or password");
+        this._flashMessagesService.show("Wrong email or password", { cssClass: 'alert-danger', timeout: 3000 });
       }
     });
   }

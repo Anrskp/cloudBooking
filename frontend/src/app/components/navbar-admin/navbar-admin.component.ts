@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import{AuthenticationService} from '../../services/authentication.service';
 import { FlashMessagesService } from 'angular2-flash-messages';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-navbar-admin',
@@ -21,12 +22,11 @@ export class NavbarAdminComponent implements OnInit {
   responseFromCreateEntity:any;
 
 
-  constructor(private authService:AuthenticationService,private _flashMessagesService:FlashMessagesService) { }
+  constructor(private authService:AuthenticationService,private _flashMessagesService:FlashMessagesService,private router: Router) { }
 
   ngOnInit() {
     this.currentUser = this.authService.user.name;
     this.companyID = this.authService.user.companyID;
-    console.log("companyID: " + this.companyID);
   }
 
   onFinalCreateClick(){
@@ -42,6 +42,7 @@ export class NavbarAdminComponent implements OnInit {
             this.name = "";
             this.email = "";
             this.password = "";
+            this.retypepassword = "";
           }
           else{
           this._flashMessagesService.show(this.responseFromUserRegister.msg, { cssClass: 'alert-danger', timeout: 3000 });
@@ -73,6 +74,7 @@ export class NavbarAdminComponent implements OnInit {
   }
   onLogoutClick(){
     this.authService.logout();
+    //this.router.navigate(['/login']);
   }
 
 }
