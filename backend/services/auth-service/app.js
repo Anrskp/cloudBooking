@@ -5,7 +5,7 @@ const router = express.Router();
 const config = require('./config/database');
 const mongoose = require('mongoose');
 const userRoute = require('./routes/user-route');
-const passport = require('passport');
+//const passport = require('passport');
 const expressValidator = require('express-validator');
 
 // Declare express variable
@@ -21,9 +21,11 @@ app.use(bodyParser.json());
 app.use(expressValidator());
 
 // Passport Middleware
+/*
 app.use(passport.initialize());
 app.use(passport.session());
 require('./config/passport')(passport);
+*/
 
 // Promise libary
 mongoose.Promise = require('bluebird');
