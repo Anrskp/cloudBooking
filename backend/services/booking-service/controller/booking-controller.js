@@ -20,11 +20,14 @@ function createBooking(req, res) {
     });
   }
 
+
   let users = req.body.invites;
   let start = req.body.start;
   let end = req.body.end;
 
-  user.push(req.body.entityID);
+  let allUsers = users.map(user => user.id);
+  console.log(result);
+  allUsers.push(req.body.entityID);
   //users.push(req.body.userID);
 
 
@@ -36,7 +39,7 @@ function createBooking(req, res) {
   }
 
   // check availability
-  checkAll(users, start, end).then(result => {
+  checkAll(allUsers, start, end).then(result => {
     if (result.length) {
       return res.json({
         success: false,
