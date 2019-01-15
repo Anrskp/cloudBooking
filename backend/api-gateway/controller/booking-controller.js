@@ -1,6 +1,7 @@
 const fetch = require('node-fetch');
 const endpoint = "http://booking-service:3001";
-
+const jwt = require('jsonwebtoken');
+const config = require('../config/config.js');
 //  Add new booking
 async function createBooking(req, res) {
   const response = await fetch('http://booking-service:3001/booking', {
@@ -42,8 +43,8 @@ async function createBooking(req, res) {
 // Get user bookings by user ID
 async function getBookings(req, res) {
   let token = req.headers['x-access-token'] || req.headers['authorization'];
-  console.log(token);
-  
+
+
   let userID = req.params.id;
   const response = await fetch('http://booking-service:3001/booking/' + userID);
   const json = await response.json();
