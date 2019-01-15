@@ -7,20 +7,21 @@ import { tokenNotExpired } from 'angular2-jwt';
 // import {IResponse} from '../models/response'
 
 
-const httpOptions = {headers: new HttpHeaders({ 'Content-Type': 'application/json','Authorization':this.authToken })};
+
 @Injectable({
   providedIn: 'root'
 })
 export class AuthenticationService {
 
-  usersEndpoint = 'http://localhost:5000/user';
-  //usersEndpoint = 'http://192.168.99.100:5000/user';
+  //usersEndpoint = 'http://localhost:5000/user';
+  usersEndpoint = 'http://192.168.99.100:5000/user';
 
-  //companyEndpoint = 'http://192.168.99.100:5000/company';
-  companyEndpoint = 'http://localhost:5000/company';
+  companyEndpoint = 'http://192.168.99.100:5000/company';
+  //companyEndpoint = 'http://localhost:5000/company';
 
-
+  httpOptions;
   authToken: any;
+
   user: any;
   private listOfEntitiesSource = new Subject<any>();
   private entityListNameSource = new Subject<string>();
@@ -77,32 +78,32 @@ export class AuthenticationService {
 
 
   registerUser(user) {
-    return this.http.post(this.usersEndpoint + '/register', user, httpOptions).pipe(
+    return this.http.post(this.usersEndpoint + '/register', user, this.httpOptions).pipe(
       catchError(this.handleError('registerUser'))
     );
   }
 
   authenticateUser(user){
-    return this.http.post(this.usersEndpoint + '/authenticate', user, httpOptions).pipe(
+    return this.http.post(this.usersEndpoint + '/authenticate', user, this.httpOptions).pipe(
       catchError(this.handleError('authenticateUser'))
     );
   }
 
   deleteUser(userID) {
-    return this.http.delete(this.usersEndpoint + '/' + userID, httpOptions).pipe(
+    return this.http.delete(this.usersEndpoint + '/' + userID, this.httpOptions).pipe(
       catchError(this.handleError('deleteUser'))
     );
   }
 
 
 createEntity(companyID, entity){
-  return this.http.put(this.companyEndpoint + '/entities/' + companyID, entity, httpOptions).pipe(
+  return this.http.put(this.companyEndpoint + '/entities/' + companyID, entity, this.httpOptions).pipe(
     catchError(this.handleError('createEntity'))
   );
 }
 
   deleteEntity(companyID, entityID){
-    return this.http.delete(this.companyEndpoint + '/' + companyID +'/' + entityID,httpOptions).pipe(
+    return this.http.delete(this.companyEndpoint + '/' + companyID +'/' + entityID, this.httpOptions).pipe(
       catchError(this.handleError('deleteEntity'))
     );
   }
@@ -114,7 +115,7 @@ createEntity(companyID, entity){
   }
 
   checkIfCompanyExist(companyName) {
-    return this.http.post(this.companyEndpoint + '/getCompanyByTag', companyName, httpOptions).pipe(
+    return this.http.post(this.companyEndpoint + '/getCompanyByTag', companyName, this.httpOptions).pipe(
       catchError(this.handleError('checkIfCompanyExist'))
     );
   }
@@ -130,6 +131,7 @@ createEntity(companyID, entity){
     const user = JSON.parse(localStorage.getItem('user'));
     this.authToken = token;
     this.user = user;
+    this.httpOptions = {headers: new HttpHeaders({ 'Content-Type': 'application/json','Authorization':this.authToken })};
   }
 
   loggedIn() {
