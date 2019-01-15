@@ -21,7 +21,8 @@ export class NavbarComponent implements OnInit {
     private route: ActivatedRoute,
     private bookingService:BookingService,
     private completerService: CompleterService,
-    private _flashMessagesService: FlashMessagesService){}
+    private _flashMessagesService: FlashMessagesService,
+  ){}
 
   @Output() loadCalendarEvent = new EventEmitter();
   @Output() saveBookingEvent = new EventEmitter();
@@ -86,7 +87,7 @@ export class NavbarComponent implements OnInit {
 
     //add the author of the booking
     this.peopleInvited.push(this.authService.user);
-    console.log(this.authService.user);
+
 
   }
 
@@ -104,8 +105,8 @@ export class NavbarComponent implements OnInit {
     startDate = startDate.slice(0, -5);
     let endDate = this.endDate.toISOString();
     endDate = endDate.slice(0, -5);
-    let user = {"id":selected.originalObject._id, "name":selected.originalObject.name, "startDate":startDate,"endDate":endDate, "available":""}
-
+    let user = {"id":selected.originalObject._id, "name":selected.originalObject.name, "email":selected.originalObject.email, "available":""}
+    
       // if(this.checkUserAvailability(user)){
       //   user.available = "true";
       //
@@ -146,6 +147,7 @@ export class NavbarComponent implements OnInit {
 
   onLogoutClick(){
     this.authService.logout();
+  //  this.router.navigate(['/login']);
   }
 
     sendArrayToAuthService(type){
@@ -183,7 +185,7 @@ export class NavbarComponent implements OnInit {
        "entityID":this.entity.id,
        "notification":checkboxValue
     }
-    console.log(booking);
+    console.log("This is the new booking: " + booking);
     this.bookingService.createBooking(booking).subscribe(response =>{
       this.createBookingResponse = response;
 
@@ -213,14 +215,14 @@ export class NavbarComponent implements OnInit {
       else{
         a = new Date(this.startDate.setHours(this.startDate.getHours()-1));
         b = new Date(this.endDate.setHours(this.endDate.getHours()-1));
-        console.log(this.createBookingResponse);
+
         if(this.createBookingResponse.hasOwnProperty('msg')){
           this._flashMessagesService.show(this.createBookingResponse.msg, { cssClass: 'alert-danger', timeout: 3000 });
         }
         else{
             this._flashMessagesService.show("Some people or entities are not available", { cssClass: 'alert-danger', timeout: 3000 });
             let conflicts = this.createBookingResponse.conflicts;
-            console.log(conflicts);
+            console.log("Conflicts: " + conflicts);
             for(let i=0; i < this.peopleInvited.length; i++){
             let match = conflicts.indexOf(this.peopleInvited[i].id);
 
@@ -251,7 +253,7 @@ export class NavbarComponent implements OnInit {
     }
     const index =  arrayOfInvitedPeopleId.indexOf(personID);
     if (index > -1) {
-      console.log(index);
+
        this.peopleInvited.splice(index, 1);
     }
   }

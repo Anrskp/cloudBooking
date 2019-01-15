@@ -55,8 +55,7 @@ export class LoginAdminComponent implements OnInit {
       } else {
         this.router.navigate([this.company.tag]);
 
-        //Inform the user with flash message or something else
-        console.log("Wrong email or password");
+        this._flashMessagesService.show("Wrong email or password", { cssClass: 'alert-danger', timeout: 3000 });
       }
     });
   }
