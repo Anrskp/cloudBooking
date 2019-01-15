@@ -26,7 +26,7 @@ function createBooking(req, res) {
   let end = req.body.end;
 
   let allUsers = users.map(user => user.id);
-  console.log(result);
+  console.log(allUsers);
   allUsers.push(req.body.entityID);
   //users.push(req.body.userID);
 
