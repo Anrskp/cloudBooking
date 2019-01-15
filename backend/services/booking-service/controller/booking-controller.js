@@ -24,8 +24,8 @@ function createBooking(req, res) {
   let start = req.body.start;
   let end = req.body.end;
 
-
-  users.push(req.body.userID);
+  user.push(req.body.entityID);
+  //users.push(req.body.userID);
 
 
   if (start < new Date().toISOString() || end < start) {
