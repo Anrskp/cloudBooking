@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from "@angular/router"
 import { AuthenticationService } from '../../services/authentication.service';
+import { BookingService } from '../../services/booking.service';
 import { Router } from '@angular/router';
 import { FlashMessagesService } from 'angular2-flash-messages';
 
@@ -12,7 +13,7 @@ import { FlashMessagesService } from 'angular2-flash-messages';
 })
 export class LoginComponent implements OnInit {
 
-  constructor(private authService: AuthenticationService, private route: ActivatedRoute, private router: Router,private _flashMessagesService: FlashMessagesService) { }
+  constructor(private authService: AuthenticationService, private route: ActivatedRoute, private router: Router,private _flashMessagesService: FlashMessagesService, private bookingService: BookingService) { }
 
   company = { "tag": "" };
   email: String;
@@ -52,6 +53,8 @@ export class LoginComponent implements OnInit {
     this.receivedUserData = data;
       if (this.receivedUserData.success) {
         this.authService.storeUserData(this.receivedUserData.token, this.receivedUserData.user);
+        this.authService.loadToken();
+        this.bookingService.loadToken();
         this.router.navigate([this.company.tag + '/dashboard']);
       } else {
         this.router.navigate([this.company.tag]);

@@ -7,7 +7,7 @@ import { tokenNotExpired } from 'angular2-jwt';
 // import {IResponse} from '../models/response'
 
 
-const httpOptions = {headers: new HttpHeaders({ 'Content-Type': 'application/json' })};
+const httpOptions = {headers: new HttpHeaders({ 'Content-Type': 'application/json','Authorization':this.authToken })};
 @Injectable({
   providedIn: 'root'
 })
