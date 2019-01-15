@@ -12,6 +12,22 @@ async function createBooking(req, res) {
   });
 
   const json = await response.json();
+
+  if(req.body.notification && json.success) {
+    let users = req.body.invites;
+
+    let emails = users.map(user => user.email);
+
+    const response = await fetch('http://notification-service:3003/sendNotifications', {
+      method: 'POST',
+      headers: {
+        "Content-Type": "application/json; charset=utf-8",
+      },
+      body: JSON.stringify(emails)
+    });
+
+  }
+
   return res.json(json);
 }
 

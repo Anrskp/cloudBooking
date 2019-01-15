@@ -68,6 +68,10 @@ function createBooking(req, res) {
           });
         }
 
+        if(req.body.notification) {
+          
+        }
+
         res.status('201');
         return res.json({
           success: true,

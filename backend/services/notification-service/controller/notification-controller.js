@@ -3,8 +3,8 @@ var nodemailer = require('nodemailer');
 var transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
-    user: 'youremail@gmail.com',
-    pass: 'yourpassword'
+    user: 'emailmicroservicetest@gmail.com',
+    pass: 'atT3vje7tYbi'
   }
 });
 
@@ -13,11 +13,13 @@ function sendNotifications(req, res) {
 
   console.log(req.body);
 
+  let recivers = req.body.emails.join(",");
+
   return res.json({hello: 'hello'})
-  /*
+
   var mailOptions = {
-    from: 'youremail@gmail.com',
-    to: 'myfriend@yahoo.com',
+    from: 'emailmicroservicetest@gmail.com',
+    to: recivers,
     subject: 'Sending Email using Node.js',
     text: 'That was easy!'
   };
@@ -29,7 +31,7 @@ function sendNotifications(req, res) {
       console.log('Email sent: ' + info.response);
     }
   });
-  */
+
 }
 
 // exports api functions

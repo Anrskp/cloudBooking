@@ -17,6 +17,11 @@ services:
     ports:
       - 5003:3002
 
+  company-service:
+    build: ./services/notification-service
+    ports:
+     - 5004:3003
+
   api-gateway:
     build: ./api-gateway
     ports:
