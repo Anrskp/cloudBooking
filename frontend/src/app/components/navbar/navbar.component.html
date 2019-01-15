@@ -59,13 +59,11 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <flash-messages></flash-messages>
       <div class="modal-body">
         <div  class="form-group">
         <label for="event-starts" class="col-form-label">Title:</label>
         <input type="text" class="form-control" id="Title" required [(ngModel)] = "Title" name="Title" placeholder="enter event title">
         </div>
-
         <div class="form-group">
         <label for="event-starts" class="col-form-label">Event starts:</label>
         <angular2-date-picker [(ngModel)]="startDate" [settings]="startDateSettings" (onDateSelect)="onStartDateSelect($event)"></angular2-date-picker>
@@ -84,12 +82,13 @@
             </div>
 
             </div>
-
               <ul class="list-group">
                 <div *ngFor="let person of peopleInvited">
-                  <li class="list-group-item list-group-item-action text-center" data-toggle="tooltip">{{person.name}}
+                  <li class="list-group-item list-group-item-action" data-toggle="tooltip">
+                  {{person.name}}
                   <i *ngIf="person.available === 'true'" class="fas fa-check"></i>
                   <i *ngIf="person.available === 'false'" class="fas fa-times"></i>
+                  <button *ngIf="username != person.name" type="button" class="btn btn-danger btn-sm float-right" style="cursor: pointer;" (click)="deleteUser(person.id)"> Delete</button>
                   </li>
             </div>
             </ul>
@@ -105,9 +104,11 @@
             </div> -->
             <ul class="list-group">
 
-                <li *ngIf="entity.selected" class="list-group-item list-group-item-action text-center" data-toggle="tooltip">{{entity.name}}
+                <li *ngIf="entity.selected" class="list-group-item list-group-item-action" data-toggle="tooltip">
+                {{entity.name}}
                 <i *ngIf="entity.available === 'true'" class="fas fa-check"></i>
                 <i *ngIf="entity.available === 'false'" class="fas fa-times"></i>
+                <button type="button" class="btn btn-danger btn-sm float-right" style="cursor: pointer;" (click)="deleteEntity()"> Delete</button>
                 </li>
 
           </ul>
@@ -121,9 +122,12 @@
           </div>
         </form>
       </div>
+
+    <!-- <flash-messages></flash-messages> -->
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click) ="onCloseBookingClick()">Close</button>
         <button type="button" class="btn btn-primary" (click) ="onCreateBookingClick()">Create</button>
+
       </div>
     </div>
   </div>

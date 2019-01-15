@@ -1,4 +1,5 @@
 <app-navbar #navbarRef [company]="companyTag" (loadCalendarEvent)="createdBooking()" (saveBookingEvent)="saveBooking($event)" (viewMyBookingsEvent)="viewMyBookings()"></app-navbar>
+<flash-messages></flash-messages>
 <div class="row">
 
   <div class="col-md-6">
@@ -16,7 +17,7 @@
     <h2>{{calendarOwner.name}}'s calendar</h2>
     <div class="ng-fullCalendar" *ngIf="calendarOptions">
       <ng-fullcalendar #ucCalendar [options]="calendarOptions" (eventClick)="eventClick($event.detail)" (eventDrop)="updateEvent($event.detail)" (eventResize)="updateEvent($event.detail)" (dayClick)="dayClick($event.detail)" (clickButton)="clickButton($event.detail)"
-        [(eventsModel)]="events"></ng-fullcalendar>
+        [(eventsModel)]="events"> </ng-fullcalendar>
     </div>
 
   </div>

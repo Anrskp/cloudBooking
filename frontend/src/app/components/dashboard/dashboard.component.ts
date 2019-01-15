@@ -4,6 +4,7 @@ import { Options } from 'fullcalendar';
 import { BookingService } from '../../services/booking.service';
 import { ActivatedRoute } from "@angular/router"
 import { AuthenticationService } from '../../services/authentication.service';
+import { FlashMessagesService } from 'angular2-flash-messages';
 
 @Component({
   selector: 'app-dashboard',
@@ -16,6 +17,7 @@ export class DashboardComponent implements OnInit {
   receivedData: any;
   receivedArray:any;
   receivedEntityData:any;
+  responseDataFromDeleteBooking:any;
   entityList = [];
   calendarOwner = {"name":"","_id":""}
   entityListName: string;
@@ -27,7 +29,8 @@ export class DashboardComponent implements OnInit {
   constructor(
     private bookingService: BookingService,
     private authService: AuthenticationService,
-    private route: ActivatedRoute) { }
+    private route: ActivatedRoute,
+    private flashMessagesService: FlashMessagesService) { }
 
   ngOnInit() {
     this.authService.listOfEntities$.subscribe(
@@ -70,12 +73,25 @@ export class DashboardComponent implements OnInit {
         start: model.event.start,
         end: model.event.end,
         title: model.event.title,
-        allDay: model.event.allDay
+        allDay: model.event.allDay,
+        eventID: model.event._id
         // other params
       },
       duration: {}
     }
     this.displayEvent = model;
+
+      this.bookingService.deleteBooking(this.displayEvent.event.eventID).subscribe(data=>{
+        this.responseDataFromDeleteBooking = data;
+        if(this.responseDataFromDeleteBooking.success){
+          this.createdBooking();
+          this.flashMessagesService.show("Booking successfully deleted", { cssClass: 'alert-success', timeout: 3000 });
+
+        }
+        else{
+        this.flashMessagesService.show(this.responseDataFromDeleteBooking.msg, { cssClass: 'alert-danger', timeout: 3000 });
+        }
+      })
 
     console.log("display event"+ JSON.stringify(this.displayEvent))
   }
@@ -121,6 +137,7 @@ export class DashboardComponent implements OnInit {
       this.receivedData = data;
       if(this.receivedData.success){
       this.loadCalendar(this.receivedData.allBookings);
+
       }
       else {
         console.log(this.receivedData.msg);
@@ -151,6 +168,8 @@ export class DashboardComponent implements OnInit {
     }
   }
 
+
+
   loadCalendar(events) {
   this.events = events;
     this.calendarOptions = {
@@ -158,7 +177,7 @@ export class DashboardComponent implements OnInit {
       eventLimit: false,
       header: {
         left: 'prev,next today',
-        center: 'title',
+        center: 'title,popover',
         right: 'month,agendaWeek,agendaDay,listMonth'
       },
       events: events

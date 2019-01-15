@@ -30,7 +30,7 @@ export class NavbarComponent implements OnInit {
 
   protected searchStrEmployees: string;
   protected dataServiceEmployees:CompleterData;
-  //protected searchDataEmployees = [{ "id": "5c07bbe05bf0360f9407ee27", "name": "Ogyun" }, { "id": "5c1a192f747d2716b02c2ddd", "name": "Anders" }]
+//protected searchDataEmployees = [{ "id": "5c07bbe05bf0360f9407ee27", "name": "Ogyun" }, { "id": "5c1a192f747d2716b02c2ddd", "name": "Anders" }]
 
   protected searchStrEntitites: string;
   protected dataServiceEntities:CompleterData;
@@ -56,16 +56,7 @@ export class NavbarComponent implements OnInit {
   peopleInvited = [];
   entity = {"id":"", "name":"", "startDate":"", "endDate":"","available":"","selected":false};
 
-  // private testArray:Array;
 
-  // getArray(){
-  //   return this.testArray;
-  // }
-  //
-  // @Input()
-  // setArray(value:Array){
-  //   this.testArray = value;
-  // }
   username:string;
   Title: string;
   text:string;
@@ -95,6 +86,7 @@ export class NavbarComponent implements OnInit {
 
     //add the author of the booking
     this.peopleInvited.push(this.authService.user);
+    console.log(this.authService.user);
 
   }
 
@@ -191,12 +183,12 @@ export class NavbarComponent implements OnInit {
        "entityID":this.entity.id,
        "notification":checkboxValue
     }
-
+    console.log(booking);
     this.bookingService.createBooking(booking).subscribe(response =>{
       this.createBookingResponse = response;
 
       if(this.createBookingResponse.success){
-      this._flashMessagesService.show(this.createBookingResponse.msg, { cssClass: 'alert-success', timeout: 1000 });
+      this._flashMessagesService.show(this.createBookingResponse.msg, { cssClass: 'alert-success', timeout: 3000 });
       this.loadCalendarEvent.emit();
 
         //clear the fields
@@ -212,31 +204,78 @@ export class NavbarComponent implements OnInit {
         this.checkbox = false;
         checkboxValue = false;
         message = "";
+        this.startDate = new Date();
+        this.endDate = new Date();
+        this.authService.user.available = "";
+        this.peopleInvited.push(this.authService.user);
 
       }
       else{
-        this._flashMessagesService.show("Some people are not available", { cssClass: 'alert-danger', timeout: 1000 });
-        let conflicts = this.createBookingResponse.conflicts;
-        for(let i=0; i < this.peopleInvited.length; i++){
-        let match = conflicts.indexOf(this.peopleInvited[i].id);
-
-          if(match > -1){
-            this.peopleInvited[i].available = "false";
-          }
-          else{
-            this.peopleInvited[i].available = "true";
-          }
-        }
-        if(conflicts.indexOf(this.entity.id) > -1){
-          this.entity.available ="false";
+        a = new Date(this.startDate.setHours(this.startDate.getHours()-1));
+        b = new Date(this.endDate.setHours(this.endDate.getHours()-1));
+        console.log(this.createBookingResponse);
+        if(this.createBookingResponse.hasOwnProperty('msg')){
+          this._flashMessagesService.show(this.createBookingResponse.msg, { cssClass: 'alert-danger', timeout: 3000 });
         }
         else{
-          this.entity.available = "true";
+            this._flashMessagesService.show("Some people or entities are not available", { cssClass: 'alert-danger', timeout: 3000 });
+            let conflicts = this.createBookingResponse.conflicts;
+            for(let i=0; i < this.peopleInvited.length; i++){
+            let match = conflicts.indexOf(this.peopleInvited[i].id);
+
+              if(match > -1){
+                this.peopleInvited[i].available = "false";
+              }
+              else{
+                this.peopleInvited[i].available = "true";
+              }
+            }
+            if(conflicts.indexOf(this.entity.id) > -1){
+              this.entity.available ="false";
+            }
+            else{
+              this.entity.available = "true";
+            }
         }
       }
     });
+  }
 
+  deleteUser(personID){
+    let arrayOfInvitedPeopleId = [];
+    for(let i=0; i < this.peopleInvited.length; i++)
+    {
 
+      arrayOfInvitedPeopleId.push(this.peopleInvited[i].id);
     }
+    const index =  arrayOfInvitedPeopleId.indexOf(personID);
+    if (index > -1) {
+      console.log(index);
+       this.peopleInvited.splice(index, 1);
+    }
+  }
+
+  deleteEntity(){
+    this.entity.selected = false;
+  }
+
+  onCloseBookingClick(){
+    this.peopleInvited = [];
+    this.Title = "";
+    this.entity.id = "";
+    this.entity.startDate = "";
+    this.entity.endDate ="";
+    this.entity.name = "";
+    this.entity.available = "";
+    this.entity.selected = false;
+    this.text = "";
+    this.checkbox = false;
+    this.checkbox = false;
+    this.text = "";
+    this.startDate = new Date();
+    this.endDate = new Date();
+    this.authService.user.available = "";
+    this.peopleInvited.push(this.authService.user);
+  }
 
 }

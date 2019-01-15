@@ -43,19 +43,12 @@ export class BookingService {
     );
   }
 
-  // getRooms() {
-  //   return this.http.get(this.testEndpoint + '/entity').pipe(
-  //     catchError(this.handleError('getRooms'))
-  //   );
-  // }
+  deleteBooking(bookingID){
 
-  // deleteBooking(bookingID){
-  //   let headers = new HttpHeaders();
-  //   headers.append('Content-Type', 'application/json');
-  //   return this.http.post(this.endpoint + '/booking/deleteBookingByID', bookingID,{headers: headers}).pipe(
-  //      catchError(this.handleError('deleteBooking'))
-  //    );
-  // }
+    return this.http.delete(this.endpoint + '/' + bookingID, httpOptions).pipe(
+       catchError(this.handleError('deleteBooking'))
+     );
+  }
 
   checkUserAvailability(userinfo) {
     return this.http.get(this.endpoint + '/userAvailability/'+ userinfo.id + '/' + userinfo.startDate + '/' + userinfo.endDate, httpOptions).pipe(

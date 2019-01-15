@@ -89,6 +89,19 @@ export class AuthenticationService {
     );
   }
 
+
+createEntity(companyID, entity){
+  return this.http.put(this.companyEndpoint + '/entities/' + companyID, entity, httpOptions).pipe(
+    catchError(this.handleError('createEntity'))
+  );
+}
+
+  deleteEntity(companyID, entityID){
+    return this.http.delete(this.companyEndpoint + '/' + companyID +'/' + entityID,httpOptions).pipe(
+      catchError(this.handleError('deleteEntity'))
+    );
+  }
+
   getAllCompanyEmployees(companyTag) {
     return this.http.get(this.companyEndpoint + '/posts/' + companyTag + "/comments").pipe(
       catchError(this.handleError('getAllEmployees'))

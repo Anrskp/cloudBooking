@@ -7,7 +7,7 @@ module.exports = function(app) {
     .get(companyCtrl.getCompanyEntities)
     .put(companyCtrl.createNewEntity);
 
-  app.route('company/:companyID/:entityID')
+  app.route('/company/:companyID/:entityID')
     .delete(companyCtrl.deleteEntity);
 
 };
