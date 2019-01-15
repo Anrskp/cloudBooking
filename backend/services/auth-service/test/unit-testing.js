@@ -6,7 +6,7 @@ const expect = require('chai').expect;
 const app = require('../app');
 chai.use(require('chai-http'));
 
-describe('testing company service', function() {
+describe('testing authentication service', function() {
 
   let mockuser = {
     companyID: "123",
@@ -18,7 +18,7 @@ describe('testing company service', function() {
   let mockuserID = "";
 
   // Add a new user with missing value
-  it('Should add a new user to the database', () => {
+  it('Should fail to add user with missing values (companyID)', () => {
     return chai.request(app)
       .post('/register')
       .send({name: mockuser.name, email: mockuser.email, password: mockuser.password})
@@ -69,7 +69,7 @@ describe('testing company service', function() {
   });
 
   // Add user where email is already in use
-  it('Should return "email already in use" ', () => {
+  it('Should fail to register user with email already in use', () => {
     return chai.request(app)
       .post('/register')
       .send(mockuser)
@@ -83,7 +83,7 @@ describe('testing company service', function() {
   });
 
   // Find user(s) by companyID
-  it('Should return "email already in use" ', () => {
+  it('Should find mockuser by companyID', () => {
     return chai.request(app)
       .get('/user/' + mockuser.companyID)
       .then(function(res) {
@@ -102,7 +102,7 @@ describe('testing company service', function() {
   });
 
   // delete user
-  it('Should delete mock user ', () => {
+  it('Should delete mock user', () => {
     return chai.request(app)
       .delete('/user/' + mockuserID)
       .send(mockuser)
