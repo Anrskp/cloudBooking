@@ -17,7 +17,7 @@ services:
     ports:
       - 5003:3002
 
-  company-service:
+  notification-service:
     build: ./services/notification-service
     ports:
      - 5004:3003
@@ -29,7 +29,11 @@ services:
     depends_on:
       - booking-service
       - auth-service
+      - notification-service
+      - company-service
+      
     links:
       - company-service
       - booking-service
       - auth-service
+      - notification-service
