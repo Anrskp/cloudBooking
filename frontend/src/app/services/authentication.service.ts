@@ -131,7 +131,7 @@ createEntity(companyID, entity){
     const user = JSON.parse(localStorage.getItem('user'));
     this.authToken = token;
     this.user = user;
-    this.httpOptions = {headers: new HttpHeaders({ 'Content-Type': 'application/json','Authorization':this.authToken })};
+    this.httpOptions = {headers: new HttpHeaders({ 'Content-Type': 'application/json','Authorization':token})};
   }
 
   loggedIn() {

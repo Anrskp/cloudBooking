@@ -67,6 +67,7 @@ export class BookingService {
     const token = localStorage.getItem('id_token');
     this.authToken = token;
     this.httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json','Authorization': token}) };
+    console.log(this.httpOptions);
   }
 
   private handleError<T>(operation = 'operation', result?: T) {
