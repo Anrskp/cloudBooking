@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http
 import { Observable, of } from 'rxjs';
 import { map, catchError, tap } from 'rxjs/operators';
 
-const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
+const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json','Authorization': this.authToken}) };
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +14,7 @@ export class BookingService {
 
   endpoint = 'http://192.168.99.100:5000/booking';
   testEndpoint = 'https://jsonplaceholder.typicode.com';
+  authToken:any;
 
   constructor(private http: HttpClient) { }
 
@@ -62,6 +63,10 @@ export class BookingService {
     );
   }
 
+  loadToken() {
+    const token = localStorage.getItem('id_token');
+    this.authToken = token;
+  }
 
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
