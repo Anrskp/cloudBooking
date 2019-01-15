@@ -1,36 +1,42 @@
 var nodemailer = require('nodemailer');
 
-var transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: 'emailmicroservicetest@gmail.com',
-    pass: 'atT3vje7tYbi'
-  }
-});
 
 
 function sendNotifications(req, res) {
 
-  console.log(req.body);
+  let transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: 'emailmicroservicetest@gmail.com',
+      pass: 'atT3vje7tYbi'
+    }
+  });
 
-//  let recivers = req.body.emails.join(",");
+  console.log(req.body.emails);
 
-  return res.json({hello: 'hello'})
+  let message = "Hi there - you have been invited to join an event that starts at: " + req.body.start + " and ends at: " + req.body.end + " -  message: " + req.body.message
 
   var mailOptions = {
     from: 'emailmicroservicetest@gmail.com',
-    to: req.body,
-    subject: 'Sending Email using Node.js',
-    text: 'That was easy!'
+    to: req.body.emails,
+    subject: req.body.title,
+    text: message
   };
 
-  transporter.sendMail(mailOptions, function(error, info){
+  transporter.sendMail(mailOptions, function(error, info) {
     if (error) {
       console.log(error);
+      return res.json({
+        success: false
+      })
     } else {
-      console.log('Email sent: ' + info.response);
+      return res.json({
+        hello: true
+      })
     }
   });
+
+
 
 }
 

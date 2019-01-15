@@ -13,18 +13,25 @@ async function createBooking(req, res) {
 
   const json = await response.json();
 
-  if(req.body.notification && json.success) {
+  if (req.body.notification && json.success) {
 
     let users = req.body.invites;
+    let emails = users.map(user => user.email).join(",");
 
-    let emails = users.map(user => user.email);
+    emailInfo = {
+      title: req.body.title,
+      emails: emails,
+      start: req.body.start,
+      end: req.body.end,
+      message: req.body.message
+    }
 
     const response = await fetch('http://notification-service:3003/sendNotifications', {
       method: 'POST',
       headers: {
         "Content-Type": "application/json; charset=utf-8",
       },
-      body: JSON.stringify(emails)
+      body: JSON.stringify(emailInfo)
     });
 
   }
@@ -34,6 +41,9 @@ async function createBooking(req, res) {
 
 // Get user bookings by user ID
 async function getBookings(req, res) {
+  let token = req.headers['x-access-token'] || req.headers['authorization'];
+  console.log(token);
+  
   let userID = req.params.id;
   const response = await fetch('http://booking-service:3001/booking/' + userID);
   const json = await response.json();
