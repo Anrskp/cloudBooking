@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from "@angular/router"
 import { AuthenticationService } from '../../services/authentication.service';
 import { Router } from '@angular/router';
+import { FlashMessagesService } from 'angular2-flash-messages';
 
 
 @Component({
@@ -11,7 +12,7 @@ import { Router } from '@angular/router';
 })
 export class LoginAdminComponent implements OnInit {
 
-  constructor(private authService: AuthenticationService, private route: ActivatedRoute, private router: Router) { }
+  constructor(private authService: AuthenticationService, private route: ActivatedRoute, private router: Router,private _flashMessagesService: FlashMessagesService) { }
 
   company = { "tag": "" };
   email: String;
