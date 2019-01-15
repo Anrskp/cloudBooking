@@ -49,8 +49,8 @@ async function updateBooking(req, res) {
 }
 
 // Delete a booking by booking ID
-async function deleteBooking() {
-  const response = await fetch('http://booking-service:3001/booking' + bookingID, {
+async function deleteBooking(req, res) {
+  const response = await fetch('http://booking-service:3001/booking'+ '/' + bookingID, {
     method: 'DELETE',
     headers: {
       "Content-Type": "application/json; charset=utf-8",

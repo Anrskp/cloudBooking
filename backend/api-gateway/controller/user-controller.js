@@ -45,8 +45,19 @@ function editUser() {
 }
 
 // Delete a user
-function deleteUser() {
+function deleteUser(req, res) {
+  let userID = req.params.id;
 
+  const response = await fetch('http://auth-service:3000/user/' + userID, {
+    method: 'DELETE',
+    headers: {
+      "Content-Type": "application/json; charset=utf-8",
+    },
+    body: JSON.stringify(req.body)
+  });
+
+  const json = await response.json();
+  return res.json(json);
 }
 
 // exports api functions
@@ -54,5 +65,6 @@ module.exports = {
   getUsersByCompanyID,
   registerUser,
   authenticateUser,
-  editUser
+  editUser,
+  deleteUser
 };
