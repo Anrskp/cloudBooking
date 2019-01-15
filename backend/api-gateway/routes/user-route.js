@@ -8,8 +8,7 @@ module.exports = function(app) {
     .post(userCtrl.registerUser);
 
   app.route('/user/:id')
-    .get(userCtrl.getUsersByCompanyID);
-
-  // todo - update and delete
+    .get(userCtrl.getUsersByCompanyID)
+    .delete(userCtrl.deleteUser);
 
 };

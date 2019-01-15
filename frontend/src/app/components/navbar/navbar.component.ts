@@ -160,10 +160,10 @@ export class NavbarComponent implements OnInit {
 
       let checkboxValue = $('#checkbox').is(':checked');
       let message = $('#message').val();
-      let people = [];
-      for(let i=0; i < this.peopleInvited.length; i++){
-        people.push(this.peopleInvited[i].id);
-      }
+      // let people = [];
+      // for(let i=0; i < this.peopleInvited.length; i++){
+      //   people.push(this.peopleInvited[i].id);
+      // }
 
       let a = new Date(this.startDate.setHours(this.startDate.getHours()+1));
       let startDate = a.toISOString();
@@ -179,7 +179,7 @@ export class NavbarComponent implements OnInit {
       "start": startDate,
       "end": endDate,
       "message": message,
-       "invites":people,
+       "invites":this.peopleInvited,
        "entityID":this.entity.id,
        "notification":checkboxValue
     }
@@ -220,6 +220,7 @@ export class NavbarComponent implements OnInit {
         else{
             this._flashMessagesService.show("Some people or entities are not available", { cssClass: 'alert-danger', timeout: 3000 });
             let conflicts = this.createBookingResponse.conflicts;
+            console.log(conflicts);
             for(let i=0; i < this.peopleInvited.length; i++){
             let match = conflicts.indexOf(this.peopleInvited[i].id);
 
