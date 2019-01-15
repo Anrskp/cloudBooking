@@ -13,11 +13,11 @@ import { tokenNotExpired } from 'angular2-jwt';
 })
 export class AuthenticationService {
 
-  usersEndpoint = 'http://localhost:5000/user';
-  //usersEndpoint = 'http://192.168.99.100:5000/user';
+  //usersEndpoint = 'http://localhost:5000/user';
+  usersEndpoint = 'http://192.168.99.100:5000/user';
 
-  //companyEndpoint = 'http://192.168.99.100:5000/company';
-  companyEndpoint = 'http://localhost:5000/company';
+  companyEndpoint = 'http://192.168.99.100:5000/company';
+// companyEndpoint = 'http://localhost:5000/company';
 
   httpOptions;
   authToken: any;
@@ -41,7 +41,7 @@ export class AuthenticationService {
   getListOfEntities(type,companyID){
     if(type == "entity"){
     //let array  = [{ "id": "1", "name": "Conference room" , "email":"something@gmail.com", "password":"123456"}, { "id": "2", "name": "Dining room" , "email":"something@gmail.com", "password":"123456"}];
-      return this.http.get(this.companyEndpoint + '/entities/' + companyID).subscribe(
+      return this.http.get(this.companyEndpoint + '/entities/' + companyID, this.httpOptions).subscribe(
         response => {
           this.entities = response;
           if(this.entities.success == false){
@@ -58,7 +58,7 @@ export class AuthenticationService {
     }
     if(type == "employee"){
     //let array = [{ "id": "5c07bbe05bf0360f9407ee27", "name": "Ogyun" }, { "id": "5c1a192f747d2716b02c2ddd", "name": "Anders" }, { "id": "3", "name": "John" }]
-    return this.http.get(this.usersEndpoint + '/' + companyID).subscribe(
+    return this.http.get(this.usersEndpoint + '/' + companyID, this.httpOptions).subscribe(
       response => {
       this.employees = response;
       if(this.employees.success == false){
@@ -109,7 +109,7 @@ createEntity(companyID, entity){
   }
 
   getAllCompanyEmployees(companyTag) {
-    return this.http.get(this.companyEndpoint + '/posts/' + companyTag + "/comments").pipe(
+    return this.http.get(this.companyEndpoint + '/posts/' + companyTag + "/comments" , this.httpOptions).pipe(
       catchError(this.handleError('getAllEmployees'))
     );
   }

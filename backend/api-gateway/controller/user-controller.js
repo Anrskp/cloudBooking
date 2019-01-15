@@ -1,6 +1,7 @@
 const fetch = require('node-fetch');
 const endpoint = 'http://auth-service:3000';
-
+const jwt = require('jsonwebtoken');
+const config = require('../config/config');
 // Get colleagues
 async function getUsersByCompanyID(req, res) {
   let token = req.headers['x-access-token'] || req.headers['authorization'];
