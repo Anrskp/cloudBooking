@@ -50,18 +50,6 @@ async function registerUser(req, res) {
 
 // Authenticate a user
 async function authenticateUser(req, res) {
-  let token = req.headers['x-access-token'] || req.headers['authorization'];
-
-  if(!token) {
-    return res.json({success: false, msg: 'no auth token'})
-  }
-
-  jwt.verify(token, config.secret, (err, decoded) => {
-    if(err) {
-      return res.json({success: false, msg: 'invalid auth token'})
-    }
-  })
-
 
   const response = await fetch('http://auth-service:3000/authenticate', {
     method: 'POST',
