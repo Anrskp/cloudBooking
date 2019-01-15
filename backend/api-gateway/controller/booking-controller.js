@@ -14,6 +14,7 @@ async function createBooking(req, res) {
   const json = await response.json();
 
   if(req.body.notification && json.success) {
+
     let users = req.body.invites;
 
     let emails = users.map(user => user.email);

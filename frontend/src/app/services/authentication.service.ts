@@ -13,8 +13,13 @@ const httpOptions = {headers: new HttpHeaders({ 'Content-Type': 'application/jso
 })
 export class AuthenticationService {
 
-  usersEndpoint = 'http://192.168.99.100:5000/user';
-  companyEndpoint = 'http://192.168.99.100:5000/company';
+  usersEndpoint = 'http://localhost:5000/user';
+  //usersEndpoint = 'http://192.168.99.100:5000/user';
+
+  //companyEndpoint = 'http://192.168.99.100:5000/company';
+  companyEndpoint = 'http://localhost:5000/company';
+
+
   authToken: any;
   user: any;
   private listOfEntitiesSource = new Subject<any>();

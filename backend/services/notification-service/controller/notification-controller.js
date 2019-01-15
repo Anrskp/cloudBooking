@@ -13,13 +13,13 @@ function sendNotifications(req, res) {
 
   console.log(req.body);
 
-  let recivers = req.body.emails.join(",");
+//  let recivers = req.body.emails.join(",");
 
   return res.json({hello: 'hello'})
 
   var mailOptions = {
     from: 'emailmicroservicetest@gmail.com',
-    to: recivers,
+    to: req.body,
     subject: 'Sending Email using Node.js',
     text: 'That was easy!'
   };

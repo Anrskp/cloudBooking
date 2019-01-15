@@ -11,8 +11,9 @@ const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/js
 export class BookingService {
   // private bookingSource = new Subject<any>();
   // bookings$ = this.bookingSource.asObservable();
+  endpoint = 'http://localhost:5000/booking';
 
-  endpoint = 'http://192.168.99.100:5000/booking';
+  //endpoint = 'http://192.168.99.100:5000/booking';
   testEndpoint = 'https://jsonplaceholder.typicode.com';
 
   constructor(private http: HttpClient) { }

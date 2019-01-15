@@ -22,6 +22,7 @@ function createBooking(req, res) {
 
 
   let users = req.body.invites;
+  let usersID = users.map(user => user.id);
   let start = req.body.start;
   let end = req.body.end;
 
@@ -54,22 +55,19 @@ function createBooking(req, res) {
         message: req.body.message,
         start: req.body.start,
         end: req.body.end,
-        invites: req.body.invites,
+        invites:  usersID,
         entityID: req.body.entityID,
         notification: req.body.notification
       });
 
       newBooking.save((err, booking) => {
         if (err) {
+          console.log(err);
           res.status('500');
           return res.json({
             success: false,
             msg: 'failed to add new booking'
           });
-        }
-
-        if(req.body.notification) {
-          
         }
 
         res.status('201');
