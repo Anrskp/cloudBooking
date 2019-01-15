@@ -45,7 +45,7 @@ function editUser() {
 }
 
 // Delete a user
-function deleteUser(req, res) {
+async function deleteUser(req, res) {
   let userID = req.params.id;
 
   const response = await fetch('http://auth-service:3000/user/' + userID, {

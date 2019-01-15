@@ -27,10 +27,11 @@ function createBooking(req, res) {
 
   let allUsers = users.map(user => user.id);
   console.log(allUsers);
+
   allUsers.push(req.body.entityID);
   //users.push(req.body.userID);
 
-
+  // validate start is not in the past and that end date is after start 
   if (start < new Date().toISOString() || end < start) {
     return res.json({
       success: false,
