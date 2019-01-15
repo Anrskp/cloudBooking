@@ -3,6 +3,18 @@ const endpoint = 'http://auth-service:3000';
 
 // Get colleagues
 async function getUsersByCompanyID(req, res) {
+  let token = req.headers['x-access-token'] || req.headers['authorization'];
+
+  if(!token) {
+    return res.json({success: false, msg: 'no auth token'})
+  }
+
+  jwt.verify(token, config.secret, (err, decoded) => {
+    if(err) {
+      return res.json({success: false, msg: 'invalid auth token'})
+    }
+  })
+
   let companyID = req.params.id;
   const response = await fetch('http://auth-service:3000/user/' + companyID);
   const json = await response.json();
@@ -11,6 +23,18 @@ async function getUsersByCompanyID(req, res) {
 
 // Register a new user
 async function registerUser(req, res) {
+  let token = req.headers['x-access-token'] || req.headers['authorization'];
+
+  if(!token) {
+    return res.json({success: false, msg: 'no auth token'})
+  }
+
+  jwt.verify(token, config.secret, (err, decoded) => {
+    if(err) {
+      return res.json({success: false, msg: 'invalid auth token'})
+    }
+  })
+
 
   const response = await fetch('http://auth-service:3000/register', {
     method: 'POST',
@@ -26,6 +50,18 @@ async function registerUser(req, res) {
 
 // Authenticate a user
 async function authenticateUser(req, res) {
+  let token = req.headers['x-access-token'] || req.headers['authorization'];
+
+  if(!token) {
+    return res.json({success: false, msg: 'no auth token'})
+  }
+
+  jwt.verify(token, config.secret, (err, decoded) => {
+    if(err) {
+      return res.json({success: false, msg: 'invalid auth token'})
+    }
+  })
+
 
   const response = await fetch('http://auth-service:3000/authenticate', {
     method: 'POST',
@@ -46,6 +82,17 @@ function editUser() {
 
 // Delete a user
 async function deleteUser(req, res) {
+  let token = req.headers['x-access-token'] || req.headers['authorization'];
+
+  if(!token) {
+    return res.json({success: false, msg: 'no auth token'})
+  }
+
+  jwt.verify(token, config.secret, (err, decoded) => {
+    if(err) {
+      return res.json({success: false, msg: 'invalid auth token'})
+    }
+  })
   let userID = req.params.id;
 
   const response = await fetch('http://auth-service:3000/user/' + userID, {

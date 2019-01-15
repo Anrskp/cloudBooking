@@ -5,6 +5,19 @@ const config = require('../config/config');
 
 //  Add new booking
 async function createBooking(req, res) {
+
+  let token = req.headers['x-access-token'] || req.headers['authorization'];
+
+  if(!token) {
+    return res.json({success: false, msg: 'no auth token'})
+  }
+
+  jwt.verify(token, config.secret, (err, decoded) => {
+    if(err) {
+      return res.json({success: false, msg: 'invalid auth token'})
+    }
+  })
+
   const response = await fetch('http://booking-service:3001/booking', {
     method: 'POST',
     headers: {
@@ -42,7 +55,7 @@ async function createBooking(req, res) {
 }
 
 // Get user bookings by user ID
-async function getBookings(req, res, next) {
+async function getBookings(req, res) {
   let token = req.headers['x-access-token'] || req.headers['authorization'];
 
   if(!token) {
@@ -63,6 +76,19 @@ async function getBookings(req, res, next) {
 
 // Get entity bookings by entity ID
 async function getEntityBookings(req, res) {
+
+  let token = req.headers['x-access-token'] || req.headers['authorization'];
+
+  if(!token) {
+    return res.json({success: false, msg: 'no auth token'})
+  }
+
+  jwt.verify(token, config.secret, (err, decoded) => {
+    if(err) {
+      return res.json({success: false, msg: 'invalid auth token'})
+    }
+  })
+
   let entityID = req.params.id;
 
   const response = await fetch('http://booking-service:3001/booking/entity/' + entityID);
@@ -74,6 +100,17 @@ async function getEntityBookings(req, res) {
 async function updateBooking(req, res) {
   let bookingID = req.params.id;
 
+  let token = req.headers['x-access-token'] || req.headers['authorization'];
+
+  if(!token) {
+    return res.json({success: false, msg: 'no auth token'})
+  }
+
+  jwt.verify(token, config.secret, (err, decoded) => {
+    if(err) {
+      return res.json({success: false, msg: 'invalid auth token'})
+    }
+  })
   const response = await fetch('http://booking-service:3001/booking' + bookingID, {
     method: 'PUT',
     headers: {
@@ -88,6 +125,17 @@ async function updateBooking(req, res) {
 
 // Delete a booking by booking ID
 async function deleteBooking(req, res) {
+  let token = req.headers['x-access-token'] || req.headers['authorization'];
+
+  if(!token) {
+    return res.json({success: false, msg: 'no auth token'})
+  }
+
+  jwt.verify(token, config.secret, (err, decoded) => {
+    if(err) {
+      return res.json({success: false, msg: 'invalid auth token'})
+    }
+  })
   let bookingID = req.params.id;
   const response = await fetch('http://booking-service:3001/booking/' + bookingID, {
     method: 'DELETE',
@@ -102,6 +150,17 @@ async function deleteBooking(req, res) {
 
 // Check user availability
 async function checkAvailability(req, res) {
+  let token = req.headers['x-access-token'] || req.headers['authorization'];
+
+  if(!token) {
+    return res.json({success: false, msg: 'no auth token'})
+  }
+
+  jwt.verify(token, config.secret, (err, decoded) => {
+    if(err) {
+      return res.json({success: false, msg: 'invalid auth token'})
+    }
+  })
   let start = req.params.start;
   let end = req.params.end;
   let userID = req.params.id;
@@ -113,6 +172,17 @@ async function checkAvailability(req, res) {
 
 // Check entity availability
 async function checkEntityAvailability(req, res) {
+  let token = req.headers['x-access-token'] || req.headers['authorization'];
+
+  if(!token) {
+    return res.json({success: false, msg: 'no auth token'})
+  }
+
+  jwt.verify(token, config.secret, (err, decoded) => {
+    if(err) {
+      return res.json({success: false, msg: 'invalid auth token'})
+    }
+  })
   let start = req.params.start;
   let end = req.params.end;
   let entityID = req.params.id
