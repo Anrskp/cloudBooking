@@ -9,12 +9,12 @@ import{AuthGuard} from  './guards/auth.guard';
 
 
 const routes: Routes = [
-  // { path: '404', component: PageNotFoundComponent },
-  // { path: '',  redirectTo:'/404', pathMatch: 'full'},
-  { path: ':id/dashboard', component: DashboardComponent },
+  { path: '404', component: PageNotFoundComponent },
+  { path: '',  redirectTo:'/404', pathMatch: 'full'},
+  { path: ':id/dashboard', component: DashboardComponent ,pathMatch: 'full', canActivate:[AuthGuard]},
   { path: ':id', component: LoginComponent },
   { path: ':id/admin', component: LoginAdminComponent },
-  { path: ':id/dashboard-admin', component: DashboardAdminComponent }
+  { path: ':id/dashboard-admin', component: DashboardAdminComponent,pathMatch: 'full', canActivate:[AuthGuard] }
 
 ];
 
